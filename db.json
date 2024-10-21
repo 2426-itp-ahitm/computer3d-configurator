@@ -235,19 +235,19 @@
             "boost_clock": 2491,
             "color": "Black / Silver",
             "length": 282
-        },
+        }
     ],
-    "Memory"[
+    "Memory":[
         {
             "name": "ADATA XPG LANCER RGB ROG CERTIFIED 32 GB",
             "price": 159.99,
             "speed": [
-                5, //DDR
-                6600 //Mhz
+                5, 
+                6600 
             ],
             "modules": [
-                2, //Stk
-                16 //GB
+                2, 
+                16 
             ],
             "price_per_gb": 5,
             "color": "Black",
