@@ -418,6 +418,6 @@
             "color": "Black / Blue",
             "first_word_latency": 11.25,
             "cas_latency": 9
-        },
+        }
     ]
 }
