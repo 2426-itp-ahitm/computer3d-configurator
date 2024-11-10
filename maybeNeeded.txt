@@ -1,0 +1,299 @@
+,
+    "GPU": [
+        {
+            "name": "Gigabyte EAGLE OC Rev 2.0",
+            "price": null,
+            "chipset": "GeForce RTX 3080 10GB LHR",
+            "memory": 10,
+            "core_clock": 1440,
+            "boost_clock": 1755,
+            "color": "Black",
+            "length": 320
+        },
+        {
+            "name": "MSI GAMING TRIO PLUS",
+            "price": null,
+            "chipset": "GeForce RTX 3080 10GB LHR",
+            "memory": 10,
+            "core_clock": 1440,
+            "boost_clock": 1755,
+            "color": "Black",
+            "length": 323
+        },
+        {
+            "name": "MSI TWIN FAN OC",
+            "price": null,
+            "chipset": "GeForce RTX 3060 Ti LHR",
+            "memory": 8,
+            "core_clock": 1410,
+            "boost_clock": 1695,
+            "color": "Black",
+            "length": 230
+        },
+        {
+            "name": "XFX THICC III Pro",
+            "price": null,
+            "chipset": "Radeon RX 5600 XT",
+            "memory": 6,
+            "core_clock": 1247,
+            "boost_clock": 1750,
+            "color": "Black",
+            "length": 326
+        },{
+            "name": "Inno3D Gaming OC X3",
+            "price": null,
+            "chipset": "GeForce RTX 2080 SUPER",
+            "memory": 8,
+            "core_clock": 1650,
+            "boost_clock": 1845,
+            "color": "Black",
+            "length": 272
+        },{
+            "name": "Gigabyte MINI ITX OC",
+            "price": null,
+            "chipset": "GeForce RTX 2060",
+            "memory": 6,
+            "core_clock": 1680,
+            "boost_clock": 1695,
+            "color": "Black / Silver",
+            "length": 170
+        },{
+            "name": "PowerColor Red Devil OC",
+            "price": 519.99,
+            "chipset": "Radeon RX 7800 XT",
+            "memory": 16,
+            "core_clock": 1295,
+            "boost_clock": 2565,
+            "color": "Black",
+            "length": 332
+        },{
+            "name": "MSI GeForce GTX 1060 6GT OCV1",
+            "price": null,
+            "chipset": "GeForce GTX 1060 6GB",
+            "memory": 6,
+            "core_clock": 1544,
+            "boost_clock": 1759,
+            "color": "Black / White",
+            "length": 243
+        },{
+            "name": "Gigabyte GAMING",
+            "price": null,
+            "chipset": "GeForce GTX 1080",
+            "memory": 8,
+            "core_clock": 1721,
+            "boost_clock": 1860,
+            "color": "Black / Orange",
+            "length": 286
+        },{
+            "name": "ASRock Challenger D",
+            "price": 219.99,
+            "chipset": "Radeon RX 6600",
+            "memory": 8,
+            "core_clock": 1626,
+            "boost_clock": null,
+            "color": "Black",
+            "length": 269
+        },{
+            "name": "XFX Speedster SWFT 309",
+            "price": 299.99,
+            "chipset": "Radeon RX 6700 XT",
+            "memory": 12,
+            "core_clock": 2321,
+            "boost_clock": 2581,
+            "color": "Black",
+            "length": 304
+        },{
+            "name": "Gigabyte EAGLE",
+            "price": 199.99,
+            "chipset": "Radeon RX 6600",
+            "memory": 8,
+            "core_clock": 1626,
+            "boost_clock": 2491,
+            "color": "Black / Silver",
+            "length": 282
+        }
+    ],
+    "Memory":[
+        {
+            "name": "ADATA XPG LANCER RGB ROG CERTIFIED 32 GB",
+            "price": 159.99,
+            "speed": [
+                5, 
+                6600 
+            ],
+            "modules": [
+                2, 
+                16 
+            ],
+            "price_per_gb": 5,
+            "color": "Black",
+            "first_word_latency": 9.697,
+            "cas_latency": 32
+        },{
+            "name": "Kingston FURY Renegade Pro 32 GB",
+            "price": 174.54,
+            "speed": [
+                5,
+                6000
+            ],
+            "modules": [
+                1,
+                32
+            ],
+            "price_per_gb": 5.454,
+            "color": "Black",
+            "first_word_latency": 10.667,
+            "cas_latency": 32
+        },{
+            "name": "Mushkin MES4S240HF8G 8 GB",
+            "price": 27.99,
+            "speed": [
+                4,
+                2400
+            ],
+            "modules": [
+                1,
+                8
+            ],
+            "price_per_gb": 3.499,
+            "color": null,
+            "first_word_latency": 14.167,
+            "cas_latency": 17
+        },{
+            "name": "GeIL EVO V RGB 16 GB",
+            "price": null,
+            "speed": [
+                5,
+                6400
+            ],
+            "modules": [
+                1,
+                16
+            ],
+            "price_per_gb": null,
+            "color": "Black",
+            "first_word_latency": 11.875,
+            "cas_latency": 38
+        },{
+            "name": "TEAMGROUP T-Force Vulcan 16 GB",
+            "price": null,
+            "speed": [
+                5,
+                5600
+            ],
+            "modules": [
+                1,
+                16
+            ],
+            "price_per_gb": null,
+            "color": "Red",
+            "first_word_latency": 14.286,
+            "cas_latency": 40
+        },{
+            "name": "ADATA XPG GAMMIX D10 8 GB",
+            "price": null,
+            "speed": [
+                4,
+                3000
+            ],
+            "modules": [
+                1,
+                8
+            ],
+            "price_per_gb": null,
+            "color": "Black / White",
+            "first_word_latency": 10.667,
+            "cas_latency": 16
+        },{
+            "name": "TEAMGROUP T-Force Delta RGB 16 GB",
+            "price": null,
+            "speed": [
+                4,
+                2400
+            ],
+            "modules": [
+                1,
+                16
+            ],
+            "price_per_gb": null,
+            "color": "White",
+            "first_word_latency": 12.5,
+            "cas_latency": 15
+        },    {
+            "name": "Crucial CT7982449 16 GB",
+            "price": null,
+            "speed": [
+                4,
+                2133
+            ],
+            "modules": [
+                1,
+                16
+            ],
+            "price_per_gb": null,
+            "color": "Green",
+            "first_word_latency": 14.065,
+            "cas_latency": 15
+        },{
+            "name": "Corsair Vengeance LED 32 GB",
+            "price": null,
+            "speed": [
+                4,
+                3000
+            ],
+            "modules": [
+                2,
+                16
+            ],
+            "price_per_gb": null,
+            "color": "Black / Red",
+            "first_word_latency": 10,
+            "cas_latency": 15
+        },{
+            "name": "Corsair Vengeance 8 GB",
+            "price": null,
+            "speed": [
+                3,
+                1600
+            ],
+            "modules": [
+                2,
+                4
+            ],
+            "price_per_gb": null,
+            "color": "Black / Gold",
+            "first_word_latency": 11.25,
+            "cas_latency": 9
+        },{
+            "name": "Wintec AMPO 4 GB",
+            "price": null,
+            "speed": [
+                3,
+                1333
+            ],
+            "modules": [
+                1,
+                4
+            ],
+            "price_per_gb": null,
+            "color": "Green",
+            "first_word_latency": 13.503,
+            "cas_latency": 9
+        },{
+            "name": "G.Skill Ripjaws X 8 GB",
+            "price": 24.84,
+            "speed": [
+                3,
+                1600
+            ],
+            "modules": [
+                1,
+                8
+            ],
+            "price_per_gb": 3.105,
+            "color": "Black / Blue",
+            "first_word_latency": 11.25,
+            "cas_latency": 9
+        }
+    ]
+}
