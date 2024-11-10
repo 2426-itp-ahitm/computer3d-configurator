@@ -7,18 +7,69 @@
     <title>Computer3DConfigurator</title>
     <script src="index.js" defer></script>
 </head>
+
 <style>
-    /*Grundstyling für bessere Übersicht*/
+    /* Styling für den Body */
     body {
         font-family: Arial, sans-serif;
+        margin: 20px;
+        display: flex;
+        gap: 20px;
     }
 
-    #data-container {
+    /* Styling für den Suchcontainer */
+    #search-container {
         display: flex;
         flex-direction: column;
         gap: 10px;
+        max-width: 300px;
+    }
+
+    /* Styling für die Eingabefelder */
+    #cpu-search, #motherboard-search {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        flex: 1;
+    }
+
+    /* Styling für den Button */
+    #add-cpu-btn, #add-mb-btn {
+        padding: 8px 12px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    #add-cpu-btn:hover, #add-mb-btn:hover {
+        background-color: #45a049;
+    }
+
+    /* Styling für die Liste der ausgewählten CPUs und Motherboards */
+    #selected-cpu-list, #selected-mb-list {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    #selected-cpu-list li, #selected-mb-list li {
+        background-color: #f1f1f1;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    /* Styling für den Datencontainer */
+    #data-container {
+        flex-direction: column;
+        gap: 10px;
         max-width: 600px;
-        margin: 20px auto;
+        display: flex;
     }
 
     .item {
@@ -66,13 +117,36 @@
         font-size: 14px;
         border: 1px solid #ddd;
     }
+
 </style>
 
 <body>
 
-    <div id="data-container">
+    <!-- Datencontainer bleibt unverändert -->
+    <div id="data-container"></div>
+    
+    <!-- Suchcontainer rechts neben dem Datencontainer -->
+    <div id="search-container">
+        <input type="text" id="cpu-search" placeholder="Search for CPUs...">
+        <button id="add-cpu-btn">Add CPU</button>
+        <ul id="suggestions-list-cpu"></ul> <!-- Vorschläge für CPUs -->
+        
+        <input type="text" id="motherboard-search" placeholder="Search for Motherboards...">
+        <button id="add-mb-btn">Add Motherboard</button>
+        <ul id="suggestions-list-mb"></ul> <!-- Vorschläge für Motherboards -->
     </div>
 
+    <!-- Liste der ausgewählten CPUs -->
+    <div id="selected-cpu-container">
+        <h3>Selected CPUs</h3>
+        <ul id="selected-cpu-list"></ul> <!-- Liste der ausgewählten CPUs -->
+    </div>
+
+    <!-- Liste der ausgewählten Motherboards -->
+    <div id="selected-mb-container">
+        <h3>Selected Motherboards</h3>
+        <ul id="selected-mb-list"></ul> <!-- Liste der ausgewählten Motherboards -->
+    </div>
 
 </body>
 
