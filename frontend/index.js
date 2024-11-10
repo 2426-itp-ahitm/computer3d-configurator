@@ -5,7 +5,7 @@ fetch('https://my-json-server.typicode.com/2426-itp-AHITM/computer3d-configurato
         console.log(data);
         createDivs(data);
 
-         // Referenzen für das Suchfeld und die Buttons
+        // Referenzen für das Suchfeld und die Buttons
         const cpuSearchInput = document.querySelector('#cpu-search');
         const mbSearchInput = document.querySelector('#motherboard-search');
         const suggestionsList = document.querySelector('#suggestions-list');
@@ -92,45 +92,53 @@ fetch('https://my-json-server.typicode.com/2426-itp-AHITM/computer3d-configurato
                 }
                 // Hinzufügen des ausgewählten Motherboards zur Liste
                 addItemToList(selectedMotherboard, 'motherboard');
-                
+
                 selectedMotherboard = null; // Zurücksetzen der Auswahl
                 mbSearchInput.value = ''; // Suchfeld leeren
-                
+
             } else {
                 alert('Please select a Motherboard before adding.');
             }
         });
 
-        let mbsocket;
-        let cpusocket;
-        
+        let mbsocket = "";
+        let cpusocket = "";
+
         // Funktion zum Hinzufügen eines ausgewählten Elements zur Liste
         function addItemToList(item, type) {
-            // Wenn die CPU und das Motherboard inkompatibel sind, führe den Vorgang nicht weiter aus
-            if (type === 'cpu' && selectedMotherboard && selectedMotherboard.socket !== item.socket) {
-                alert('MB and CPU not compatible!');
-                return; // Stoppe das Hinzufügen der CPU zur Liste
+            // Überprüfe die Kompatibilität, bevor etwas hinzugefügt wird
+            if (type === 'cpu') {
+                if (mbsocket && mbsocket !== item.socket) {
+                    alert('MB and CPU not compatible!');
+                    return; // Stoppe das Hinzufügen der CPU zur Liste
+                }
+            } else if (type === 'motherboard') {
+                if (cpusocket && cpusocket !== item.socket) {
+                    alert('MB and CPU not compatible!');
+                    return; // Stoppe das Hinzufügen des Motherboards zur Liste
+                }
             }
-        
-            // Wenn die CPU und das Motherboard kompatibel sind, füge das Element hinzu
+
+            // Wenn kompatibel, füge das Element zur Liste hinzu
             const listItem = document.createElement('li');
             listItem.textContent = `${item.name} - Socket: ${item.socket} - Price: $${item.price}`;
             listItem.classList.add(type + '-item');
             selectedItemsList.appendChild(listItem);
-        
+
             // Speichern der Sockets für spätere Überprüfungen
             if (type === 'motherboard') {
                 mbsocket = item.socket; // Speichere den Socket des Motherboards
             } else if (type === 'cpu') {
                 cpusocket = item.socket; // Speichere den Socket der CPU
             }
-        
-            // Konsole ausgeben für Debugging
+
+            // Debugging in der Konsole
             console.log('Motherboard Socket:', mbsocket);
             console.log('CPU Socket:', cpusocket);
         }
-        
-        
+
+
+
     })
     .catch(error => console.error('Fehler beim Abrufen der Daten:', error));
 
