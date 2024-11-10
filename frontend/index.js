@@ -6,72 +6,75 @@ fetch('https://my-json-server.typicode.com/2426-itp-AHITM/computer3d-configurato
         createDivs(data);
 
          // Referenzen für das Suchfeld und die Buttons
-         const cpuSearchInput = document.querySelector('#cpu-search');
-         const cpuSuggestionsList = document.querySelector('#suggestions-list-cpu');
-         const addCpuBtn = document.querySelector('#add-cpu-btn');
-         const selectedCpuList = document.querySelector('#selected-cpu-list');
- 
-         const mbSearchInput = document.querySelector('#motherboard-search');
-         const mbSuggestionsList = document.querySelector('#suggestions-list-mb');
-         const addMbBtn = document.querySelector('#add-mb-btn');
-         const selectedMbList = document.querySelector('#selected-mb-list');
- 
-         let selectedCpu = null;
-         let selectedMotherboard = null;
+        const cpuSearchInput = document.querySelector('#cpu-search');
+        const mbSearchInput = document.querySelector('#motherboard-search');
+        const suggestionsList = document.querySelector('#suggestions-list');
+        const addCpuBtn = document.querySelector('#add-cpu-btn');
+        const addMbBtn = document.querySelector('#add-mb-btn');
+        const selectedItemsList = document.querySelector('#selected-items-list');
 
-        // Event-Listener für CPU-Suche
-        cpuSearchInput.addEventListener('input', () => {
-            const searchTerm = cpuSearchInput.value.toLowerCase().trim();
-            cpuSuggestionsList.innerHTML = '';
+        let selectedCpu = null;
+        let selectedMotherboard = null;
 
-            if (searchTerm) {
+        // Event-Listener für die Suche nach Komponenten (CPU oder Motherboard)
+        function searchItems() {
+            const cpuSearchTerm = cpuSearchInput.value.toLowerCase().trim();
+            const mbSearchTerm = mbSearchInput.value.toLowerCase().trim();
+
+            suggestionsList.innerHTML = '';
+
+            if (cpuSearchTerm) {
+                // Suchen nach CPUs, die den Suchbegriff entsprechen
                 const matchingCPUs = data.CPUs.filter(cpu =>
-                    cpu.name.toLowerCase().includes(searchTerm)
+                    cpu.name.toLowerCase().includes(cpuSearchTerm)
                 );
 
-                if (matchingCPUs.length > 0) {
-                    matchingCPUs.forEach(cpu => {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = `${cpu.name} - Socket: ${cpu.socket} - Price: $${cpu.price}`;
-                        listItem.addEventListener('click', () => {
-                            cpuSearchInput.value = cpu.name;
-                            selectedCpu = cpu;
-                            cpuSuggestionsList.innerHTML = ''; // Vorschläge zurücksetzen
-                        });
-                        cpuSuggestionsList.appendChild(listItem);
+                // Anzeigen der CPU-Vorschläge
+                matchingCPUs.forEach(cpu => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${cpu.name} - Socket: ${cpu.socket} - Price: $${cpu.price}`;
+                    listItem.addEventListener('click', () => {
+                        selectedCpu = cpu;
+                        cpuSearchInput.value = cpu.name; // Suchfeld aktualisieren
+                        suggestionsList.innerHTML = ''; // Vorschläge zurücksetzen
                     });
-                }
-            }
-        });
-        // Event-Listener für Motherboard-Suche
-        mbSearchInput.addEventListener('input', () => {
-            const searchTerm = mbSearchInput.value.toLowerCase().trim();
-            mbSuggestionsList.innerHTML = '';
-
-            if (searchTerm) {
+                    suggestionsList.appendChild(listItem);
+                });
+            } else if (mbSearchTerm) {
+                // Suchen nach Motherboards, die den Suchbegriff entsprechen
                 const matchingMotherboards = data.motherboards.filter(mb =>
-                    mb.name.toLowerCase().includes(searchTerm)
+                    mb.name.toLowerCase().includes(mbSearchTerm)
                 );
 
-                if (matchingMotherboards.length > 0) {
-                    matchingMotherboards.forEach(mb => {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = `${mb.name} - Socket: ${mb.socket} - Price: $${mb.price}`;
-                        listItem.addEventListener('click', () => {
-                            mbSearchInput.value = mb.name;
-                            selectedMotherboard = mb;
-                            mbSuggestionsList.innerHTML = ''; // Vorschläge zurücksetzen
-                        });
-                        mbSuggestionsList.appendChild(listItem);
+                // Anzeigen der Motherboard-Vorschläge
+                matchingMotherboards.forEach(mb => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${mb.name} - Socket: ${mb.socket} - Price: $${mb.price}`;
+                    listItem.addEventListener('click', () => {
+                        selectedMotherboard = mb;
+                        mbSearchInput.value = mb.name; // Suchfeld aktualisieren
+                        suggestionsList.innerHTML = ''; // Vorschläge zurücksetzen
                     });
-                }
+                    suggestionsList.appendChild(listItem);
+                });
             }
-        });
+        }
 
-        // Event-Listener für das Hinzufügen der CPU zur Liste
+        // Event-Listener für die Suche nach CPUs und Motherboards
+        cpuSearchInput.addEventListener('input', searchItems);
+        mbSearchInput.addEventListener('input', searchItems);
+
+        // Event-Listener für das Hinzufügen einer CPU zur Liste
         addCpuBtn.addEventListener('click', () => {
             if (selectedCpu) {
-                addCpuToList(selectedCpu);
+                // Entfernen des vorherigen CPU-Elements, falls vorhanden
+                const existingCpu = selectedItemsList.querySelector('.cpu-item');
+                if (existingCpu) {
+                    selectedItemsList.removeChild(existingCpu);
+                }
+
+                // Hinzufügen der ausgewählten CPU zur Liste
+                addItemToList(selectedCpu, 'cpu');
                 selectedCpu = null; // Zurücksetzen der Auswahl
                 cpuSearchInput.value = ''; // Suchfeld leeren
             } else {
@@ -79,30 +82,55 @@ fetch('https://my-json-server.typicode.com/2426-itp-AHITM/computer3d-configurato
             }
         });
 
-        // Event-Listener für das Hinzufügen des Motherboards zur Liste
+        // Event-Listener für das Hinzufügen eines Motherboards zur Liste
         addMbBtn.addEventListener('click', () => {
             if (selectedMotherboard) {
-                addMotherboardToList(selectedMotherboard);
+                // Entfernen des vorherigen Motherboard-Elements, falls vorhanden
+                const existingMb = selectedItemsList.querySelector('.motherboard-item');
+                if (existingMb) {
+                    selectedItemsList.removeChild(existingMb);
+                }
+                // Hinzufügen des ausgewählten Motherboards zur Liste
+                addItemToList(selectedMotherboard, 'motherboard');
+                
                 selectedMotherboard = null; // Zurücksetzen der Auswahl
                 mbSearchInput.value = ''; // Suchfeld leeren
+                
             } else {
                 alert('Please select a Motherboard before adding.');
             }
         });
 
-        // Funktion zum Hinzufügen einer CPU zur Liste
-        function addCpuToList(cpu) {
+        let mbsocket;
+        let cpusocket;
+        
+        // Funktion zum Hinzufügen eines ausgewählten Elements zur Liste
+        function addItemToList(item, type) {
+            // Wenn die CPU und das Motherboard inkompatibel sind, führe den Vorgang nicht weiter aus
+            if (type === 'cpu' && selectedMotherboard && selectedMotherboard.socket !== item.socket) {
+                alert('MB and CPU not compatible!');
+                return; // Stoppe das Hinzufügen der CPU zur Liste
+            }
+        
+            // Wenn die CPU und das Motherboard kompatibel sind, füge das Element hinzu
             const listItem = document.createElement('li');
-            listItem.textContent = `${cpu.name} - Socket: ${cpu.socket} - Price: $${cpu.price}`;
-            selectedCpuList.appendChild(listItem);
+            listItem.textContent = `${item.name} - Socket: ${item.socket} - Price: $${item.price}`;
+            listItem.classList.add(type + '-item');
+            selectedItemsList.appendChild(listItem);
+        
+            // Speichern der Sockets für spätere Überprüfungen
+            if (type === 'motherboard') {
+                mbsocket = item.socket; // Speichere den Socket des Motherboards
+            } else if (type === 'cpu') {
+                cpusocket = item.socket; // Speichere den Socket der CPU
+            }
+        
+            // Konsole ausgeben für Debugging
+            console.log('Motherboard Socket:', mbsocket);
+            console.log('CPU Socket:', cpusocket);
         }
-
-        // Funktion zum Hinzufügen eines Motherboards zur Liste
-        function addMotherboardToList(mb) {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${mb.name} - Socket: ${mb.socket} - Price: $${mb.price}`;
-            selectedMbList.appendChild(listItem);
-        }
+        
+        
     })
     .catch(error => console.error('Fehler beim Abrufen der Daten:', error));
 

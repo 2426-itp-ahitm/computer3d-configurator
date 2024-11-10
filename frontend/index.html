@@ -33,7 +33,7 @@
         flex: 1;
     }
 
-    /* Styling für den Button */
+    /* Styling für die Buttons */
     #add-cpu-btn, #add-mb-btn {
         padding: 8px 12px;
         background-color: #4CAF50;
@@ -48,14 +48,14 @@
         background-color: #45a049;
     }
 
-    /* Styling für die Liste der ausgewählten CPUs und Motherboards */
-    #selected-cpu-list, #selected-mb-list {
+    /* Styling für die Liste der ausgewählten Komponenten */
+    #selected-items-list {
         list-style-type: none;
         padding: 0;
         margin-top: 10px;
     }
 
-    #selected-cpu-list li, #selected-mb-list li {
+    #selected-items-list li {
         background-color: #f1f1f1;
         padding: 8px;
         border: 1px solid #ddd;
@@ -122,31 +122,24 @@
 
 <body>
 
-    <!-- Datencontainer bleibt unverändert -->
-    <div id="data-container"></div>
+     <!-- Datencontainer bleibt unverändert -->
+     <div id="data-container"></div>
     
-    <!-- Suchcontainer rechts neben dem Datencontainer -->
-    <div id="search-container">
-        <input type="text" id="cpu-search" placeholder="Search for CPUs...">
-        <button id="add-cpu-btn">Add CPU</button>
-        <ul id="suggestions-list-cpu"></ul> <!-- Vorschläge für CPUs -->
-        
-        <input type="text" id="motherboard-search" placeholder="Search for Motherboards...">
-        <button id="add-mb-btn">Add Motherboard</button>
-        <ul id="suggestions-list-mb"></ul> <!-- Vorschläge für Motherboards -->
-    </div>
-
-    <!-- Liste der ausgewählten CPUs -->
-    <div id="selected-cpu-container">
-        <h3>Selected CPUs</h3>
-        <ul id="selected-cpu-list"></ul> <!-- Liste der ausgewählten CPUs -->
-    </div>
-
-    <!-- Liste der ausgewählten Motherboards -->
-    <div id="selected-mb-container">
-        <h3>Selected Motherboards</h3>
-        <ul id="selected-mb-list"></ul> <!-- Liste der ausgewählten Motherboards -->
-    </div>
+     <!-- Suchcontainer rechts neben dem Datencontainer -->
+     <div id="search-container">
+         
+         <input type="text" id="motherboard-search" placeholder="Search for Motherboards...">
+         <button id="add-mb-btn">Add Motherboard</button>
+         <input type="text" id="cpu-search" placeholder="Search for CPUs...">
+         <button id="add-cpu-btn">Add CPU</button>
+         <ul id="suggestions-list"></ul> <!-- Vorschläge für CPUs und Motherboards -->
+     </div>
+ 
+     <!-- Liste der ausgewählten Komponenten -->
+     <div id="selected-items-container">
+         <h3>Selected Components</h3>
+         <ul id="selected-items-list"></ul> <!-- Liste der ausgewählten CPUs und Motherboards -->
+     </div>
 
 </body>
 
