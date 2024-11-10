@@ -1,4 +1,4 @@
-package at.ac.htl.features.todo;
+package at.ac.htl.features.cpu;
 
 import java.util.List;
 
@@ -8,14 +8,15 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("/todos")
+@Path("/cpus")
 @Produces(MediaType.APPLICATION_JSON)
-public class ToDoResource {
-    @Inject ToDoRepository todoRepository;
+public class CPUResource {
+    @Inject
+    CPURepository CPURepository;
 
     @GET
-    public List<ToDo> all() {
-        var todos = todoRepository.findAll().list();
-        return todos;
+    public List<CPU> all() {
+        var cpus = CPURepository.findAll().list();
+        return cpus;
     }
 }

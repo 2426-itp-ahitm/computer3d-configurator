@@ -1,8 +1,8 @@
-package at.ac.htl.features.todo;
+package at.ac.htl.features.motherboard;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class ToDoRepository implements PanacheRepository<ToDo> {    
+public class MotherboardRepository implements PanacheRepository<motherboard> {
 }
