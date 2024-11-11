@@ -9,15 +9,15 @@ import jakarta.persistence.Id;
 public class CPU {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    public Long cpu_id;
-    public String name ;
-    public Float price;
-    public Long core_count;
-    public Float core_clock;
-    public Float boost_clock;
-    public Long tdp;
-    public String graphics;
-    public Boolean smt;
-    public String socket;
+    Long cpu_id;
+    String name ;
+    Float price;
+    Long core_count;
+    Float core_clock;
+    Float boost_clock;
+    Long tdp;
+    String graphics;
+    Boolean smt;
+    String socket;
 }
 

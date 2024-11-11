@@ -11,12 +11,16 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/cpus")
 @Produces(MediaType.APPLICATION_JSON)
 public class CPUResource {
-    @Inject
-    CPURepository CPURepository;
+    @Inject CPURepository CPURepository;
+    @Inject CPUMapper CPUMapper;
 
     @GET
-    public List<CPU> all() {
-        var cpus = CPURepository.findAll().list();
+    public List<CPUDto> allCPUs() {
+        var cpus = CPURepository.findAll()
+            .stream()
+            .map(CPUMapper::toResource)
+            .toList();
         return cpus;
     }
+
 }

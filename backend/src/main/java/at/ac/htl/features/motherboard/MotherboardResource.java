@@ -11,12 +11,15 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/motherboards")
 @Produces(MediaType.APPLICATION_JSON)
 public class MotherboardResource {
-    @Inject
-    MotherboardRepository MotherboardRepository;
+    @Inject MotherboardRepository MotherboardRepository;
+    @Inject MotherboardMapper MotherboardMapper;
 
     @GET
-    public List<motherboard> all() {
-        var motherboards = MotherboardRepository.findAll().list();
+    public List<MotherboardDto> allMotherboards() {
+        var motherboards = MotherboardRepository.findAll()
+        .stream()
+        .map(MotherboardMapper::toResource)
+        .toList();
         return motherboards;
     }
 }

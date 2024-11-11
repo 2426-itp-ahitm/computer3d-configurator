@@ -6,16 +6,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class motherboard {
+public class Motherboard {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    public Long motherboard_id;
-    public String name;
-    public Float price;
-    public String socket;
-    public String form_factor;
-    public Long max_memory;
-    public Long memory_slots;
-    public String color;
+    Long motherboard_id;
+    String name;
+    Float price;
+    String socket;
+    String form_factor;
+    Long max_memory;
+    Long memory_slots;
+    String color;
 }
 
