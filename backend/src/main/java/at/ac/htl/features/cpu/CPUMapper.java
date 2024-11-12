@@ -1,5 +1,8 @@
 package at.ac.htl.features.cpu;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class CPUMapper {
     public CPUDto toResource(CPU cpu) {
         return new CPUDto(
