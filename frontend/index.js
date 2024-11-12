@@ -1,5 +1,5 @@
 // Daten abrufen und initiale Anzeige der Motherboards erstellen
-fetch('https://my-json-server.typicode.com/2426-itp-AHITM/computer3d-configurator/db')
+/*fetch('https://my-json-server.typicode.com/2426-itp-AHITM/computer3d-configurator/db')
     .then(response => response.json())
     .then(data => {
         console.log(data);
@@ -146,7 +146,7 @@ fetch('https://my-json-server.typicode.com/2426-itp-AHITM/computer3d-configurato
  * Funktion zum Erstellen der Motherboard- und CPU-Elemente
  * @param {*} data - Die Daten, die Motherboards und CPUs enthalten
  */
-function createDivs(data) {
+/*function createDivs(data) {
     let motherboards = data.motherboards;
 
     const container = document.querySelector('#data-container');
@@ -157,7 +157,7 @@ function createDivs(data) {
      * @param {*} cpus - Array von CPUs, die angezeigt werden sollen
      * @param {*} parentElement - Das übergeordnete Element, dem die CPU-Liste hinzugefügt wird
      */
-    function createCpuList(cpus, parentElement) {
+    /*function createCpuList(cpus, parentElement) {
         const cpuList = document.createElement('ul');
         cpuList.className = 'cpu-list';
 
@@ -191,7 +191,7 @@ function createDivs(data) {
              * Event-Listener für den Klick auf das Motherboard
              * Wenn das Motherboard geklickt wird, werden die zugehörigen CPUs angezeigt oder versteckt.
              */
-            itemDiv.addEventListener('click', () => {
+            /*itemDiv.addEventListener('click', () => {
                 if (cpuContainer.style.maxHeight) {
                     // Verstecke den CPU-Container, wenn er bereits sichtbar ist
                     cpuContainer.style.maxHeight = null;
@@ -212,4 +212,4 @@ function createDivs(data) {
     } else {
         console.error('No motherboards data available to display.');
     }
-}
+}*/
