@@ -26,18 +26,20 @@
     }
 
     /* Styling für die Eingabefelder */
-    #cpu-search, #motherboard-search {
+    #cpu-search,
+    #motherboard-search {
         padding: 8px;
         border: 1px solid #ddd;
         border-radius: 4px;
     }
 
-    #suggestions-list li{
+    #suggestions-list li {
         cursor: pointer;
     }
 
     /* Styling für die Buttons */
-    #add-cpu-btn, #add-mb-btn {
+    #add-cpu-btn,
+    #add-mb-btn {
         padding: 8px 12px;
         background-color: #4CAF50;
         color: white;
@@ -47,7 +49,8 @@
         transition: background-color 0.3s ease;
     }
 
-    #add-cpu-btn:hover, #add-mb-btn:hover {
+    #add-cpu-btn:hover,
+    #add-mb-btn:hover {
         background-color: #45a049;
     }
 
@@ -120,29 +123,32 @@
         font-size: 14px;
         border: 1px solid #ddd;
     }
-
 </style>
 
 <body>
 
-     <!-- Datencontainer bleibt unverändert -->
+    <!-- 
      <div id="data-container"></div>
     
-     <!-- Suchcontainer rechts neben dem Datencontainer -->
+     
      <div id="search-container">
          
          <input type="text" id="motherboard-search" placeholder="Search for Motherboards...">
          <button id="add-mb-btn">Add Motherboard</button>
          <input type="text" id="cpu-search" placeholder="Search for CPUs...">
          <button id="add-cpu-btn">Add CPU</button>
-         <ul id="suggestions-list"></ul> <!-- Vorschläge für CPUs und Motherboards -->
+         <ul id="suggestions-list"></ul> 
      </div>
  
-     <!-- Liste der ausgewählten Komponenten -->
+     
      <div id="selected-items-container">
          <h3>Selected Components</h3>
-         <ul id="selected-items-list"></ul> <!-- Liste der ausgewählten CPUs und Motherboards -->
-     </div>
+         <ul id="selected-items-list"></ul> 
+     </div> -->
+
+    <h1>Computer3DConfigurator</h1>
+    <app-component>
+    </app-component>
 
 </body>
 
