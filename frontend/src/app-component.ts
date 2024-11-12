@@ -1,9 +1,13 @@
 import { html, render } from "lit-html"
-import "./todo"
+import "./cpu"
+import "./motherboard"
 
 const content = html`
     <div class="container">
-        <todo-component></todo-component>
+        <cpu-component></cpu-component>
+    </div>
+    <div class="container">
+        <mb-component></mb-component>
     </div>
 `
 
