@@ -8,6 +8,6 @@ import java.util.List;
 public class CPURepository implements PanacheRepository<CPU> {
 
     public List<CPU> findBySocket(String socket) {
-        return list("socket", socket);
+        return list("socket", socket); // filter by sockets
     }
 }
