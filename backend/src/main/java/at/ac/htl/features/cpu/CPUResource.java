@@ -2,10 +2,9 @@ package at.ac.htl.features.cpu;
 
 import java.util.List;
 
+import at.ac.htl.features.motherboard.MotherboardRepository;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/cpus")
@@ -13,6 +12,7 @@ import jakarta.ws.rs.core.MediaType;
 public class CPUResource {
     @Inject CPURepository CPURepository;
     @Inject CPUMapper CPUMapper;
+    @Inject MotherboardRepository MotherboardRepository;
 
     @GET
     public List<CPUDto> allCPUs() {
@@ -21,6 +21,21 @@ public class CPUResource {
             .map(CPUMapper::toResource)
             .toList();
         return cpus;
+    }
+
+    @GET
+    @Path("/by-motherboard/{motherboardId}")
+    public List<CPUDto> getCPUsByMotherboard(@PathParam("motherboardId") Long motherboardId) {
+        var motherboard = MotherboardRepository.findById(motherboardId);
+        if (motherboard == null) {
+            throw new WebApplicationException("Motherboard not found", 404);
+        }
+
+        var cpus = CPURepository.findBySocket(motherboard.getSocket());
+
+        return cpus.stream()
+                .map(CPUMapper::toResource)
+                .toList();
     }
 
 }

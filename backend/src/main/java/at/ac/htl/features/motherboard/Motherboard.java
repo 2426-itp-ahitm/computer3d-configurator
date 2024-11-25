@@ -17,5 +17,13 @@ public class Motherboard {
     Long max_memory;
     Long memory_slots;
     String color;
+
+    public String getSocket() {
+        return socket;
+    }
+
+    public void setSocket(String socket) {
+        this.socket = socket;
+    }
 }
 
