@@ -30,6 +30,10 @@ const tableTemplate = (cpus: CPU[]) => {
 `
 }
 class CpuComponent extends HTMLElement {
+    constructor() {
+        super()
+        this.attachShadow({mode: "open"})
+    }
     async connectedCallback() {
         const todos = await loadAllCPUs()
         render(tableTemplate(todos), this)
