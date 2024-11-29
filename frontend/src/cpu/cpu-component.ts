@@ -37,6 +37,8 @@ class CpuComponent extends HTMLElement {
     async connectedCallback() {
         const todos = await loadAllCPUs()
         render(tableTemplate(todos), this)
+        //const head = this.shadowRoot.querySelector("head")
+        //console.log("head is", head)
     }
 }
 customElements.define("cpu-component", CpuComponent)
