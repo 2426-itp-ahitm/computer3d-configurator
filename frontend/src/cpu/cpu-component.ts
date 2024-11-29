@@ -5,27 +5,14 @@ import { CPU } from "src/model"
 const tableTemplate = (cpus: CPU[]) => {
     const rows = cpus.map(cpu => 
         html`
-            <tr>
-            <th>${cpu.cpu_id}</th>
-            <th>${cpu.name}</th>
-            <th>${cpu.price}</th> 
-            <th>${cpu.socket}</th>         
-            </tr>
+            <p>
+            ${cpu.name},
+            ${cpu.price},
+            ${cpu.socket}</p>         
         `
     )
     return html`
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Socket</th>
-            </tr>
-        </thead>
-        <tbody>
             ${rows}
-        </tbody>
     </table>
 `
 }

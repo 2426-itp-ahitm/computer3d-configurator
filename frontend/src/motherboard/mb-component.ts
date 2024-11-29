@@ -3,29 +3,18 @@ import { loadAllMotherboards } from "./mb-service"
 import { Motherboard } from "src/model"
 
 const tableTemplate = (mbs: Motherboard[]) => {
-    const rows = mbs.map(mb => 
-        html`
-            <tr>
-            <th>${mb.motherboard_id}</th>
-            <th>${mb.name}</th>
-            <th>${mb.price}</th> 
-            <th>${mb.socket}</th>         
-            </tr>
+    const data = mbs.map(mb => 
+        html`    
+        <p>
+            ${mb.name},
+            ${mb.price}, 
+            ${mb.socket}</p>          
         `
     )
     return html`
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Socket</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${rows}
-        </tbody>
+        <p>
+            ${data}
+        </p>
     </table>
 `
 }
