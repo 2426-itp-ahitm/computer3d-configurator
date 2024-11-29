@@ -36,7 +36,7 @@ class CpuComponent extends HTMLElement {
     }
     async connectedCallback() {
         const cpus = await loadAllCPUs()
-        render(tableTemplate(cpus), this)
+        render(tableTemplate(cpus), this.shadowRoot)
         //const head = this.shadowRoot.querySelector("head")
         //console.log("head is", head)
     }

@@ -36,7 +36,7 @@ class MbComponent extends HTMLElement {
     }
     async connectedCallback() {
         const mbs = await loadAllMotherboards()
-        render(tableTemplate(mbs), this)
+        render(tableTemplate(mbs), this.shadowRoot)
         //const head = this.shadowRoot.querySelector("head")
         //console.log("head is", head)
     }
