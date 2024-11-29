@@ -35,8 +35,8 @@ class CpuComponent extends HTMLElement {
         this.attachShadow({mode: "open"})
     }
     async connectedCallback() {
-        const todos = await loadAllCPUs()
-        render(tableTemplate(todos), this)
+        const cpus = await loadAllCPUs()
+        render(tableTemplate(cpus), this)
         //const head = this.shadowRoot.querySelector("head")
         //console.log("head is", head)
     }

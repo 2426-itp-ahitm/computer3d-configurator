@@ -30,9 +30,15 @@ const tableTemplate = (mbs: Motherboard[]) => {
 `
 }
 class MbComponent extends HTMLElement {
+    constructor() {
+        super()
+        this.attachShadow({mode: "open"})
+    }
     async connectedCallback() {
-        const todos = await loadAllMotherboards()
-        render(tableTemplate(todos), this)
+        const mbs = await loadAllMotherboards()
+        render(tableTemplate(mbs), this)
+        //const head = this.shadowRoot.querySelector("head")
+        //console.log("head is", head)
     }
 }
 customElements.define("mb-component", MbComponent)
