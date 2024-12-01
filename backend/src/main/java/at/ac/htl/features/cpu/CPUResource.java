@@ -2,6 +2,7 @@ package at.ac.htl.features.cpu;
 
 import java.util.List;
 
+import at.ac.htl.features.motherboard.Motherboard;
 import at.ac.htl.features.motherboard.MotherboardRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -38,4 +39,11 @@ public class CPUResource {
                 .toList();
     }
 
+    @GET
+    @Path("/{cpuId}")
+    public CPU getCpuById(@PathParam("cpuId") Long cpuId) {
+        var cpu = CPURepository.findById(cpuId);
+        return cpu;
+
+    }
 }

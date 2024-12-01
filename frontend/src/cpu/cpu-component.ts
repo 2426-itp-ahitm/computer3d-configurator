@@ -84,15 +84,26 @@ const tableTemplate = (cpus: CPU[]) => {
 `
 }
 class CpuComponent extends HTMLElement {
+
+    private cpus: CPU[] = []; // Typisieren und initialisieren
+
     constructor() {
         super()
         this.attachShadow({ mode: "open" })
     }
     async connectedCallback() {
-        const cpus = await loadAllCPUs()
-        render(tableTemplate(cpus), this.shadowRoot)
-        //const head = this.shadowRoot.querySelector("head")
-        //console.log("head is", head)
+        this.cpus = await loadAllCPUs()
+        this.renderCPUs();
     }
+
+    renderCPUs() {
+        render(tableTemplate(this.cpus), this.shadowRoot!); // Typ-Anpassung
+    }
+
+    updateCPUs(filteredCpus: CPU[]) {
+        this.cpus = filteredCpus;
+        this.renderCPUs();
+    }
+
 }
 customElements.define("cpu-component", CpuComponent)

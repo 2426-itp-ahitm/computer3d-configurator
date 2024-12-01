@@ -28,6 +28,85 @@ public class CPU {
     public void setSocket(String socket) {
         this.socket = socket;
     }
-    
+
+    public Long getCpu_id() {
+        return cpu_id;
+    }
+
+    public void setCpu_id(Long cpu_id) {
+        this.cpu_id = cpu_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public Long getCore_count() {
+        return core_count;
+    }
+
+    public void setCore_count(Long core_count) {
+        this.core_count = core_count;
+    }
+
+    public Float getCore_clock() {
+        return core_clock;
+    }
+
+    public void setCore_clock(Float core_clock) {
+        this.core_clock = core_clock;
+    }
+
+    public Float getBoost_clock() {
+        return boost_clock;
+    }
+
+    public void setBoost_clock(Float boost_clock) {
+        this.boost_clock = boost_clock;
+    }
+
+    public Long getTdp() {
+        return tdp;
+    }
+
+    public void setTdp(Long tdp) {
+        this.tdp = tdp;
+    }
+
+    public String getGraphics() {
+        return graphics;
+    }
+
+    public void setGraphics(String graphics) {
+        this.graphics = graphics;
+    }
+
+    public Boolean getSmt() {
+        return smt;
+    }
+
+    public void setSmt(Boolean smt) {
+        this.smt = smt;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 }
 

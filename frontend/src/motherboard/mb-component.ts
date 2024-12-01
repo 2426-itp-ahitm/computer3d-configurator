@@ -15,7 +15,8 @@ const tableTemplate = (mbs: Motherboard[]) => {
             <div class="Info">
                 <p>Preis: ${mb.price}</p>
                 <p>Sockel: ${mb.socket}</p>
-                <button class="addButton" onclick="addMotherboard(${mb.motherboard_id})">Hinzufügen</button>            </div>
+                <button class="addButton" onclick="addMotherboard(${mb.motherboard_id})">Hinzufügen</button>
+            </div>
         </div>
     </div>
 </div>                 
@@ -82,16 +83,26 @@ const tableTemplate = (mbs: Motherboard[]) => {
 }
 
 class MbComponent extends HTMLElement {
-    constructor() {
-        super()
-        this.attachShadow({mode: "open"})
-    }
-    async connectedCallback() {
-        const mbs = await loadAllMotherboards()
-        render(tableTemplate(mbs), this.shadowRoot)
+    private motherboards: Motherboard[] = []; // Typisieren und initialisieren
 
-        //const head = this.shadowRoot.querySelector("head")
-        //console.log("head is", head)
+    constructor() {
+        super();
+        this.attachShadow({ mode: "open" });
+    }
+
+    async connectedCallback() {
+        this.motherboards = await loadAllMotherboards();
+        this.renderMotherboards();
+    }
+
+    renderMotherboards() {
+        render(tableTemplate(this.motherboards), this.shadowRoot!); // Typ-Anpassung
+    }
+
+    updateMotherboards(filteredMotherboards: Motherboard[]) {
+        this.motherboards = filteredMotherboards;
+        this.renderMotherboards();
     }
 }
-customElements.define("mb-component", MbComponent)
+
+customElements.define("mb-component", MbComponent);
