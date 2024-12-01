@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computer3DConfigurator</title>
     <link rel="stylesheet" href="CSS/style.css">
-    <script src="JS/index.js" defer></script>
 </head>
 
 <body>
@@ -14,17 +13,27 @@
     <h1>3D-PCConfigurator</h1>
    
     <div class="accordion">
-        <button class="accordion-button">Box öffnen/schließen</button>
+        <button class="accordion-button">Deine Komponenten</button>
         <div class="accordion-content">
-          <p>Hier steht der Inhalt der Box. Du kannst beliebigen Text oder HTML-Elemente hinzufügen.</p>
+            <p></p>
         </div>
     </div>
 
     <app-component>
     </app-component>
 
-
-
 </body>
+
+
+<script>
+
+
+document.querySelector('.accordion-button').addEventListener('click', function () {
+    const content = document.querySelector('.accordion-content');
+    content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + 'px';
+});
+
+
+</script>
 
 </html>

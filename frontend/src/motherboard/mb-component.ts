@@ -15,7 +15,7 @@ const tableTemplate = (mbs: Motherboard[]) => {
             <div class="Info">
                 <p>Preis: ${mb.price}</p>
                 <p>Sockel: ${mb.socket}</p>
-                <button class="addButton">Hinzufügen</button>
+                <button class="addButton" onclick="addMotherboard(${mb.motherboard_id})">Hinzufügen</button>
             </div>
         </div>
     </div>
@@ -23,7 +23,7 @@ const tableTemplate = (mbs: Motherboard[]) => {
         `
     )
     return html`
-            ${data}
+            ${data}      
     <style>
          .MbContainer {
             background-color: rgba(255, 255, 255, 0.409);
@@ -80,8 +80,8 @@ const tableTemplate = (mbs: Motherboard[]) => {
     }
     </style>
 `
-
 }
+
 class MbComponent extends HTMLElement {
     constructor() {
         super()

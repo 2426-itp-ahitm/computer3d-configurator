@@ -16,7 +16,7 @@ const tableTemplate = (cpus: CPU[]) => {
             <div class="Info">
                 <p>Preis: ${cpu.price}</p>
                 <p>Sockel: ${cpu.socket}</p>
-                <button class="addButton">Hinzufügen</button>
+                <button class="addButton" onclick="addCpu()">Hinzufügen</button>
             </div>
         </div>
     </div>
