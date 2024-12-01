@@ -92,7 +92,7 @@ class MbComponent extends HTMLElement {
         render(tableTemplate(mbs), this.shadowRoot)
 
         const filtered = await loadCpusByMotherboard(1)
-        render(tableTemplate(mbs), this.shadowRoot)
+        render(tableTemplate(filtered), this.shadowRoot)
 
         //const head = this.shadowRoot.querySelector("head")
         //console.log("head is", head)
