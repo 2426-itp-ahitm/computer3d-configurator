@@ -26,38 +26,33 @@
 
 
 <script>
-
-
-document.querySelector('.accordion-button').addEventListener('click', function () {
-    const content = document.querySelector('.accordion-content');
-    content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + 'px';
-});
-
-let cpuData = null;
-function addMotherboard(mbId) {
-    fetch(`/api/cpus/by-motherboard/${mbId}`, {
-  method: 'GET', 
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Netzwerkantwort war nicht okay');
+  
+    document.querySelector('.accordion-button').addEventListener('click', function () {
+      const content = document.querySelector('.accordion-content');
+      content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + 'px';
+    });
+  
+    function addMotherboard(mbId) {
+      fetch(`/api/cpus/by-motherboard/${mbId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Netzwerkantwort war nicht okay');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('Daten erhalten:', data);
+        })
+        .catch(error => {
+          console.error('Fehler beim Abrufen der Daten:', error);
+        });
     }
-    return response.json();
-  })
-  .then(data => {
-    console.log('Daten erhalten:', data);
-    cpuData = data;
-  })
-  .catch(error => {
-    console.error('Fehler beim Abrufen der Daten:', error);
-  });
-}
-
-
-
+  
 </script>
 
 </html>

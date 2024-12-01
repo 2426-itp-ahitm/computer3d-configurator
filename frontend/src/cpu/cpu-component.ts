@@ -3,6 +3,7 @@ import { loadAllCPUs } from "./cpu-service"
 import { CPU } from "src/model"
 
 
+
 const tableTemplate = (cpus: CPU[]) => {
     const data = cpus.map(cpu =>
         html`

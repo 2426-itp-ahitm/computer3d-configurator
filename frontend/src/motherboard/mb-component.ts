@@ -2,6 +2,7 @@ import { html, render } from "lit-html"
 import { loadAllMotherboards } from "./mb-service"
 import { Motherboard } from "src/model"
 
+
 const tableTemplate = (mbs: Motherboard[]) => {
     const data = mbs.map(mb => 
         html`   
