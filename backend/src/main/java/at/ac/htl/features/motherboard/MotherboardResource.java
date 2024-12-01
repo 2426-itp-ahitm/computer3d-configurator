@@ -38,4 +38,12 @@ public class MotherboardResource {
             .toList();
     }
 
+    @GET
+    @Path("/{motherboardId}")
+    public Motherboard getMotherboardById(@PathParam("motherboardId") Long motherboardId) {
+        var motherboard = MotherboardRepository.findById(motherboardId);    
+        return motherboard;
+        
+    }
+
 }
