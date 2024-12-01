@@ -1,7 +1,7 @@
 import { html, render } from "lit-html"
 import { loadAllMotherboards } from "./mb-service"
+import { loadCpusByMotherboard } from "./mb-service"
 import { Motherboard } from "src/model"
-
 
 const tableTemplate = (mbs: Motherboard[]) => {
     const data = mbs.map(mb => 
@@ -16,8 +16,7 @@ const tableTemplate = (mbs: Motherboard[]) => {
             <div class="Info">
                 <p>Preis: ${mb.price}</p>
                 <p>Sockel: ${mb.socket}</p>
-                <button class="addButton" onclick="addMotherboard(${mb.motherboard_id})">Hinzufügen</button>
-            </div>
+                <button class="addButton" onclick="addMotherboard(${mb.motherboard_id})">Hinzufügen</button>            </div>
         </div>
     </div>
 </div>                 
@@ -91,6 +90,10 @@ class MbComponent extends HTMLElement {
     async connectedCallback() {
         const mbs = await loadAllMotherboards()
         render(tableTemplate(mbs), this.shadowRoot)
+
+        const filtered = await loadCpusByMotherboard(1)
+        render(tableTemplate(mbs), this.shadowRoot)
+
         //const head = this.shadowRoot.querySelector("head")
         //console.log("head is", head)
     }
