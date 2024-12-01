@@ -10,7 +10,7 @@ const tableTemplate = (mbs: Motherboard[]) => {
         <p class="MbName"><strong>${mb.name}</strong></p>
         <div class="ContentWrapper">
             <div class="Image">
-                <img src="https://m.media-amazon.com/images/I/61IIbwz-+ML._AC_UY327_QL65_.jpg" alt="${mb.name}">
+                <img src="${mb.img}" alt="${mb.name}">
             </div>
             <div class="Info">
                 <p>Preis: ${mb.price}</p>
@@ -26,7 +26,7 @@ const tableTemplate = (mbs: Motherboard[]) => {
             ${data}
     <style>
          .MbContainer {
-        background-color: rgba(0, 0, 0, 0.409);
+            background-color: rgba(255, 255, 255, 0.409);
         color: white;
         padding: 1vw;
         margin: 1vw;
@@ -35,11 +35,13 @@ const tableTemplate = (mbs: Motherboard[]) => {
     }
 
     .MbDetails {
+        color: black;
         display: flex;
         flex-direction: column;
     }
 
     .MbName {
+        color: white;
         font-size: 1.5vw;
         margin-bottom: 1vw;
     }
@@ -50,6 +52,7 @@ const tableTemplate = (mbs: Motherboard[]) => {
     }
 
     .Image img {
+        mix-blend-mode: multiply;
         width: 10vw;
         height: auto;
         margin-right: 1.5vw;

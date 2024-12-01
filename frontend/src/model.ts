@@ -9,6 +9,7 @@ export interface CPU {
     graphics: string
     smt: boolean
     socket: string
+    img: string
 }
 
 export interface Motherboard {
@@ -20,4 +21,5 @@ export interface Motherboard {
     max_memory: number
     memory_slot: number
     color: string
+    img: string
 }

@@ -11,7 +11,7 @@ const tableTemplate = (cpus: CPU[]) => {
         <p class="CpuName"><strong>${cpu.name}</strong></p>
         <div class="ContentWrapper">
             <div class="Image">
-                <img src="https://m.media-amazon.com/images/I/61IIbwz-+ML._AC_UY327_QL65_.jpg" alt="${cpu.name}">
+                <img src="${cpu.img}" alt="${cpu.name}">
             </div>
             <div class="Info">
                 <p>Preis: ${cpu.price}</p>
@@ -27,7 +27,7 @@ const tableTemplate = (cpus: CPU[]) => {
             ${data}
     <style>
        .CpuContainer {
-        background-color: rgba(0, 0, 0, 0.409);
+        background-color: rgba(255, 255, 255, 0.409);
         color: white;
         padding: 1vw;
         margin: 1vw;
@@ -36,11 +36,13 @@ const tableTemplate = (cpus: CPU[]) => {
     }
 
     .CpuDetails {
+        color: black;
         display: flex;
         flex-direction: column;
     }
 
     .CpuName {
+        color: white;
         font-size: 1.5vw;
         margin-bottom: 1vw;
     }
@@ -51,6 +53,7 @@ const tableTemplate = (cpus: CPU[]) => {
     }
 
     .Image img {
+        mix-blend-mode: multiply;
         width: 10vw;
         height: auto;
         margin-right: 1.5vw;
