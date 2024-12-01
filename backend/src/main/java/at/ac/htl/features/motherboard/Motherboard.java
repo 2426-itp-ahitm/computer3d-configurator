@@ -17,6 +17,7 @@ public class Motherboard {
     Long max_memory;
     Long memory_slots;
     String color;
+    String img;
 
     public String getSocket() {
         return socket;

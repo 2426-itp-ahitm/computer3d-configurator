@@ -10,7 +10,8 @@ public record CPUDto(
     Long tdp,
     String graphics,
     Boolean smt,
-    String socket
+    String socket,
+    String img
 ) {
     
 }

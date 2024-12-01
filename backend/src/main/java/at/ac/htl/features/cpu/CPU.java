@@ -10,7 +10,7 @@ public class CPU {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long cpu_id;
-    String name ;
+    String name;
     Float price;
     Long core_count;
     Float core_clock;
@@ -19,5 +19,6 @@ public class CPU {
     String graphics;
     Boolean smt;
     String socket;
+    String img;
 }
 

@@ -15,7 +15,9 @@ public class CPUMapper {
             cpu.tdp,
             cpu.graphics,
             cpu.smt,
-            cpu.socket
+            cpu.socket,
+            cpu.img
             );
     }
 }
+

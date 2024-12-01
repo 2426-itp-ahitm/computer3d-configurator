@@ -8,7 +8,8 @@ public record MotherboardDto(
     String form_factor,
     Long max_memory,
     Long memory_slots,
-    String color
+    String color,
+    String img
 ) {
 
 } 
