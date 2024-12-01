@@ -3,12 +3,10 @@ import "./cpu"
 import "./motherboard"
 
 const content = html`
-    <div class="container">
+        <h2>CPUs</h2>
         <cpu-component></cpu-component>
-    </div>
-    <div class="container">
+        <h2>Motherboards</h2>
         <mb-component></mb-component>
-    </div>
 `
 
 class AppComponent extends HTMLElement {

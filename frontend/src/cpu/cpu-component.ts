@@ -4,7 +4,7 @@ import { CPU } from "src/model"
 
 
 const tableTemplate = (cpus: CPU[]) => {
-    const rows = cpus.map(cpu =>
+    const data = cpus.map(cpu =>
         html`
         <div class="CpuContainer">
     <div class="CpuDetails">
@@ -24,9 +24,7 @@ const tableTemplate = (cpus: CPU[]) => {
         `
     )
     return html`
-            ${rows}
-    </table>
-    <!--background-color: rgba(0, 0, 0, 0.409);-->
+            ${data}
     <style>
        .CpuContainer {
         background-color: rgba(0, 0, 0, 0.409);
@@ -71,7 +69,7 @@ const tableTemplate = (cpus: CPU[]) => {
         padding: 0.8vw 1.5vw;
         font-size: 1vw;
         cursor: pointer;
-        border-radius: 5px;
+        border-radius: 1vw;
         margin-top: 1vw;
     }
 

@@ -4,19 +4,80 @@ import { Motherboard } from "src/model"
 
 const tableTemplate = (mbs: Motherboard[]) => {
     const data = mbs.map(mb => 
-        html`    
-        <p>
-            ${mb.name},
-            ${mb.price}, 
-            ${mb.socket}</p>          
+        html`   
+        <div class="MbContainer">
+    <div class="MbDetails">
+        <p class="MbName"><strong>${mb.name}</strong></p>
+        <div class="ContentWrapper">
+            <div class="Image">
+                <img src="https://m.media-amazon.com/images/I/61IIbwz-+ML._AC_UY327_QL65_.jpg" alt="${mb.name}">
+            </div>
+            <div class="Info">
+                <p>Preis: ${mb.price}</p>
+                <p>Sockel: ${mb.socket}</p>
+                <button class="addButton">Hinzufügen</button>
+            </div>
+        </div>
+    </div>
+</div>                 
         `
     )
     return html`
-        <p>
             ${data}
-        </p>
-    </table>
+    <style>
+         .MbContainer {
+        background-color: rgba(0, 0, 0, 0.409);
+        color: white;
+        padding: 1vw;
+        margin: 1vw;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .MbDetails {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .MbName {
+        font-size: 1.5vw;
+        margin-bottom: 1vw;
+    }
+
+    .ContentWrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    .Image img {
+        width: 10vw;
+        height: auto;
+        margin-right: 1.5vw;
+    }
+
+    .Info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .addButton {
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 0.8vw 1.5vw;
+        font-size: 1vw;
+        cursor: pointer;
+        border-radius: 1vw;
+        margin-top: 1vw;
+    }
+
+    .addButton:hover {
+        background-color: #444;
+    }
+    </style>
 `
+
 }
 class MbComponent extends HTMLElement {
     constructor() {

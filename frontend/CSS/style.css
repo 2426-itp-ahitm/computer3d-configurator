@@ -12,4 +12,8 @@ h1{
     font-size: 3vw;
     color: white;
 }
-/*ComponentsContainer*/
+h2{
+    font-size: 2vw;
+    color: white;
+    margin: 1vw;
+}
