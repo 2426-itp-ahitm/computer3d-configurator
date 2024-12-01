@@ -13,7 +13,8 @@ public class MotherboardMapper {
             motherboard.form_factor,
             motherboard.max_memory,
             motherboard.memory_slots,
-            motherboard.color    
+            motherboard.color,
+            motherboard.img
         );
     }
 }
