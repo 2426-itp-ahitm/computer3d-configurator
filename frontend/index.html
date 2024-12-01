@@ -15,7 +15,7 @@
     <div class="accordion">
         <button class="accordion-button">Deine Komponenten</button>
         <div class="accordion-content">
-            <p></p>
+            <p id="motherboard-name"></p>
         </div>
     </div>
 
@@ -27,29 +27,31 @@
 
 <script>
   
+    // Funktion zum Umschalten der Accordion-Sektion
     document.querySelector('.accordion-button').addEventListener('click', function () {
-      const content = document.querySelector('.accordion-content');
-      content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + 'px';
+        const content = document.querySelector('.accordion-content');
+        content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + 'px';
     });
-  
+
+    // Funktion zum Abrufen und Einfügen des Motherboard-Namens
     function addMotherboard(mbId) {
-      fetch(`/api/cpus/by-motherboard/${mbId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+        fetch(`/api/cpus/by-motherboard/${mbId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
         .then(response => {
-          if (!response.ok) {
-            throw new Error('Netzwerkantwort war nicht okay');
-          }
-          return response.json();
+            if (!response.ok) {
+                throw new Error('Netzwerkantwort war nicht okay');
+            }
+            return response.json();
         })
         .then(data => {
-          console.log('Daten erhalten:', data);
+            console.log('Daten erhalten:', data);
         })
         .catch(error => {
-          console.error('Fehler beim Abrufen der Daten:', error);
+            console.error('Fehler beim Abrufen der Daten:', error);
         });
     }
   
