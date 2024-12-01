@@ -20,5 +20,14 @@ public class CPU {
     Boolean smt;
     String socket;
     String img;
+
+    public String getSocket() {
+        return socket;
+    }
+
+    public void setSocket(String socket) {
+        this.socket = socket;
+    }
+    
 }
 
