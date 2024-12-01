@@ -19,6 +19,7 @@ h2{
 }
 
 .accordion {
+  position: fixed;
   width: 300px;
   border: 1px solid #ccc;
   border-radius: 5px;

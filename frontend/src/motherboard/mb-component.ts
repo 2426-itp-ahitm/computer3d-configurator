@@ -1,6 +1,5 @@
 import { html, render } from "lit-html"
 import { loadAllMotherboards } from "./mb-service"
-import { loadCpusByMotherboard } from "./mb-service"
 import { Motherboard } from "src/model"
 
 const tableTemplate = (mbs: Motherboard[]) => {
@@ -90,9 +89,6 @@ class MbComponent extends HTMLElement {
     async connectedCallback() {
         const mbs = await loadAllMotherboards()
         render(tableTemplate(mbs), this.shadowRoot)
-
-        const filtered = await loadCpusByMotherboard(1)
-        render(tableTemplate(filtered), this.shadowRoot)
 
         //const head = this.shadowRoot.querySelector("head")
         //console.log("head is", head)
