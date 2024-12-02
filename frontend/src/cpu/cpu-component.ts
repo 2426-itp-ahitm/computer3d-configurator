@@ -37,7 +37,7 @@ const tableTemplate = (cpus: CPU[]) => {
     }
 
     .CpuDetails {
-        color: black;
+        color: white;
         display: flex;
         flex-direction: column;
     }

@@ -35,7 +35,7 @@ const tableTemplate = (mbs: Motherboard[]) => {
     }
 
     .MbDetails {
-        color: black;
+        color: white;
         display: flex;
         flex-direction: column;
     }
