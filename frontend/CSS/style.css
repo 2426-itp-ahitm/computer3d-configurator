@@ -26,12 +26,15 @@ h2{
   overflow: hidden;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .accordion-button {
   width: 100%;
   padding: 15px;
-  text-align: left;
+  text-align: center;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -55,3 +58,22 @@ h2{
   padding: 0;
 }
  
+#cpuAllBox{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+#mbAllBox{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.headerTitle{
+  text-align: center;
+  font-size: 3em;
+  margin-bottom: 6%;
+  margin-top: 6%;
+}
