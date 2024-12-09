@@ -10,15 +10,15 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/motherboards")
 @Produces(MediaType.APPLICATION_JSON)
 public class MotherboardResource {
-    @Inject MotherboardRepository MotherboardRepository;
-    @Inject MotherboardMapper MotherboardMapper;
-    @Inject CPURepository CPURepository;
+    @Inject MotherboardRepository motherboardRepository;
+    @Inject MotherboardMapper motherboardMapper;
+    @Inject CPURepository cpuRepository;
 
     @GET
     public List<MotherboardDto> allMotherboards() {
-        var motherboards = MotherboardRepository.findAll()
+        var motherboards = motherboardRepository.findAll()
         .stream()
-        .map(MotherboardMapper::toResource)
+        .map(motherboardMapper::toResource)
         .toList();
         return motherboards;
     }
@@ -26,22 +26,22 @@ public class MotherboardResource {
     @GET
     @Path("/by-cpu/{cpuId}")
     public List<MotherboardDto> getMotherboardsByCPU(@PathParam("cpuId") Long cpuId) {
-    var cpu = CPURepository.findById(cpuId);
+    var cpu = cpuRepository.findById(cpuId);
     if (cpu == null) {
         throw new WebApplicationException("CPU not found", 404);
     }
 
-    var motherboards = MotherboardRepository.findBySocket(cpu.getSocket());
+    var motherboards = motherboardRepository.findBySocket(cpu.getSocket());
 
     return motherboards.stream()
-            .map(MotherboardMapper::toResource)
+            .map(motherboardMapper::toResource)
             .toList();
     }
 
     @GET
     @Path("/{motherboardId}")
     public Motherboard getMotherboardById(@PathParam("motherboardId") Long motherboardId) {
-        var motherboard = MotherboardRepository.findById(motherboardId);    
+        var motherboard = motherboardRepository.findById(motherboardId);    
         return motherboard;
         
     }
