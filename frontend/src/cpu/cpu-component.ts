@@ -2,6 +2,10 @@ import { html, render } from "lit-html"
 import { loadAllCPUs } from "./cpu-service"
 import { CPU } from "src/model"
 
+const styles = html`
+    <link rel="stylesheet" href="/main.css">
+`
+
 class CpuComponent extends HTMLElement {
 
     private cpus: CPU[] = []; // Typisieren und initialisieren
@@ -11,14 +15,6 @@ class CpuComponent extends HTMLElement {
         this.attachShadow({ mode: "open" })
     }
     async connectedCallback() {
-
-    const cssResponse = await fetch("../../style.css")
-    const css = await cssResponse.text()
-
-      const styleElement = document.createElement("style")
-      styleElement.textContent = css
-
-      this.shadowRoot.appendChild(styleElement)
 
         this.cpus = await loadAllCPUs()
         this.renderCPUs();
@@ -55,6 +51,7 @@ class CpuComponent extends HTMLElement {
             `
         )
         return html`
+        ${styles}
                 ${data}
                 
     `
