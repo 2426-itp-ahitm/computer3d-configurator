@@ -65,7 +65,7 @@ class CpuComponent extends HTMLElement {
 
         // Hier könntest du den CPU hinzufügen, z.B. zu einer Liste oder weiterem Zustand
 
-        document.getElementById('cpu-name').innerHTML = cpuName;
+        document.getElementById('cpu-name').textContent = cpuName;
     }
 
     async checkForValidMotherboards(socket: string) {
@@ -127,59 +127,6 @@ function addMotherboard(mbId) {
         console.error('Fehler beim Abrufen der Daten:', error);
     });
 }
-
-function addCpu(cpuId) {
-    fetch(`/api/cpus/${cpuId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Netzwerkantwort war nicht okay auf den CPU fetchcall');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Daten erhalten:', data);
-        checkForValidMotherboards(data.socket);
-        document.getElementById('cpu-name').textContent = data.name;
-    })
-    .catch(error => {
-        console.error('Fehler beim Abrufen der Daten:', error);
-    });
-}
-
-function checkForValidMotherboards(socket) {
-console.log("Überprüfe Motherboards für den Socket: " + socket);
-
-fetch(`/api/motherboards`, {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error('Fehler beim Abrufen der Motherboards.');
-    }
-    return response.json();
-})
-.then(data => {
-    const filteredMotherboards = data.filter(mb => mb.socket === socket);
-    console.log('Gefilterte Motherboards:', filteredMotherboards);
-
-    const mbComponent = document.querySelector('mb-component');
-    if (mbComponent) {
-        mbComponent.updateMotherboards(filteredMotherboards);
-    }
-})
-.catch(error => {
-    console.error('Fehler beim Filtern der Motherboards:', error);
-});
-}
-
 function checkValidCPUs(socket) {
 console.log("Überprüfe CPUs für den Socket: " + socket);
 
