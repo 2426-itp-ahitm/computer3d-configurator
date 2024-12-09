@@ -43,7 +43,7 @@ class CpuComponent extends HTMLElement {
                     <p>Preis: ${cpu.price}</p>
                     <p>Sockel: ${cpu.socket}</p>
                     <!--<button class="addButton" onclick="addCpu(${cpu.cpu_id})">Hinzufügen</button>-->
-                    <button class="addButton" @click=${() => this.addCpu(cpu.cpu_id)}>Press me!</button>
+                    <button class="addButton" @click=${() => this.addCpu(cpu.cpu_id, cpu.socket, cpu.name)}>Hinzufügen!</button>
                 </div>
             </div>
         </div>
@@ -57,11 +57,154 @@ class CpuComponent extends HTMLElement {
     `
     }
 
-    addCpu(cpuid:number){
-        const event = new CustomEvent("add-cpu", {detail: {cpuid}})
-        this.dispatchEvent(event)
+    async addCpu(cpuId: number, socket: string, cpuName: string) {
+        console.log("CPU ID:", cpuId);
+
+        // Überprüfe für gültige Motherboards
+        await this.checkForValidMotherboards(socket);
+
+        // Hier könntest du den CPU hinzufügen, z.B. zu einer Liste oder weiterem Zustand
+
+        document.getElementById('cpu-name').innerHTML = cpuName;
     }
 
+    async checkForValidMotherboards(socket: string) {
+        console.log("Überprüfe Motherboards für den Socket:", socket);
+
+        try {
+            const response = await fetch(`/api/motherboards`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Fehler beim Abrufen der Motherboards.');
+            }
+
+            const motherboards = await response.json();
+            const filteredMotherboards = motherboards.filter((mb: { socket: string }) => mb.socket === socket);
+
+            console.log('Gefilterte Motherboards:', filteredMotherboards);
+
+            // Wenn Motherboard-Komponente vorhanden ist, aktualisieren
+            const mbComponent = document.querySelector('mb-component');
+            if (mbComponent) {
+                (mbComponent as any).updateMotherboards(filteredMotherboards);
+            }
+        } catch (error) {
+            console.error('Fehler beim Filtern der Motherboards:', error);
+        }
+    }
 }
 
 customElements.define("cpu-component", CpuComponent)
+
+
+
+/*
+// Funktion zum Abrufen und Einfügen des Motherboard-Namens
+function addMotherboard(mbId) {
+    fetch(`/api/motherboards/${mbId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Netzwerkantwort war nicht okay auf den Motherboard fetchcall');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Daten erhalten:', data);
+        checkValidCPUs(data.socket);
+        document.getElementById('motherboard-name').textContent = data.name;
+    })
+    .catch(error => {
+        console.error('Fehler beim Abrufen der Daten:', error);
+    });
+}
+
+function addCpu(cpuId) {
+    fetch(`/api/cpus/${cpuId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Netzwerkantwort war nicht okay auf den CPU fetchcall');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Daten erhalten:', data);
+        checkForValidMotherboards(data.socket);
+        document.getElementById('cpu-name').textContent = data.name;
+    })
+    .catch(error => {
+        console.error('Fehler beim Abrufen der Daten:', error);
+    });
+}
+
+function checkForValidMotherboards(socket) {
+console.log("Überprüfe Motherboards für den Socket: " + socket);
+
+fetch(`/api/motherboards`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Fehler beim Abrufen der Motherboards.');
+    }
+    return response.json();
+})
+.then(data => {
+    const filteredMotherboards = data.filter(mb => mb.socket === socket);
+    console.log('Gefilterte Motherboards:', filteredMotherboards);
+
+    const mbComponent = document.querySelector('mb-component');
+    if (mbComponent) {
+        mbComponent.updateMotherboards(filteredMotherboards);
+    }
+})
+.catch(error => {
+    console.error('Fehler beim Filtern der Motherboards:', error);
+});
+}
+
+function checkValidCPUs(socket) {
+console.log("Überprüfe CPUs für den Socket: " + socket);
+
+fetch(`/api/cpus`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Fehler beim Abrufen der CPUs.');
+    }
+    return response.json();
+})
+.then(data => {
+    const filteredCpus = data.filter(cpu => cpu.socket === socket);
+    console.log('Gefilterte CPUs:', filteredCpus);
+
+    const cpuComponent = document.querySelector('cpu-component');
+    if (cpuComponent) {
+        cpuComponent.updateCPUs(filteredCpus);
+    }
+})
+.catch(error => {
+    console.error('Fehler beim Filtern der Motherboards:', error);
+});
+}*/
