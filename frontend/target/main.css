@@ -1,0 +1,112 @@
+/*General*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-image: url(64cbd4fa4ced6816fd5f.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+h1{
+    text-align: center;
+    font-size: 3vw;
+    color: white;
+}
+h2{
+    font-size: 2vw;
+    color: white;
+    margin: 1vw;
+}
+
+.accordion {
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.accordion-button {
+  width: 100%;
+  padding: 15px;
+  text-align: left;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.accordion-button:hover {
+  background-color: #0056b3;
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 15px;
+}
+
+.accordion-content p {
+  margin: 15px 0;
+  padding: 0;
+}
+ 
+
+/*cpu components*/
+.CpuContainer {
+  background-color: rgba(255, 255, 255, 0.409);
+  color: white;
+  padding: 1vw;
+  margin: 1vw;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.CpuDetails {
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.CpuName {
+  color: white;
+  font-size: 1.5vw;
+  margin-bottom: 1vw;
+}
+
+.ContentWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.Image img {
+  mix-blend-mode: multiply;
+  width: 10vw;
+  height: auto;
+  margin-right: 1.5vw;
+}
+
+.Info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.addButton {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 0.8vw 1.5vw;
+  font-size: 1vw;
+  cursor: pointer;
+  border-radius: 1vw;
+  margin-top: 1vw;
+}
+
+.addButton:hover {
+  background-color: #444;
+}
+
