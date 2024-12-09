@@ -19,7 +19,7 @@ VALUES
     (6, 'MSI B450M-A PRO MAX II', 69.98, 'AM4', 'Micro ATX', 64, 2, 'Black', 'https://gzhls.at/i/09/34/3300934-l0.webp');
 
 INSERT INTO 
-    public.GPU (gpu_id, name, price, chipset, memory, core_clock, boost_clock, color, length, img) 
+    public.gpu (gpu_id, name, price, chipset, memory, core_clock, boost_clock, color, length, img) 
 VALUES
     (1, 'Gigabyte EAGLE OC Rev 2.0', null, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 320, null),
     (2, 'MSI GAMING TRIO PLUS', null, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 323, null),
@@ -35,7 +35,7 @@ VALUES
     (12, 'Gigabyte EAGLE', 199.99, 'Radeon RX 6600', 8, 1626, 2491, 'Black / Silver', 282, null);
 
 INSERT INTO 
-    public.RAM (ram_id, name, price, type, clock_speed, module_count, gb_per_module, price_per_gb, color, first_word_latency, cas_latency, img) 
+    public.ram (ram_id, name, price, type, clock_speed, module_count, gb_per_module, price_per_gb, color, first_word_latency, cas_latency, img) 
 VALUES
     (1, 'ADATA XPG LANCER RGB ROG CERTIFIED 32 GB', 159.99, 'DDR5', 6600, 2, 16, 5, 'Black', 9.697, 32, null),
     (2, 'Kingston FURY Renegade Pro 32 GB', 174.54, 'DDR5', 6000, 1, 32, 5.454, 'Black', 10.667, 32, null),
