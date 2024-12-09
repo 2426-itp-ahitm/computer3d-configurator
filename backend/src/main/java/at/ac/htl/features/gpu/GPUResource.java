@@ -17,9 +17,9 @@ public class GPUResource  {
 
     @GET
     public List<GPUDto> allGPU(){
-        var gpus = GPURepository.findAll()
+        var gpus = gpuRepository.findAll()
                 .stream()
-                .map(GPUMapper::toResource)
+                .map(gpuMapper::toResource)
                 .toList();
         return  gpus;
     }
