@@ -13,6 +13,7 @@ const config = {
     entry: './src/index.ts',
     output: {
         path: path.resolve(__dirname, 'target'),
+        filename: '[name].js'
     },
     devtool: "cheap-source-map",
     devServer: {
