@@ -1,6 +1,6 @@
 @font-face {
   font-family: julie;
-  src: url(../);
+  src: url(../Font/juliett-font/JuliettBold-vndlO.ttf);
 }
 
 
@@ -13,6 +13,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
+    font-size: julie;
 }
 
 h1{
