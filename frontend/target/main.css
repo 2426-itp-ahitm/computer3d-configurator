@@ -1,8 +1,8 @@
-/*General*/
+/* General
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-image: url(64cbd4fa4ced6816fd5f.jpg);
+    background-image: url(../images/BG.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -55,7 +55,7 @@ h2{
 }
  
 
-/*cpu components*/
+/*cpu component
 .CpuContainer {
   background-color: rgba(255, 255, 255, 0.409);
   color: white;
@@ -108,5 +108,5 @@ h2{
 
 .addButton:hover {
   background-color: #444;
-}
+} */
 

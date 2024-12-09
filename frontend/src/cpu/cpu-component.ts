@@ -3,7 +3,7 @@ import { loadAllCPUs } from "./cpu-service"
 import { CPU } from "src/model"
 
 const styles = html`
-    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/components.css">
 `
 
 class CpuComponent extends HTMLElement {

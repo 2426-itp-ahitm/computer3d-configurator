@@ -2,6 +2,10 @@ import { html, render } from "lit-html"
 import { loadAllMotherboards } from "./mb-service"
 import { Motherboard } from "src/model"
 
+const styles = html`
+    <link rel="stylesheet" href="/components.css">
+`
+
 const tableTemplate = (mbs: Motherboard[]) => {
     const data = mbs.map(mb => 
         html`   
@@ -23,62 +27,8 @@ const tableTemplate = (mbs: Motherboard[]) => {
         `
     )
     return html`
+    ${styles}
             ${data}      
-    <style>
-         .MbContainer {
-            background-color: rgba(255, 255, 255, 0.409);
-        color: white;
-        padding: 1vw;
-        margin: 1vw;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .MbDetails {
-        color: white;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .MbName {
-        color: white;
-        font-size: 1.5vw;
-        margin-bottom: 1vw;
-    }
-
-    .ContentWrapper {
-        display: flex;
-        align-items: center;
-    }
-
-    .Image img {
-        mix-blend-mode: multiply;
-        width: 10vw;
-        height: auto;
-        margin-right: 1.5vw;
-    }
-
-    .Info {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .addButton {
-        background-color: black;
-        color: white;
-        border: none;
-        padding: 0.8vw 1.5vw;
-        font-size: 1vw;
-        cursor: pointer;
-        border-radius: 1vw;
-        margin-top: 1vw;
-    }
-
-    .addButton:hover {
-        background-color: #444;
-    }
-    </style>
 `
 }
 
