@@ -56,3 +56,56 @@ class MbComponent extends HTMLElement {
 }
 
 customElements.define("mb-component", MbComponent);
+
+/*
+// Funktion zum Abrufen und Einfügen des Motherboard-Namens
+function addMotherboard(mbId) {
+    fetch(`/api/motherboards/${mbId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Netzwerkantwort war nicht okay auf den Motherboard fetchcall');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Daten erhalten:', data);
+        checkValidCPUs(data.socket);
+        document.getElementById('motherboard-name').textContent = data.name;
+    })
+    .catch(error => {
+        console.error('Fehler beim Abrufen der Daten:', error);
+    });
+}
+function checkValidCPUs(socket) {
+console.log("Überprüfe CPUs für den Socket: " + socket);
+
+fetch(`/api/cpus`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Fehler beim Abrufen der CPUs.');
+    }
+    return response.json();
+})
+.then(data => {
+    const filteredCpus = data.filter(cpu => cpu.socket === socket);
+    console.log('Gefilterte CPUs:', filteredCpus);
+
+    const cpuComponent = document.querySelector('cpu-component');
+    if (cpuComponent) {
+        cpuComponent.updateCPUs(filteredCpus);
+    }
+})
+.catch(error => {
+    console.error('Fehler beim Filtern der Motherboards:', error);
+});
+}*/
