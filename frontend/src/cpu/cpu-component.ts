@@ -57,13 +57,17 @@ class CpuComponent extends HTMLElement {
 
     async addCpu(cpuId: number, socket: string, cpuName: string) {
         console.log("CPU ID:", cpuId);
-
+    
         // Überprüfe und filtere Motherboards mit demselben Socket
         await this.filterMotherboardsBySocket(socket);
-
-        // Optionale Aktion nach dem Hinzufügen der CPU
-        document.getElementById('cpu-name').textContent = cpuName;
+    
+        // Setze den Namen der hinzugefügten CPU oder zeige "Keine Vorhanden" an
+        const cpuNameElement = document.getElementById('cpu-name');
+        if (cpuNameElement) {
+            cpuNameElement.textContent = `CPU: ${cpuName}`;
+        }
     }
+    
 
     async filterMotherboardsBySocket(socket: string) {
         console.log("Filtere Motherboards für den Socket:", socket);

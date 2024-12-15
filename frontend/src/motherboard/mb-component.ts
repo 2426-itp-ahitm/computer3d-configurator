@@ -56,13 +56,17 @@ class MbComponent extends HTMLElement {
 
     async addMotherboard(mbId: number, socket: string, mbName: string) {
         console.log("MB ID:", mbId);
-
+    
         // Filtere die CPUs basierend auf dem Socket
         await this.filterCPUsBySocket(socket);
-
-        // Optionale Aktion nach dem Hinzufügen des Motherboards
-        document.getElementById('mb-name').textContent = mbName;
+    
+        // Setze den Namen des hinzugefügten Motherboards
+        const mbNameElement = document.getElementById('mb-name');
+        if (mbNameElement) {
+            mbNameElement.textContent = `Motherboard: ${mbName}`;
+        }
     }
+    
 
     async filterCPUsBySocket(socket: string) {
         console.log("Filtere CPUs für den Socket:", socket);
