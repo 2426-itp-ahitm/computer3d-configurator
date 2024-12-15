@@ -35,15 +35,19 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <body>
-    <h1>3D-PCConfigurator</h1>
+
+    <div id="headerBox">
+        <h1 id="header">3D-PCConfigurator</h1>
    
-    <div class="accordion">
-        <button class="accordion-button">Deine Komponenten</button>
-        <div class="accordion-content">
-            <p id="cpu-name">CPU: Keine Vorhanden</p>
-            <p id="mb-name">Motherboard: Keines Vorhanden</p>
+        <div class="accordion">
+            <button class="accordion-button">Deine Komponenten</button>
+            <div class="accordion-content">
+                <p id="cpu-name">CPU: Keine Vorhanden</p>
+                <p id="mb-name">Motherboard: Keines Vorhanden</p>
+            </div>
         </div>
     </div>
+    
 
     <app-component>
     </app-component>

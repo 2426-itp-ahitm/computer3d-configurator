@@ -7,12 +7,12 @@ const styles = html`
 `
 
 class CpuComponent extends HTMLElement {
-
     private cpus: CPU[] = []; // Typisieren und initialisieren
+    private addedCpuId: number | null = null; // Speichert die ID der hinzugefügten CPU
 
     constructor() {
-        super()
-        this.attachShadow({ mode: "open" })
+        super();
+        this.attachShadow({ mode: "open" });
     }
 
     async connectedCallback() {
@@ -21,7 +21,7 @@ class CpuComponent extends HTMLElement {
     }
 
     renderCPUs() {
-        render(this.tableTemplate(this.cpus), this.shadowRoot); // Typ-Anpassung
+        render(this.tableTemplate(this.cpus), this.shadowRoot);
     }
 
     updateCPUs(filteredCpus: CPU[]) {
@@ -42,7 +42,15 @@ class CpuComponent extends HTMLElement {
                         <div class="Info">
                             <p>Preis: ${cpu.price}</p>
                             <p>Sockel: ${cpu.socket}</p>
-                            <button class="addButton" @click=${() => this.addCpu(cpu.cpu_id, cpu.socket, cpu.name)}>Hinzufügen!</button>
+                            ${
+                                this.addedCpuId === cpu.cpu_id
+                                    ? html`
+                                        <button class="deleteButton" @click=${() => this.removeCpu(cpu.cpu_id)}>Entfernen!</button>
+                                    `
+                                    : html`
+                                        <button class="addButton" @click=${() => this.addCpu(cpu.cpu_id, cpu.socket, cpu.name)}>Hinzufügen!</button>
+                                    `
+                            }
                         </div>
                     </div>
                 </div>
@@ -56,22 +64,32 @@ class CpuComponent extends HTMLElement {
     }
 
     async addCpu(cpuId: number, socket: string, cpuName: string) {
-        console.log("CPU ID:", cpuId);
-    
-        // Überprüfe und filtere Motherboards mit demselben Socket
+        console.log("CPU ID hinzugefügt:", cpuId);
+        this.addedCpuId = cpuId; // CPU als hinzugefügt markieren
+        this.renderCPUs(); // Neu rendern, um Buttons zu aktualisieren
         await this.filterMotherboardsBySocket(socket);
-    
-        // Setze den Namen der hinzugefügten CPU oder zeige "Keine Vorhanden" an
+
+        // Setze den Namen der hinzugefügten CPU
         const cpuNameElement = document.getElementById('cpu-name');
         if (cpuNameElement) {
             cpuNameElement.textContent = `CPU: ${cpuName}`;
         }
     }
-    
+
+    removeCpu(cpuId: number) {
+        console.log("CPU ID entfernt:", cpuId);
+        this.addedCpuId = null; // Hinzugefügte CPU zurücksetzen
+        this.renderCPUs(); // Neu rendern, um Buttons zu aktualisieren
+
+        // Setze den CPU-Namen zurück
+        const cpuNameElement = document.getElementById('cpu-name');
+        if (cpuNameElement) {
+            cpuNameElement.textContent = "CPU: Keine vorhanden";
+        }
+    }
 
     async filterMotherboardsBySocket(socket: string) {
         console.log("Filtere Motherboards für den Socket:", socket);
-
         try {
             const response = await fetch(`/api/motherboards`, {
                 method: 'GET',
@@ -85,13 +103,10 @@ class CpuComponent extends HTMLElement {
             }
 
             const motherboards = await response.json();
-
-            // Filtern der Motherboards nach Sockel
             const filteredMotherboards = motherboards.filter((mb: { socket: string }) => mb.socket === socket);
 
             console.log('Gefilterte Motherboards:', filteredMotherboards);
 
-            // Aktualisiere die Motherboard-Komponente mit den gefilterten Daten
             const mbComponent = document.querySelector('mb-component');
             if (mbComponent && typeof (mbComponent as any).updateMotherboards === "function") {
                 (mbComponent as any).updateMotherboards(filteredMotherboards);

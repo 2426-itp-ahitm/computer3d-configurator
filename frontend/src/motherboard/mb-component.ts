@@ -8,6 +8,7 @@ const styles = html`
 
 class MbComponent extends HTMLElement {
     private motherboards: Motherboard[] = []; // Typisieren und initialisieren
+    private addedMbId: number | null = null; // Speichert die ID des hinzugefügten Mainboards
 
     constructor() {
         super();
@@ -29,8 +30,8 @@ class MbComponent extends HTMLElement {
     }
 
     tableTemplate = (mbs: Motherboard[]) => {
-        const data = mbs.map(mb => 
-            html`   
+        const data = mbs.map(mb =>
+            html`
             <div class="MbContainer">
                 <div class="MbDetails">
                     <p class="MbName"><strong>${mb.name}</strong></p>
@@ -41,11 +42,21 @@ class MbComponent extends HTMLElement {
                         <div class="Info">
                             <p>Preis: ${mb.price}</p>
                             <p>Sockel: ${mb.socket}</p>
-                            <button class="addButton" @click=${() => this.addMotherboard(mb.motherboard_id, mb.socket, mb.name)}>Hinzufügen!</button>
+                            <div id="Button">
+                                ${
+                                    this.addedMbId === mb.motherboard_id
+                                        ? html`
+                                            <button class="deleteButton" @click=${() => this.removeMotherboard(mb.motherboard_id)}>Entfernen!</button>
+                                        `
+                                        : html`
+                                            <button class="addButton" @click=${() => this.addMotherboard(mb.motherboard_id, mb.socket, mb.name)}>Hinzufügen!</button>
+                                        `
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>                 
+            </div>
             `
         );
         return html`
@@ -55,18 +66,29 @@ class MbComponent extends HTMLElement {
     }
 
     async addMotherboard(mbId: number, socket: string, mbName: string) {
-        console.log("MB ID:", mbId);
-    
-        // Filtere die CPUs basierend auf dem Socket
+        console.log("MB ID hinzugefügt:", mbId);
+        this.addedMbId = mbId; // Mainboard als hinzugefügt markieren
+        this.renderMotherboards(); // Ansicht aktualisieren
         await this.filterCPUsBySocket(socket);
-    
-        // Setze den Namen des hinzugefügten Motherboards
+
+        // Namen des hinzugefügten Mainboards setzen
         const mbNameElement = document.getElementById('mb-name');
         if (mbNameElement) {
             mbNameElement.textContent = `Motherboard: ${mbName}`;
         }
     }
-    
+
+    removeMotherboard(mbId: number) {
+        console.log("MB ID entfernt:", mbId);
+        this.addedMbId = null; // Zustand zurücksetzen
+        this.renderMotherboards(); // Ansicht aktualisieren
+
+        // Namen des Mainboards zurücksetzen
+        const mbNameElement = document.getElementById('mb-name');
+        if (mbNameElement) {
+            mbNameElement.textContent = "Motherboard: Keine vorhanden";
+        }
+    }
 
     async filterCPUsBySocket(socket: string) {
         console.log("Filtere CPUs für den Socket:", socket);
@@ -84,13 +106,10 @@ class MbComponent extends HTMLElement {
             }
 
             const cpus = await response.json();
-
-            // CPUs nach Sockel filtern
             const filteredCPUs = cpus.filter((cpu: { socket: string }) => cpu.socket === socket);
 
             console.log('Gefilterte CPUs:', filteredCPUs);
 
-            // CPU-Komponente aktualisieren
             const cpuComponent = document.querySelector('cpu-component');
             if (cpuComponent && typeof (cpuComponent as any).updateCPUs === "function") {
                 (cpuComponent as any).updateCPUs(filteredCPUs);
@@ -102,3 +121,4 @@ class MbComponent extends HTMLElement {
 }
 
 customElements.define("mb-component", MbComponent);
+
