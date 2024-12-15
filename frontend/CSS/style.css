@@ -13,87 +13,62 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    font-family:Arial, Helvetica, sans-serif;
     font-weight: bold;
 }
 
-/*h1{
-    text-align: center;
-    font-size: 3vw;
-    color: white;
-}*/
-#header{
-    text-align: center;
-    font-size: 3vw;
-    color: white;
-    margin-left: 37%;
-    margin-right: 18%;
-}
-h2{
-    font-size: 2vw;
-    color: white;
-    margin: 1vw;
-}
-
-.accordion {
-  width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow: hidden;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: sticky; /* Macht die Box sticky */
-  top: 20px; /* Abstand vom oberen Rand der Seite */
-  right: 20px; /* Abstand vom rechten Rand */
-  /*margin-left: auto; /* Sorgt dafür, dass die Box am rechten Rand bleibt */
-  /*margin-right: 20px; /* Abstand zwischen Box und Seitenrand */
-}
-
-
-.accordion-button {
-  width: 100%;
-  padding: 15px;
+#header {
   text-align: center;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
+  font-size: 3vw;
+  color: white;
+  margin-top: 20px;
+}
+h2 {
+  font-size: 2vw;
+  color: black;
+  margin: 10px;
+}
+.components-list {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  background-color: #fff;
+  border-left: 1px solid #ccc;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 300px; /* Maximale Breite für die Box */
 }
 
-.accordion-button:hover {
-  background-color: #0056b3;
+.components-list p {
+  margin: 0;
+  font-size: 1em;
+  color: #555;
+  word-wrap: break-word; /* Lange Wörter umbrechen */
+  overflow-wrap: break-word; /* Alternative für ältere Browser */
+  white-space: normal; /* Zeilenumbruch zulassen */
 }
 
-.accordion-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  padding: 0 15px;
+
+
+.components-list h2 {
+  margin-top: 0; /* Kein oberer Abstand für die Überschrift */
+  font-size: 1.5em;
+  color: #333;
 }
 
-.accordion-content p {
-  margin: 15px 0;
-  padding: 0;
-}
 
-#headerBox{
-  display: ruby;
-  
+
+
+.headerTitle{
+  color: white;
 }
  
-#cpuAllBox{
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
 
-
-#mbAllBox{
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
 
 .headerTitle{
   text-align: center;
@@ -101,4 +76,41 @@ h2{
   margin-bottom: 6%;
   margin-top: 6%;
 }
+
+/* Sticky Navbar */
+.navbar {
+  display: flex;
+  background-color: #333;
+  position: sticky;
+  top: 0;
+  z-index: 1; /* Sicherstellen, dass die Navbar über anderen Inhalten bleibt */
+}
+
+/* Abstand um die Komponentenboxen */
+#cpuAllBox, #mbAllBox {
+  flex-wrap: wrap;
+  margin: 0 10vw; /* 10% von der Breite des Bildschirms links und rechts */
+  padding: 20px; /* Optional, um etwas Innenabstand hinzuzufügen */
+}
+
+/* Weitere Anpassungen */
+.tab-button {
+  padding: 14px 20px;
+  margin: 0 5px;
+  background-color: #444;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5vw;
+}
+
+.tab-button:hover {
+  background-color: #555;
+}
+
+.tab-button.active {
+  background-color: #007bff;
+}
+
+
 

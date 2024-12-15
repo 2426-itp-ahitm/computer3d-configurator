@@ -3,9 +3,9 @@ import "./cpu"
 import "./motherboard"
 
 const content = html`
-        <h2 class="headerTitle">CPUs</h2>
+        <h3 class="headerTitle">CPUs</h2>
         <cpu-component id="cpuAllBox"></cpu-component>
-        <h2 class="headerTitle">Motherboards</h2>
+        <h3 class="headerTitle">Motherboards</h2>
         <mb-component id="mbAllBox"></mb-component>
 `
 

@@ -10,27 +10,35 @@
 
 <script defer>
 document.addEventListener('DOMContentLoaded', () => {
-    const accordionButtons = document.querySelectorAll('.accordion-button');
+        const cpuTabButton = document.querySelector('.tab-button.cpu');
+        const mbTabButton = document.querySelector('.tab-button.mb');
+        const cpuSection = document.getElementById('cpuAllBox');
+        const mbSection = document.getElementById('mbAllBox');
 
-    accordionButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const content = button.nextElementSibling;
+        // Standardmäßig nur CPUs anzeigen und CPU-Tab aktiv setzen
+        mbSection.style.display = 'none';
+        cpuSection.style.display = 'flex';
+        cpuTabButton.classList.add('active'); // Setze den CPU-Tab als aktiv
 
-            if (content.style.maxHeight) {
-                // Akkordeon schließen
-                content.style.maxHeight = null;
+        // Funktion zum Umschalten der Tabs
+        const switchTab = (showCPUs) => {
+            if (showCPUs) {
+                cpuSection.style.display = 'flex';
+                mbSection.style.display = 'none';
+                cpuTabButton.classList.add('active');
+                mbTabButton.classList.remove('active');
             } else {
-                // Alle anderen Akkordeons schließen
-                document.querySelectorAll('.accordion-content').forEach(c => {
-                    c.style.maxHeight = null;
-                });
-
-                // Aktuelles Akkordeon öffnen
-                content.style.maxHeight = content.scrollHeight + "px";
+                cpuSection.style.display = 'none';
+                mbSection.style.display = 'flex';
+                mbTabButton.classList.add('active');
+                cpuTabButton.classList.remove('active');
             }
-        });
+        };
+
+        // Event-Listener für Tabs
+        cpuTabButton.addEventListener('click', () => switchTab(true));
+        mbTabButton.addEventListener('click', () => switchTab(false));
     });
-});
 
 </script>
 
@@ -38,19 +46,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div id="headerBox">
         <h1 id="header">3D-PCConfigurator</h1>
-   
-        <div class="accordion">
-            <button class="accordion-button">Deine Komponenten</button>
-            <div class="accordion-content">
-                <p id="cpu-name">CPU: Keine Vorhanden</p>
-                <p id="mb-name">Motherboard: Keines Vorhanden</p>
-            </div>
-        </div>
     </div>
-    
 
-    <app-component>
-    </app-component>
+    <!-- Navigationsleiste -->
+    <div class="navbar">
+        <button class="tab-button cpu">CPUs</button>
+        <button class="tab-button mb">Motherboards</button>
+    </div>
+
+    <!-- Statische Komponenten-Liste -->
+    <div class="components-list">
+        <h3 style="font-size: 1.5vw;">Deine Komponenten</h3>
+        <p id="cpu-name">CPU: Keine Vorhanden</p>
+        <p id="mb-name">Motherboard: Keines Vorhanden</p>
+    </div>
+
+
+    <cpu-component id="cpuAllBox"></cpu-component>
+    <mb-component id="mbAllBox"></mb-component>
+
 </body>
 
 </html>

@@ -45,10 +45,10 @@ class CpuComponent extends HTMLElement {
                             ${
                                 this.addedCpuId === cpu.cpu_id
                                     ? html`
-                                        <button class="deleteButton" @click=${() => this.removeCpu(cpu.cpu_id)}>Entfernen!</button>
+                                        <button class="deleteButton" @click=${() => this.removeCpu(cpu.cpu_id)}>Entfernen</button>
                                     `
                                     : html`
-                                        <button class="addButton" @click=${() => this.addCpu(cpu.cpu_id, cpu.socket, cpu.name)}>Hinzufügen!</button>
+                                        <button class="addButton" @click=${() => this.addCpu(cpu.cpu_id, cpu.socket, cpu.name)}>Hinzufügen</button>
                                     `
                             }
                         </div>
