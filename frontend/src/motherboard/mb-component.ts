@@ -82,13 +82,22 @@ class MbComponent extends HTMLElement {
         console.log("MB ID entfernt:", mbId);
         this.addedMbId = null; // Zustand zurücksetzen
         this.renderMotherboards(); // Ansicht aktualisieren
-
+    
         // Namen des Mainboards zurücksetzen
         const mbNameElement = document.getElementById('mb-name');
         if (mbNameElement) {
             mbNameElement.textContent = "Motherboard: Keine vorhanden";
         }
+    
+        // Lade alle CPUs und setze sie zurück
+        this.loadAllCPUs().then(allCPUs => {
+            const cpuComponent = document.querySelector('cpu-component');
+            if (cpuComponent && typeof (cpuComponent as any).updateCPUs === "function") {
+                (cpuComponent as any).updateCPUs(allCPUs);
+            }
+        });
     }
+    
 
     async filterCPUsBySocket(socket: string) {
         console.log("Filtere CPUs für den Socket:", socket);
@@ -118,6 +127,27 @@ class MbComponent extends HTMLElement {
             console.error('Fehler beim Filtern der CPUs:', error);
         }
     }
+
+    async loadAllCPUs() {
+        try {
+            const response = await fetch(`/api/cpus`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Fehler beim Abrufen aller CPUs.');
+            }
+    
+            return await response.json();
+        } catch (error) {
+            console.error('Fehler beim Laden aller CPUs:', error);
+            return [];
+        }
+    }
+    
 }
 
 customElements.define("mb-component", MbComponent);
