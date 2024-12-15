@@ -1,13 +1,13 @@
-@font-face {
+/* @font-face {
   font-family: julie;
   src: url(../Font/juliett-font/JuliettBold-vndlO.ttf);
-}
+} */
 
 
 
 /* General */
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     background-image: url(../images/BG.jpg);
     background-repeat: no-repeat;
@@ -35,10 +35,13 @@ h2{
   overflow: hidden;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
+  position: sticky; /* Macht die Box sticky */
+  top: 20px; /* Abstand vom oberen Rand der Seite */
+  right: 20px; /* Abstand vom rechten Rand */
+  margin-left: auto; /* Sorgt dafür, dass die Box am rechten Rand bleibt */
+  margin-right: 20px; /* Abstand zwischen Box und Seitenrand */
 }
+
 
 .accordion-button {
   width: 100%;
