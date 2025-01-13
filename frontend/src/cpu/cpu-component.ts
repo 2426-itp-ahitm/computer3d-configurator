@@ -40,7 +40,7 @@ class CpuComponent extends HTMLElement {
                             <img src="${cpu.img}" alt="${cpu.name}">
                         </div>
                         <div class="Info">
-                            <p>Preis: ${cpu.price}</p>
+                            <p>Preis: ${cpu.price} €</p>
                             <p>Sockel: ${cpu.socket}</p>
                             ${
                                 this.addedCpuId === cpu.cpu_id

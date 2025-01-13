@@ -41,10 +41,12 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-width: 300px; /* Maximale Breite für die Box */
+  width: 100%;
+  max-width: 25vw; /* Maximale Breite für die Box */
 }
 
 .components-list p {
+  width: 100%;
   margin: 0;
   font-size: 1em;
   color: #555;

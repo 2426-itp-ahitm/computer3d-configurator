@@ -40,7 +40,7 @@ class MbComponent extends HTMLElement {
                             <img src="${mb.img}" alt="${mb.name}">
                         </div>
                         <div class="Info">
-                            <p>Preis: ${mb.price}</p>
+                            <p>Preis: ${mb.price} €</p>
                             <p>Sockel: ${mb.socket}</p>
                             <div id="Button">
                                 ${
