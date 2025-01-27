@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Standardmäßig nur CPUs anzeigen und CPU-Tab aktiv setzen
         mbSection.style.display = 'none';
         cpuSection.style.display = 'flex';
+        cpuSection.style.justifyContent = 'center';
         cpuTabButton.classList.add('active'); // Setze den CPU-Tab als aktiv
 
         // Funktion zum Umschalten der Tabs
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <label for="active" class="close"></label>
         <div class="wrapper">
             <ul>
-                <!-- Statische Komponenten-Liste -->
+                
                 <div class="components-list">
                     <h3 style="font-size: 1.5vw;">Deine Komponenten</h3>
                     <p id="cpu-name">CPU: Keine Vorhanden</p>
@@ -70,7 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
 
-
+    <nav-component></nav-component>
+    <cart-component></cart-component>
     <cpu-component id="cpuAllBox"></cpu-component>
     <mb-component id="mbAllBox"></mb-component>
 

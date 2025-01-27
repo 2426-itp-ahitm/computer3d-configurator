@@ -1,6 +1,6 @@
 import { html, render } from "lit-html"
-import "./cpu"
-import "./motherboard"
+import "./feature/cpu"
+import "./feature/motherboard"
 
 const content = html`
         <h3 class="headerTitle">CPUs</h2>
