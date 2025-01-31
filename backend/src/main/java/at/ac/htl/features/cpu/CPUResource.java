@@ -2,6 +2,7 @@ package at.ac.htl.features.cpu;
 
 import java.util.List;
 
+import at.ac.htl.features.motherboard.MotherboardDto;
 import at.ac.htl.features.motherboard.MotherboardRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -37,6 +38,19 @@ public class CPUResource {
                 .map(cpuMapper::toResource)
                 .toList();
     }
+
+
+    @GET
+    @Path("/by-motherboard-socket/{motherboardSocket}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<CPUDto> getMotherboardsByCpuSocket(@PathParam("motherboardSocket") String motherboardSocket) {
+        var cpus = cpuRepository.findBySocket(motherboardSocket);
+
+        return cpus.stream()
+            .map(cpuMapper::toResource)
+            .toList();
+    }
+
 
     @GET
     @Path("/{cpuId}")
