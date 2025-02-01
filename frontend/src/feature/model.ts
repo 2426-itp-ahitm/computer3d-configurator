@@ -1,28 +1,5 @@
-interface CPU {
-    cpu_id: number
-    name: string
-    price: number
-    core_count: number
-    core_clock: number
-    boost_clock: number
-    tdp: number
-    graphics: string
-    smt: boolean
-    socket: string
-    img: string
-}
-
-interface Motherboard {
-    motherboard_id: number
-    name: string
-    price: number
-    socket: string
-    form_factor: string
-    max_memory: number
-    memory_slot: number
-    color: string
-    img: string
-}
+import { CPU } from "./cpu/cpu"
+import { Motherboard } from "./motherboard/mb"
 
 interface Model {
     cpu: CPU
@@ -68,15 +45,15 @@ function subscribe(subscription: Subscription) {
 
 const handler: ProxyHandler<Model> = {
     get(target, prop, receiver) {
-        return Reflect.get(target, prop, receiver);
+        return Reflect.get(target, prop, receiver)
     },
     set(model: Model, p: string | symbol, newValue: any, receiver: any) {
-        const success = Reflect.set(model, p, newValue, receiver);
-        followers.forEach(follower => follower(model));
-        return success;
+        const success = Reflect.set(model, p, newValue, receiver)
+        followers.forEach(follower => follower(model))
+        return success
     }
 }
 
-const model = new Proxy(state, handler);
+const model = new Proxy(state, handler)
 
 export { model, Model, subscribe }

@@ -1,1 +1,1 @@
-import "./mb-component"
+// import "./mb-component"

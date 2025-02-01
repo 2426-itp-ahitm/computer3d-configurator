@@ -1,1 +1,1 @@
-import "./cpu-component"
+// import "./cpu-component"
