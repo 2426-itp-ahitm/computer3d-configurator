@@ -1,9 +1,9 @@
-import { CPU } from "src/model"
+import { model } from "../model"
+import { CPU } from "./cpu"
 
-const BASE_URL = "/api"
+const BASE_URL = "./api"
 
 export async function loadAllCPUs() {
     const response = await fetch(`${BASE_URL}/cpus`)
-    const cpus: CPU[] = await response.json()
-    return cpus
+    return await response.json() as CPU[]
 }
