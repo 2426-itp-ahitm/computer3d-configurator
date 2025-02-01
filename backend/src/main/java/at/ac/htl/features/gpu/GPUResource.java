@@ -13,7 +13,6 @@ public class GPUResource  {
     @Inject GPUMapper gpuMapper;
 
     @GET
-    @Path("/get-all-gpus")
     public List<GPUDto> allGPU(){
         var gpus = gpuRepository.findAll()
                 .stream()
