@@ -35,8 +35,8 @@ class AppComponent extends HTMLElement {
             <div> 
                 <!-- Navbar aus index.html -->
                 <div class="navbar">
-                <button @click="${() => this.switchTab(true)}" class="tab-button cpu">CPUs</button>
-                <button @click="${() => this.switchTab(false)}" class="tab-button mb">Motherboards</button>
+                    <button @click="${() => this.switchTab(true)}" class="tab-button cpu">CPUs</button>
+                    <button @click="${() => this.switchTab(false)}" class="tab-button mb">Motherboards</button>
                     <input type="checkbox" id="active">
                     <label for="active" class="menu-btn"><span></span></label>
                     <label for="active" class="close"></label>
@@ -51,7 +51,12 @@ class AppComponent extends HTMLElement {
                     </div>
                     <!-- Umschaltbare Tabs -->
                 </div>
-                ${content}
+                <div style="display: ${this.showCPUs ? 'block' : 'none'}">
+                    ${cpuContent}
+                </div>
+                <div style="display: ${this.showCPUs ? 'none' : 'block'}">
+                    ${mbContent}
+                </div>
             </div>
         `, this);
     }
