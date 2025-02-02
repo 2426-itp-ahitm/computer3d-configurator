@@ -1,9 +1,11 @@
 import { CPU } from "./cpu/cpu"
 import { Motherboard } from "./motherboard/mb"
+import { Gpu } from "./gpu/gpu" // Füge das GPU Interface hinzu
 
 interface Model {
     cpu: CPU
     motherboard: Motherboard
+    gpu: Gpu // Füge die GPU als neues Feld hinzu
     componentsShown: number
 }
 
@@ -32,6 +34,18 @@ const state: Model = {
         color: "",
         img: ""
     },
+    gpu: { // Initialisiere das GPU-Objekt
+        gpu_id: 0,
+        name: "",
+        price: 0,
+        chipset: "",
+        memory: 0,
+        core_clock: 0,
+        boost_clock: 0,
+        color: "",
+        length: 0,
+        img: ""
+    },
     componentsShown: 0
 }
 
@@ -47,8 +61,8 @@ const handler: ProxyHandler<Model> = {
     get(target, prop, receiver) {
         return Reflect.get(target, prop, receiver)
     },
-    set(model: Model, p: string | symbol, newValue: any, receiver: any) {
-        const success = Reflect.set(model, p, newValue, receiver)
+    set(model: Model, prop: keyof Model, newValue: any, receiver: any) {
+        const success = Reflect.set(model, prop, newValue, receiver)
         followers.forEach(follower => follower(model))
         return success
     }
