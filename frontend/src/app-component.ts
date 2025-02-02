@@ -3,12 +3,12 @@ import "./feature/cpu/cpu-component";
 import "./feature/motherboard/mb-component";
 
 const cpuContent = html`
-    <h3 class="headerTitle">CPUs</h3>
+    <h3 class="headerTitle">Wähle deine CPU aus</h3>
     <cpu-component id="cpuAllBox"></cpu-component>
 `;
 
 const mbContent = html`
-    <h3 class="headerTitle">Motherboards</h3>
+    <h3 class="headerTitle">Wähle dein Motherboard aus</h3>
     <mb-component id="mbAllBox"></mb-component>
 `;
 

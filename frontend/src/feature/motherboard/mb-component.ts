@@ -42,10 +42,10 @@ class MbComponent extends HTMLElement {
                                 ${
                                     this.addedMbId === mb.motherboard_id
                                         ? html`
-                                            <button class="deleteButton" @click=${() => this.removeMotherboard(mb.motherboard_id)}>Entfernen</button>
+                                            <button class="deleteButton" @click=${() => this.removeMotherboard(mb.motherboard_id)}></button>
                                         `
                                         : html`
-                                            <button class="addButton" @click=${() => this.addMotherboard(mb.motherboard_id, mb.socket, mb.name)}>Hinzufügen</button>
+                                            <button class="addButton" @click=${() => this.addMotherboard(mb.motherboard_id, mb.socket, mb.name)}></button>
                                         `
                                 }
                             </div>
