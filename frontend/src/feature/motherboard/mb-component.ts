@@ -4,13 +4,17 @@ import { Motherboard } from "./mb";
 import { Model, subscribe } from "../model";
 
 class MbComponent extends HTMLElement {
-    addedMbId: number | null = null;
+    addedMbId: number | null = null;  // Initialisieren als null
+    motherboards: Motherboard[] = [];  // Zu speichernde Motherboards, die vom Service geladen werden
 
     async connectedCallback() {
         subscribe(model => {
             this.render(model);
         });
-        await loadAllMotherboards();
+
+        // Lade alle Motherboards und speichere sie
+        this.motherboards = await loadAllMotherboards();
+        this.renderMotherboards(this.motherboards);
     }
 
     render(model: Model) {
@@ -63,7 +67,7 @@ class MbComponent extends HTMLElement {
     async addMotherboard(mbId: number, socket: string, mbName: string) {
         console.log("MB ID hinzugefügt:", mbId);
         this.addedMbId = mbId;
-        this.renderMotherboards([/* gefilterte Motherboards */]);
+        this.renderMotherboards(this.motherboards);  // Jetzt nach dem Hinzufügen neu rendern
         await this.filterCPUsBySocket(socket);
 
         const mbNameElement = document.getElementById('mb-name');
@@ -75,7 +79,7 @@ class MbComponent extends HTMLElement {
     removeMotherboard(mbId: number) {
         console.log("MB ID entfernt:", mbId);
         this.addedMbId = null;
-        this.renderMotherboards([/* alle Motherboards */]);
+        this.renderMotherboards(this.motherboards);  // Alle Motherboards wieder rendern
 
         const mbNameElement = document.getElementById('mb-name');
         if (mbNameElement) {
@@ -126,11 +130,11 @@ class MbComponent extends HTMLElement {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error('Fehler beim Abrufen aller CPUs.');
             }
-    
+
             return await response.json();
         } catch (error) {
             console.error('Fehler beim Laden aller CPUs:', error);

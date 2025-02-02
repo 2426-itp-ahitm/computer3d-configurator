@@ -4,19 +4,24 @@ import { CPU } from "./cpu";
 import { Model, subscribe } from "../model";
 
 class CpuComponent extends HTMLElement {
-    addedCpuId: number;
+    addedCpuId: number | null = null; // Initialisieren als null
+    cpus: CPU[] = [];  // Zu speichern CPUs, die vom Service geladen werden
+
     async connectedCallback() {
         subscribe(model => {
             this.render(model);
         });
-        loadAllCPUs();
+
+        // Lade alle CPUs und speichere sie
+        this.cpus = await loadAllCPUs();
+        this.renderCPUs(this.cpus);
     }
     
     render(model: Model) {
         const cpus = Array.isArray(model.cpu) ? model.cpu : [model.cpu];
         this.renderCPUs(cpus);
     }
-    
+
     renderCPUs(cpus: CPU[]) {
         render(this.tableTemplate(cpus), this);
     }
@@ -62,7 +67,7 @@ class CpuComponent extends HTMLElement {
     async addCpu(cpuId: number, socket: string, cpuName: string) {
         console.log("CPU ID hinzugefügt:", cpuId);
         this.addedCpuId = cpuId; 
-        this.renderCPUs([/* gefilterte CPUs */]); // Rendern nach Hinzufügen
+        this.renderCPUs(this.cpus);  // Jetzt nach dem Hinzufügen neu rendern
         await this.filterMotherboardsBySocket(socket);
 
         const cpuNameElement = document.getElementById('cpu-name');
@@ -74,7 +79,7 @@ class CpuComponent extends HTMLElement {
     removeCpu(cpuId: number) {
         console.log("CPU ID entfernt:", cpuId);
         this.addedCpuId = null;
-        this.renderCPUs([/* alle CPUs */]);
+        this.renderCPUs(this.cpus);  // Alle CPUs wieder rendern
 
         const cpuNameElement = document.getElementById('cpu-name');
         if (cpuNameElement) {
@@ -125,11 +130,11 @@ class CpuComponent extends HTMLElement {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error('Fehler beim Abrufen aller Motherboards.');
             }
-    
+
             return await response.json();
         } catch (error) {
             console.error('Fehler beim Laden aller Motherboards:', error);
