@@ -1,4 +1,3 @@
-import { model } from "../model"
 import { CPU } from "./cpu"
 
 const BASE_URL = "./api"

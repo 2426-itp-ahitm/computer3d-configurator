@@ -1,9 +1,8 @@
-import { Motherboard } from "src/model"
+import { Motherboard } from "./mb"
 
 const BASE_URL = "/api"
 
 export async function loadAllMotherboards() {
-    const response = await fetch(`${BASE_URL}/motherboards`)
-    const motherboards: Motherboard[] = await response.json()
-    return motherboards
+    const response = await fetch(`${BASE_URL}/cpus`)
+    return await response.json() as Motherboard[]
 }

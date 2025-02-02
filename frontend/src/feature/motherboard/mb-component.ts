@@ -1,48 +1,40 @@
-import { html, render } from "lit-html"
-import { loadAllMotherboards } from "./mb-service"
-import { Motherboard } from "src/model"
-
-const styles = html`
-    <link rel="stylesheet" href="/components.css">
-`
+import { html, render } from "lit-html";
+import { loadAllMotherboards } from "./mb-service";
+import { Motherboard } from "./mb";
+import { Model, subscribe } from "../model";
 
 class MbComponent extends HTMLElement {
-    private motherboards: Motherboard[] = []; // Typisieren und initialisieren
-    private addedMbId: number | null = null; // Speichert die ID des hinzugefügten Mainboards
-
-    constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-    }
+    addedMbId: number | null = null;
 
     async connectedCallback() {
-        this.motherboards = await loadAllMotherboards();
-        this.renderMotherboards();
+        subscribe(model => {
+            this.render(model);
+        });
+        await loadAllMotherboards();
     }
 
-    renderMotherboards() {
-        render(this.tableTemplate(this.motherboards), this.shadowRoot!);
+    render(model: Model) {
+        const motherboards = Array.isArray(model.motherboard) ? model.motherboard : [model.motherboard];
+        this.renderMotherboards(motherboards);
     }
 
-    updateMotherboards(filteredMotherboards: Motherboard[]) {
-        this.motherboards = filteredMotherboards;
-        this.renderMotherboards();
+    renderMotherboards(motherboards: Motherboard[]) {
+        render(this.tableTemplate(motherboards), this);
     }
 
-    tableTemplate = (mbs: Motherboard[]) => {
-        const data = mbs.map(mb =>
+    tableTemplate(motherboards: Motherboard[]) {
+        const data = motherboards.map(mb =>
             html`
-            <div class="MbContainer">
-                <div class="MbDetails">
-                    <p class="MbName"><strong>${mb.name}</strong></p>
-                    <div class="ContentWrapper">
-                        <div class="Image">
-                            <img src="${mb.img}" alt="${mb.name}">
-                        </div>
-                        <div class="Info">
-                            <p>Preis: ${mb.price} €</p>
-                            <p>Sockel: ${mb.socket}</p>
-                            <div id="Button">
+                <div class="MbContainer">
+                    <div class="MbDetails">
+                        <p class="MbName"><strong>${mb.name}</strong></p>
+                        <div class="ContentWrapper">
+                            <div class="Image">
+                                <img src="${mb.img}" alt="${mb.name}">
+                            </div>
+                            <div class="Info">
+                                <p>Preis: ${mb.price} €</p>
+                                <p>Sockel: ${mb.socket}</p>
                                 ${
                                     this.addedMbId === mb.motherboard_id
                                         ? html`
@@ -56,22 +48,24 @@ class MbComponent extends HTMLElement {
                         </div>
                     </div>
                 </div>
-            </div>
             `
         );
         return html`
-            ${styles}
+            <style>
+                .MbContainer {
+                    /* Dein CSS hier */
+                }
+            </style>
             ${data}
         `;
     }
 
     async addMotherboard(mbId: number, socket: string, mbName: string) {
         console.log("MB ID hinzugefügt:", mbId);
-        this.addedMbId = mbId; // Mainboard als hinzugefügt markieren
-        this.renderMotherboards(); // Ansicht aktualisieren
+        this.addedMbId = mbId;
+        this.renderMotherboards([/* gefilterte Motherboards */]);
         await this.filterCPUsBySocket(socket);
 
-        // Namen des hinzugefügten Mainboards setzen
         const mbNameElement = document.getElementById('mb-name');
         if (mbNameElement) {
             mbNameElement.textContent = `Motherboard: ${mbName}`;
@@ -80,16 +74,14 @@ class MbComponent extends HTMLElement {
 
     removeMotherboard(mbId: number) {
         console.log("MB ID entfernt:", mbId);
-        this.addedMbId = null; // Zustand zurücksetzen
-        this.renderMotherboards(); // Ansicht aktualisieren
-    
-        // Namen des Mainboards zurücksetzen
+        this.addedMbId = null;
+        this.renderMotherboards([/* alle Motherboards */]);
+
         const mbNameElement = document.getElementById('mb-name');
         if (mbNameElement) {
             mbNameElement.textContent = "Motherboard: Keine vorhanden";
         }
-    
-        // Lade alle CPUs und setze sie zurück
+
         this.loadAllCPUs().then(allCPUs => {
             const cpuComponent = document.querySelector('cpu-component');
             if (cpuComponent && typeof (cpuComponent as any).updateCPUs === "function") {
@@ -97,11 +89,9 @@ class MbComponent extends HTMLElement {
             }
         });
     }
-    
 
     async filterCPUsBySocket(socket: string) {
         console.log("Filtere CPUs für den Socket:", socket);
-
         try {
             const response = await fetch(`/api/cpus`, {
                 method: 'GET',
@@ -147,8 +137,6 @@ class MbComponent extends HTMLElement {
             return [];
         }
     }
-    
 }
 
 customElements.define("mb-component", MbComponent);
-
