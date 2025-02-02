@@ -1,2 +1,2 @@
 import "./app-component"
-import "../CSS/style.css"
+import "../src/CSS/style.css"

@@ -5,43 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computer3DConfigurator</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="./src/CSS/style.css">
 </head>
-
-<script defer>
-document.addEventListener('DOMContentLoaded', () => {
-        const cpuTabButton = document.querySelector('.tab-button.cpu');
-        const mbTabButton = document.querySelector('.tab-button.mb');
-        const cpuSection = document.getElementById('cpuAllBox');
-        const mbSection = document.getElementById('mbAllBox');
-
-        // Standardmäßig nur CPUs anzeigen und CPU-Tab aktiv setzen
-        mbSection.style.display = 'none';
-        cpuSection.style.display = 'flex';
-        cpuSection.style.justifyContent = 'center';
-        cpuTabButton.classList.add('active'); // Setze den CPU-Tab als aktiv
-
-        // Funktion zum Umschalten der Tabs
-        const switchTab = (showCPUs) => {
-            if (showCPUs) {
-                cpuSection.style.display = 'flex';
-                mbSection.style.display = 'none';
-                cpuTabButton.classList.add('active');
-                mbTabButton.classList.remove('active');
-            } else {
-                cpuSection.style.display = 'none';
-                mbSection.style.display = 'flex';
-                mbTabButton.classList.add('active');
-                cpuTabButton.classList.remove('active');
-            }
-        };
-
-        // Event-Listener für Tabs
-        cpuTabButton.addEventListener('click', () => switchTab(true));
-        mbTabButton.addEventListener('click', () => switchTab(false));
-    });
-
-</script>
 
 <body>
 
@@ -51,15 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <!-- Navigationsleiste -->
     <div class="navbar">
-        <button class="tab-button cpu">CPUs</button>
-        <button class="tab-button mb">Motherboards</button>
+        <!-- Diese Buttons steuern den Wechsel zwischen den Seiten -->
+        <!-- <button class="tab-button cpu">CPUs</button>
+        <button class="tab-button mb">Motherboards</button> -->
 
         <input type="checkbox" id="active">
         <label for="active" class="menu-btn"><span></span></label>
         <label for="active" class="close"></label>
         <div class="wrapper">
             <ul>
-                
                 <div class="components-list">
                     <h3 style="font-size: 1.5vw;">Deine Komponenten</h3>
                     <p id="cpu-name">CPU: Keine Vorhanden</p>
@@ -69,12 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>
 
-    
-
-    <nav-component></nav-component>
-    <cart-component></cart-component>
-    <cpu-component id="cpuAllBox"></cpu-component>
-    <mb-component id="mbAllBox"></mb-component>
+    <!-- Hier verwenden wir das app-component, das die Logik für die Tabs übernimmt -->
+    <app-component></app-component>
 
 </body>
 
