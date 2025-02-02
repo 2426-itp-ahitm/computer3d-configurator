@@ -9,18 +9,18 @@ class CpuComponent extends HTMLElement {
         subscribe(model => {
             this.render(model);
         });
-        await loadAllCPUs();
+        loadAllCPUs();
     }
-
+    
     render(model: Model) {
         const cpus = Array.isArray(model.cpu) ? model.cpu : [model.cpu];
         this.renderCPUs(cpus);
-    }    
-
+    }
+    
     renderCPUs(cpus: CPU[]) {
         render(this.tableTemplate(cpus), this);
     }
-
+    
     tableTemplate(cpus: CPU[]) {
         const data = cpus.map(cpu =>
             html`

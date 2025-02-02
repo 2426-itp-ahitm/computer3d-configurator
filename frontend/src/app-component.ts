@@ -13,7 +13,6 @@ const mbContent = html`
 `;
 
 class AppComponent extends HTMLElement {
-    // Wir deklarieren die Eigenschaft showCPUs
     showCPUs = true;
 
     constructor() {
@@ -33,9 +32,25 @@ class AppComponent extends HTMLElement {
     render() {
         const content = this.showCPUs ? cpuContent : mbContent;
         render(html`
-            <div>
+            <div> 
+                <!-- Navbar aus index.html -->
+                <div class="navbar">
                 <button @click="${() => this.switchTab(true)}" class="tab-button cpu">CPUs</button>
                 <button @click="${() => this.switchTab(false)}" class="tab-button mb">Motherboards</button>
+                    <input type="checkbox" id="active">
+                    <label for="active" class="menu-btn"><span></span></label>
+                    <label for="active" class="close"></label>
+                    <div class="wrapper">
+                        <ul>
+                            <div class="components-list">
+                                <h3 style="font-size: 1.5vw;">Deine Komponenten</h3>
+                                <p id="cpu-name">CPU: Keine Vorhanden</p>
+                                <p id="mb-name">Motherboard: Keines Vorhanden</p>
+                            </div>
+                        </ul>
+                    </div>
+                    <!-- Umschaltbare Tabs -->
+                </div>
                 ${content}
             </div>
         `, this);
