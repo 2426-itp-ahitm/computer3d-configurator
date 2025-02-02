@@ -4,8 +4,8 @@ import { Motherboard } from "./mb";
 import { Model, subscribe } from "../model";
 
 class MbComponent extends HTMLElement {
-    addedMbId: number | null = null;  // Initialisieren als null
-    motherboards: Motherboard[] = [];  // Zu speichernde Motherboards, die vom Service geladen werden
+    addedMbId: number | null = null; // Initialisieren als null
+    motherboards: Motherboard[] = []; // Zu speichernde Motherboards, die vom Service geladen werden
 
     async connectedCallback() {
         subscribe(model => {
@@ -64,8 +64,13 @@ class MbComponent extends HTMLElement {
         `;
     }
 
+    updateMotherboards(motherboards: Motherboard[]) {
+        this.motherboards = motherboards;
+        this.renderMotherboards(motherboards);
+    }
+
     async addMotherboard(mbId: number, socket: string, mbName: string) {
-        console.log("MB ID hinzugefügt:", mbId);
+        console.log("Motherboard ID hinzugefügt:", mbId);
         this.addedMbId = mbId;
         this.renderMotherboards(this.motherboards);  // Jetzt nach dem Hinzufügen neu rendern
         await this.filterCPUsBySocket(socket);
@@ -76,28 +81,10 @@ class MbComponent extends HTMLElement {
         }
     }
 
-    removeMotherboard(mbId: number) {
-        console.log("MB ID entfernt:", mbId);
-        this.addedMbId = null;
-        this.renderMotherboards(this.motherboards);  // Alle Motherboards wieder rendern
-
-        const mbNameElement = document.getElementById('mb-name');
-        if (mbNameElement) {
-            mbNameElement.textContent = "Motherboard: Keine vorhanden";
-        }
-
-        this.loadAllCPUs().then(allCPUs => {
-            const cpuComponent = document.querySelector('cpu-component');
-            if (cpuComponent && typeof (cpuComponent as any).updateCPUs === "function") {
-                (cpuComponent as any).updateCPUs(allCPUs);
-            }
-        });
-    }
-
     async filterCPUsBySocket(socket: string) {
-        console.log("Filtere CPUs für den Socket:", socket);
+        console.log("Filtere CPUs für den Sockel:", socket);
         try {
-            const response = await fetch(`/api/cpus`, {
+            const response = await fetch(`/api/cpus/by-motherboard-socket/${socket}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -109,13 +96,11 @@ class MbComponent extends HTMLElement {
             }
 
             const cpus = await response.json();
-            const filteredCPUs = cpus.filter((cpu: { socket: string }) => cpu.socket === socket);
-
-            console.log('Gefilterte CPUs:', filteredCPUs);
+            console.log('Gefilterte CPUs:', cpus);
 
             const cpuComponent = document.querySelector('cpu-component');
             if (cpuComponent && typeof (cpuComponent as any).updateCPUs === "function") {
-                (cpuComponent as any).updateCPUs(filteredCPUs);
+                (cpuComponent as any).updateCPUs(cpus);  // Passende CPUs werden an das CPU-Component übergeben
             }
         } catch (error) {
             console.error('Fehler beim Filtern der CPUs:', error);
@@ -140,6 +125,24 @@ class MbComponent extends HTMLElement {
             console.error('Fehler beim Laden aller CPUs:', error);
             return [];
         }
+    }
+
+    removeMotherboard(mbId: number) {
+        console.log("Motherboard ID entfernt:", mbId);
+        this.addedMbId = null;
+        this.renderMotherboards(this.motherboards);  // Alle Motherboards wieder rendern
+
+        const mbNameElement = document.getElementById('mb-name');
+        if (mbNameElement) {
+            mbNameElement.textContent = "Motherboard: Keine vorhanden";
+        }
+
+        this.loadAllCPUs().then(allCPUs => {
+            const cpuComponent = document.querySelector('cpu-component');
+            if (cpuComponent && typeof (cpuComponent as any).updateCPUs === "function") {
+                (cpuComponent as any).updateCPUs(allCPUs);
+            }
+        });
     }
 }
 

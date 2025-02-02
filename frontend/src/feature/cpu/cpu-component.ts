@@ -4,8 +4,8 @@ import { CPU } from "./cpu";
 import { Model, subscribe } from "../model";
 
 class CpuComponent extends HTMLElement {
-    addedCpuId: number | null = null; // Initialisieren als null
-    cpus: CPU[] = [];  // Zu speichern CPUs, die vom Service geladen werden
+    addedCpuId: number | null = null;
+    cpus: CPU[] = [];
 
     async connectedCallback() {
         subscribe(model => {
@@ -16,7 +16,7 @@ class CpuComponent extends HTMLElement {
         this.cpus = await loadAllCPUs();
         this.renderCPUs(this.cpus);
     }
-    
+
     render(model: Model) {
         const cpus = Array.isArray(model.cpu) ? model.cpu : [model.cpu];
         this.renderCPUs(cpus);
@@ -25,7 +25,7 @@ class CpuComponent extends HTMLElement {
     renderCPUs(cpus: CPU[]) {
         render(this.tableTemplate(cpus), this);
     }
-    
+
     tableTemplate(cpus: CPU[]) {
         const data = cpus.map(cpu =>
             html`
@@ -64,15 +64,46 @@ class CpuComponent extends HTMLElement {
         `;
     }
 
+    updateCPUs(cpus: CPU[]) {
+        this.cpus = cpus;
+        this.renderCPUs(cpus);
+    }
+
     async addCpu(cpuId: number, socket: string, cpuName: string) {
         console.log("CPU ID hinzugefügt:", cpuId);
-        this.addedCpuId = cpuId; 
+        this.addedCpuId = cpuId;
         this.renderCPUs(this.cpus);  // Jetzt nach dem Hinzufügen neu rendern
-        await this.filterMotherboardsBySocket(socket);
+        await this.fetchMotherboardsBySocket(socket);
 
         const cpuNameElement = document.getElementById('cpu-name');
         if (cpuNameElement) {
             cpuNameElement.textContent = `CPU: ${cpuName}`;
+        }
+    }
+
+    async fetchMotherboardsBySocket(socket: string) {
+        console.log("Lade passende Motherboards für den Sockel:", socket);
+        try {
+            const response = await fetch(`/api/motherboards/by-cpu-socket/${socket}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Fehler beim Abrufen der Motherboards.');
+            }
+
+            const motherboards = await response.json();
+            console.log('Gefundene Motherboards:', motherboards);
+
+            const mbComponent = document.querySelector('mb-component');
+            if (mbComponent && typeof (mbComponent as any).updateMotherboards === "function") {
+                (mbComponent as any).updateMotherboards(motherboards);  // Passende Motherboards werden an das Motherboard-Component übergeben
+            }
+        } catch (error) {
+            console.error('Fehler beim Filtern der Motherboards:', error);
         }
     }
 
@@ -92,34 +123,6 @@ class CpuComponent extends HTMLElement {
                 (mbComponent as any).updateMotherboards(allMotherboards);
             }
         });
-    }
-
-    async filterMotherboardsBySocket(socket: string) {
-        console.log("Filtere Motherboards für den Socket:", socket);
-        try {
-            const response = await fetch(`/api/motherboards`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error('Fehler beim Abrufen der Motherboards.');
-            }
-
-            const motherboards = await response.json();
-            const filteredMotherboards = motherboards.filter((mb: { socket: string }) => mb.socket === socket);
-
-            console.log('Gefilterte Motherboards:', filteredMotherboards);
-
-            const mbComponent = document.querySelector('mb-component');
-            if (mbComponent && typeof (mbComponent as any).updateMotherboards === "function") {
-                (mbComponent as any).updateMotherboards(filteredMotherboards);
-            }
-        } catch (error) {
-            console.error('Fehler beim Filtern der Motherboards:', error);
-        }
     }
 
     async loadAllMotherboards() {
