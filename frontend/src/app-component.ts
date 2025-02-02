@@ -31,12 +31,19 @@ class AppComponent extends HTMLElement {
 
     render() {
         const content = this.showCPUs ? cpuContent : mbContent;
+
         render(html`
             <div> 
                 <!-- Navbar aus index.html -->
                 <div class="navbar">
-                    <button @click="${() => this.switchTab(true)}" class="tab-button cpu">CPUs</button>
-                    <button @click="${() => this.switchTab(false)}" class="tab-button mb">Motherboards</button>
+                    <button 
+                        @click="${() => this.switchTab(true)}" 
+                        class="tab-button ${this.showCPUs ? 'active' : ''}">CPUs
+                    </button>
+                    <button 
+                        @click="${() => this.switchTab(false)}" 
+                        class="tab-button ${!this.showCPUs ? 'active' : ''}">Motherboards
+                    </button>
                     <input type="checkbox" id="active">
                     <label for="active" class="menu-btn"><span></span></label>
                     <label for="active" class="close"></label>
