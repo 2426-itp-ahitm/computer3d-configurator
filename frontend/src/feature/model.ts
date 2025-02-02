@@ -1,8 +1,10 @@
 import { CPU } from "./cpu/cpu"
 import { Motherboard } from "./motherboard/mb"
 import { Gpu } from "./gpu/gpu" // Füge das GPU Interface hinzu
+import { Ram } from "./ram/ram" // Importiere das Ram Interface
 
 interface Model {
+    ram: Ram // Füge das Ram-Feld hinzu
     cpu: CPU
     motherboard: Motherboard
     gpu: Gpu // Füge die GPU als neues Feld hinzu
@@ -10,6 +12,20 @@ interface Model {
 }
 
 const state: Model = {
+    ram: { // Initialisiere das Ram-Objekt
+        ram_id: 0,
+        name: "",
+        price: 0,
+        type: "",
+        clock_speed: 0,
+        module_count: 0,
+        gb_per_module: 0,
+        price_per_gb: 0,
+        color: "",
+        first_word_latency: 0,
+        cas_latency: 0,
+        img: ""
+    },
     cpu: {
         cpu_id: 0,
         name: "",

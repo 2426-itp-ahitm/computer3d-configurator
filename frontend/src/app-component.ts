@@ -2,6 +2,7 @@ import { html, render } from "lit-html";
 import "./feature/cpu/cpu-component";
 import "./feature/motherboard/mb-component";
 import "./feature/gpu/gpu-component";
+import "./feature/ram/ram-component";  // Importiere die RAM-Komponente
 
 const cpuContent = html`
     <h3 class="headerTitle">Wähle deine CPU aus</h3>
@@ -17,10 +18,17 @@ const gpuContent = html`
     <h3 class="headerTitle">Wähle deine GPU aus</h3>
     <gpu-component id="gpuAllBox"></gpu-component>
 `;
+
+const ramContent = html`
+    <h3 class="headerTitle">Wähle deinen RAM aus</h3>
+    <ram-component id="ramAllBox"></ram-component> <!-- RAM-Komponente hinzufügen -->
+`;
+
 class AppComponent extends HTMLElement {
     showCPUs = true;
     showMotherboards = false;
     showGPUs = false;
+    showRAM = false;  // Zustand für RAM hinzufügen
 
     constructor() {
         super();
@@ -35,11 +43,12 @@ class AppComponent extends HTMLElement {
         this.showCPUs = tab === 'cpu';
         this.showMotherboards = tab === 'motherboard';
         this.showGPUs = tab === 'gpu';
+        this.showRAM = tab === 'ram';  // RAM-Tab hinzufügen
         this.render();
     }
 
     render() {
-        const content = this.showCPUs ? cpuContent : (this.showMotherboards ? mbContent : gpuContent);
+        const content = this.showCPUs ? cpuContent : (this.showMotherboards ? mbContent : (this.showGPUs ? gpuContent : ramContent));  // RAM Content einfügen
 
         render(html`
             <div> 
@@ -57,6 +66,10 @@ class AppComponent extends HTMLElement {
                         @click="${() => this.switchTab('gpu')}" 
                         class="tab-button ${this.showGPUs ? 'active' : ''}">GPUs
                     </button>
+                    <button 
+                        @click="${() => this.switchTab('ram')}" 
+                        class="tab-button ${this.showRAM ? 'active' : ''}">RAM <!-- Button für RAM hinzufügen -->
+                    </button>
                     <input type="checkbox" id="active">
                     <label for="active" class="menu-btn"><span></span></label>
                     <label for="active" class="close"></label>
@@ -67,6 +80,7 @@ class AppComponent extends HTMLElement {
                                 <p id="cpu-name">CPU: Keine Vorhanden</p>
                                 <p id="mb-name">Motherboard: Keines Vorhanden</p>
                                 <p id="gpu-name">GPU: Keine Vorhanden</p>
+                                <p id="ram-name">RAM: Keiner Vorhanden</p>
                             </div>
                         </ul>
                     </div>
@@ -81,6 +95,9 @@ class AppComponent extends HTMLElement {
                 <div style="display: ${this.showGPUs ? 'block' : 'none'}">
                     ${gpuContent}
                 </div>
+                <div style="display: ${this.showRAM ? 'block' : 'none'}">
+                    ${ramContent} <!-- RAM Content anzeigen -->
+                </div>
             </div>
         `, this);
     }
@@ -88,4 +105,3 @@ class AppComponent extends HTMLElement {
 
 // Registriere das Custom Element
 customElements.define("app-component", AppComponent);
-
