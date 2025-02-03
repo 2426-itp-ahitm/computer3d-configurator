@@ -37,8 +37,12 @@ class GpuComponent extends HTMLElement {
                                 <img src="${gpu.img}" alt="${gpu.name}">
                             </div>
                             <div class="Info">
+                            <div style="margin-bottom: 1vw">
                                 <p>Preis: ${gpu.price} €</p>
+                                <br>
                                 <p>Speicher: ${gpu.memory} GB</p>
+                            </div>
+                            <div>    
                                 ${
                                     this.addedGpuId === gpu.gpu_id
                                         ? html`
@@ -52,6 +56,7 @@ class GpuComponent extends HTMLElement {
                                             </svg>
                                         `
                                 }
+                                </div>
                             </div>
                         </div>
                     </div>

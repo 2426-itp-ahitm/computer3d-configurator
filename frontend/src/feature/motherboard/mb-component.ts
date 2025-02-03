@@ -37,8 +37,12 @@ class MbComponent extends HTMLElement {
                                 <img src="${mb.img}" alt="${mb.name}">
                             </div>
                             <div class="Info">
+                                <div style="margin-bottom: 1vw">
                                 <p>Preis: ${mb.price} €</p>
+                                <br>
                                 <p>Sockel: ${mb.socket}</p>
+                                </div>
+                                <div>
                                 ${
                                     this.addedMbId === mb.motherboard_id
                                         ? html`
@@ -52,6 +56,7 @@ class MbComponent extends HTMLElement {
                                             </svg>
                                         `
                                 }
+                                </div>
                             </div>
                         </div>
                     </div>

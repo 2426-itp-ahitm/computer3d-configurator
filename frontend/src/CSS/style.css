@@ -311,12 +311,6 @@ input[type="checkbox"]{
   align-items: center;
 }
 
-.Info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .MbContainer {
   background-color: rgba(255, 255, 255, 0.409);
 color: white;
@@ -347,24 +341,15 @@ align-items: center;
 .Image img {
 mix-blend-mode: multiply;
 width: 10vw;
-height: 10vw;
+height: auto;
 margin-right: 1.5vw;
 }
-
-.Info {
-display: flex;
-flex-direction: column;
-justify-content: center;
-text-align: center;
+.Info{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
-.CpuDetails svg {
-  transform: translate(20px, 20px); 
-}
-
-.MbDetails svg {
-  transform: translate(30px, 20px); 
-}
-
 
 .GpuContainer {
   background-color: rgba(255, 255, 255, 0.409);
@@ -387,10 +372,6 @@ text-align: center;
   font-size: 1.5vw;
   margin-bottom: 1vw;
   text-align: center;
-}
-
-.GpuDetails svg {
-  transform: translate(20px, 10px); 
 }
 
 
@@ -416,8 +397,3 @@ text-align: center;
   margin-bottom: 1vw;
   text-align: center;
 }
-
-.RamDetails svg {
-  transform: translate(20px, 10px); 
-}
-

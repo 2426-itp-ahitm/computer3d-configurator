@@ -37,8 +37,12 @@ class RamComponent extends HTMLElement {
                                 <img src="${ram.img}" alt="${ram.name}">
                             </div>
                             <div class="Info">
+                            <div style="margin-bottom: 1vw">
                             <p>Preis: ${ram.price ? ram.price + " €" : "Nicht verfügbar"}</p>
+                            <br>
                             <p>Typ: ${ram.type}</p>
+                            </div>
+                            <div>
                                 ${
                                     this.addedRamId === ram.ram_id
                                         ? html`
@@ -52,6 +56,7 @@ class RamComponent extends HTMLElement {
                                             </svg>
                                         `
                                 }
+                                </div>
                             </div>
                         </div>
                     </div>
