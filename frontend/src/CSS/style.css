@@ -290,7 +290,7 @@ input[type="checkbox"]{
   margin: 1vw;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 40%
+  width: 45%
 }
 
 .CpuDetails {
@@ -319,7 +319,7 @@ padding: 1vw;
 margin: 1vw;
 border-radius: 10px;
 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-width:40%
+width:45%
 }
 
 .MbDetails {
@@ -359,7 +359,7 @@ margin-right: 1.5vw;
   margin: 1vw;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 40%
+  width: 45%
 }
 
 .GpuDetails {
@@ -383,7 +383,7 @@ margin-right: 1.5vw;
   margin: 1vw;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 40%
+  width: 45%
 }
 
 .RamDetails {
