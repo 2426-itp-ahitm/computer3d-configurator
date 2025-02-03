@@ -3,8 +3,11 @@ package at.ac.htl.features.gpu;
 import java.util.List;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+
 
 @Path("/gpus")
 @Produces(MediaType.APPLICATION_JSON)
