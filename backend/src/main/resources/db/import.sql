@@ -21,18 +21,18 @@ VALUES
 INSERT INTO 
     public.gpu (gpu_id, name, price, chipset, memory, core_clock, boost_clock, color, length, img) 
 VALUES
-(1, 'Gigabyte EAGLE OC Rev 2.0', 799.99, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 320, 'https://www.geizhals.de/gigabyte-geforce-rtx-3080-eagle-oc-10g-rev-2-0-gv-n3080eagle-oc-10gd-rev20-a2695981.html'),
-(2, 'MSI GAMING TRIO PLUS', 849.99, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 323, 'https://www.amazon.de/MSI-GeForce-RTX-3080-GAMING/dp/B08HM661WY'),
-(3, 'MSI TWIN FAN OC', 499.99, 'GeForce RTX 3060 Ti LHR', 8, 1410, 1695, 'Black', 230, 'https://www.geizhals.de/msi-geforce-rtx-3060-ti-ventus-2x-8g-ocv1-lhr-a2670301.html'),
-(4, 'XFX THICC III Pro', 329.99, 'Radeon RX 5600 XT', 6, 1247, 1750, 'Black', 326, 'https://www.amazon.de/XFX-Radeon-5600XT-THICC-III/dp/B083Z5P6RX'),
-(5, 'Inno3D Gaming OC X3', 699.99, 'GeForce RTX 2080 SUPER', 8, 1650, 1845, 'Black', 272, 'https://www.geizhals.de/inno3d-geforce-rtx-2080-super-gaming-oc-x3-c208s3-08d6x-1170va15-a2130439.html'),
-(6, 'Gigabyte MINI ITX OC', 299.99, 'GeForce RTX 2060', 6, 1680, 1695, 'Black / Silver', 170, 'https://www.amazon.de/Gigabyte-GeForce-RTX-2060-Mini/dp/B07MQTYZR5'),
-(7, 'PowerColor Red Devil OC', 519.99, 'Radeon RX 7800 XT', 16, 1295, 2565, 'Black', 332, 'https://www.geizhals.de/powercolor-radeon-rx-7800-xt-red-devil-oc-16gb-gddr6-a2958758.html'),
-(8, 'MSI GeForce GTX 1060 6GT OCV1', 199.99, 'GeForce GTX 1060 6GB', 6, 1544, 1759, 'Black / White', 243, 'https://www.amazon.de/MSI-GeForce-GTX-1060-6GT/dp/B01IEKYD5U'),
-(9, 'Gigabyte GAMING', 349.99, 'GeForce GTX 1080', 8, 1721, 1860, 'Black / Orange', 286, 'https://www.geizhals.de/gigabyte-geforce-gtx-1080-g1-gaming-8gd-gv-n1080g1-gaming-8gd-a1480770.html'),
-(10, 'ASRock Challenger D', 219.99, 'Radeon RX 6600', 8, 1626, null, 'Black', 269, 'https://www.amazon.de/ASRock-Radeon-RX-6600-Challenger/dp/B09HHLX543'),
-(11, 'XFX Speedster SWFT 309', 299.99, 'Radeon RX 6700 XT', 12, 2321, 2581, 'Black', 304, 'https://www.geizhals.de/xfx-radeon-rx-6700-xt-speedster-swft-309-12gb-gddr6-rx-67xtyjfdv-a2630200.html'),
-(12, 'Gigabyte EAGLE', 199.99, 'Radeon RX 6600', 8, 1626, 2491, 'Black / Silver', 282, 'https://www.amazon.de/Gigabyte-Radeon-RX-6600-EAGLE/dp/B09HHLX543');
+(1, 'Gigabyte EAGLE OC Rev 2.0', 799.99, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 320, 'https://www.gigabyte.com/FileUpload/Global/KeyFeature/1903/innergigabyteimages/kf-img.pnghttps://www.gigabyte.com/FileUpload/Global/KeyFeature/1903/innergigabyteimages/kf-img.pnghttps://www.gigabyte.com/FileUpload/Global/KeyFeature/1903/innergigabyteimages/kf-img.pnghttps://www.gigabyte.com/FileUpload/Global/KeyFeature/1903/innergigabyteimages/kf-img.png'),
+(2, 'MSI GAMING TRIO PLUS', 849.99, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 323, 'https://www.msi.com/Graphics-Card/GeForce-RTX-3080-GAMING-TRIO-PLUS-10G-LHR'),
+(3, 'MSI TWIN FAN OC', 499.99, 'GeForce RTX 3060 Ti LHR', 8, 1410, 1695, 'Black', 230, 'https://storage-asset.msi.com/global/picture/image/feature/vga/NVIDIA/RTX3060Ti/TWIN-FAN//kv-img.png'),
+(4, 'XFX THICC III Pro', 329.99, 'Radeon RX 5600 XT', 6, 1247, 1750, 'Black', 326, 'https://im.contentlounge.net/styles/manual_crop/s3/2020-07/XFX%20Radeon%20RX%205600%20XT%20Thicc%20III%20Pro.jpg?im=AspectCrop%2Csize%3D%284%2C3%29%2Cgravity%3DCenter%3BResize%3D%281200%2C900%29%2Caspect%3Dfit%3BBackgroundColor%2Ccolor%3Dffffff&hash=2635405ad6a5f6369b2e23c68a5fa75395ccbdef4e0a89caa4c49de06177bf8c'),
+(5, 'Inno3D Gaming OC X3', 699.99, 'GeForce RTX 2080 SUPER', 8, 1650, 1845, 'Black', 272, 'https://m.media-amazon.com/images/I/619UJ5Zvb2L._AC_UF1000,1000_QL80_.jpg'),
+(6, 'Gigabyte MINI ITX OC', 299.99, 'GeForce RTX 2060', 6, 1680, 1695, 'Black / Silver', 170, 'https://images.versus.io/objects/gigabyte-geforce-rtx-2060-mini-itx-oc.front.variety.1576684641045.jpg'),
+(7, 'PowerColor Red Devil OC', 519.99, 'Radeon RX 7800 XT', 16, 1295, 2565, 'Black/Rot', 332, 'https://gzhls.at/i/12/14/3011214-n0.webp'),
+(8, 'MSI GeForce GTX 1060 6GT OCV1', 199.99, 'GeForce GTX 1060 6GB', 6, 1544, 1759, 'Black / White', 243, 'https://asset.msi.com/resize/image/global/product/product_5_20180411110310_5acd7aee3b188.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png'),
+(9, 'Gigabyte GAMING', 349.99, 'GeForce GTX 1080', 8, 1721, 1860, 'Black / Orange', 286, 'https://static.gigabyte.com/StaticFile/Image/Global/5865dda2c8ac6d378e755169f1f0894b/Product/15095/Png'),
+(10, 'ASRock Challenger D', 219.99, 'Radeon RX 6600', 8, 1626, null, 'Black', 269, 'https://m.media-amazon.com/images/I/61gK8Xih5kL._AC_SL1200_.jpg'),
+(11, 'XFX Speedster SWFT 309', 299.99, 'Radeon RX 6700 XT', 12, 2321, 2581, 'Black', 304, 'https://m.media-amazon.com/images/G/03/apparel/rcxgs/tile._CB483369910_.gif'),
+(12, 'Gigabyte EAGLE', 199.99, 'Radeon RX 6600', 8, 1626, 2491, 'Black / Silver', 282, 'https://m.media-amazon.com/images/I/712yFYT8t+L._AC_SL1500_.jpg');
 
 INSERT INTO 
     public.ram (ram_id, name, price, type, clock_speed, module_count, gb_per_module, price_per_gb, color, first_word_latency, cas_latency, img) 
