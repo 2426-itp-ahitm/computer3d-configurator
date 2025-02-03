@@ -38,7 +38,7 @@ class RamComponent extends HTMLElement {
                             </div>
                             <div class="Info">
                             <div style="margin-bottom: 1vw">
-                            <p>Preis: ${ram.price ? ram.price + " €" : "Nicht verfügbar"}</p>
+                            <p>Preis: ${ram.price ? ram.price + " €" : "N/A"}</p>
                             <br>
                             <p>Typ: ${ram.type}</p>
                             </div>
