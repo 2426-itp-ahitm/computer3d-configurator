@@ -21,31 +21,31 @@ VALUES
 INSERT INTO 
     public.gpu (gpu_id, name, price, chipset, memory, core_clock, boost_clock, color, length, img) 
 VALUES
-    (1, 'Gigabyte EAGLE OC Rev 2.0', null, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 320, null),
-    (2, 'MSI GAMING TRIO PLUS', null, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 323, null),
-    (3, 'MSI TWIN FAN OC', null, 'GeForce RTX 3060 Ti LHR', 8, 1410, 1695, 'Black', 230, null),
-    (4, 'XFX THICC III Pro', null, 'Radeon RX 5600 XT', 6, 1247, 1750, 'Black', 326, null),
-    (5, 'Inno3D Gaming OC X3', null, 'GeForce RTX 2080 SUPER', 8, 1650, 1845, 'Black', 272, null),
-    (6, 'Gigabyte MINI ITX OC', null, 'GeForce RTX 2060', 6, 1680, 1695, 'Black / Silver', 170, null),
-    (7, 'PowerColor Red Devil OC', 519.99, 'Radeon RX 7800 XT', 16, 1295, 2565, 'Black', 332, null),
-    (8, 'MSI GeForce GTX 1060 6GT OCV1', null, 'GeForce GTX 1060 6GB', 6, 1544, 1759, 'Black / White', 243, null),
-    (9, 'Gigabyte GAMING', null, 'GeForce GTX 1080', 8, 1721, 1860, 'Black / Orange', 286, null),
-    (10, 'ASRock Challenger D', 219.99, 'Radeon RX 6600', 8, 1626, null, 'Black', 269, null),
-    (11, 'XFX Speedster SWFT 309', 299.99, 'Radeon RX 6700 XT', 12, 2321, 2581, 'Black', 304, null),
-    (12, 'Gigabyte EAGLE', 199.99, 'Radeon RX 6600', 8, 1626, 2491, 'Black / Silver', 282, null);
+(1, 'Gigabyte EAGLE OC Rev 2.0', 799.99, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 320, 'https://www.geizhals.de/gigabyte-geforce-rtx-3080-eagle-oc-10g-rev-2-0-gv-n3080eagle-oc-10gd-rev20-a2695981.html'),
+(2, 'MSI GAMING TRIO PLUS', 849.99, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 323, 'https://www.amazon.de/MSI-GeForce-RTX-3080-GAMING/dp/B08HM661WY'),
+(3, 'MSI TWIN FAN OC', 499.99, 'GeForce RTX 3060 Ti LHR', 8, 1410, 1695, 'Black', 230, 'https://www.geizhals.de/msi-geforce-rtx-3060-ti-ventus-2x-8g-ocv1-lhr-a2670301.html'),
+(4, 'XFX THICC III Pro', 329.99, 'Radeon RX 5600 XT', 6, 1247, 1750, 'Black', 326, 'https://www.amazon.de/XFX-Radeon-5600XT-THICC-III/dp/B083Z5P6RX'),
+(5, 'Inno3D Gaming OC X3', 699.99, 'GeForce RTX 2080 SUPER', 8, 1650, 1845, 'Black', 272, 'https://www.geizhals.de/inno3d-geforce-rtx-2080-super-gaming-oc-x3-c208s3-08d6x-1170va15-a2130439.html'),
+(6, 'Gigabyte MINI ITX OC', 299.99, 'GeForce RTX 2060', 6, 1680, 1695, 'Black / Silver', 170, 'https://www.amazon.de/Gigabyte-GeForce-RTX-2060-Mini/dp/B07MQTYZR5'),
+(7, 'PowerColor Red Devil OC', 519.99, 'Radeon RX 7800 XT', 16, 1295, 2565, 'Black', 332, 'https://www.geizhals.de/powercolor-radeon-rx-7800-xt-red-devil-oc-16gb-gddr6-a2958758.html'),
+(8, 'MSI GeForce GTX 1060 6GT OCV1', 199.99, 'GeForce GTX 1060 6GB', 6, 1544, 1759, 'Black / White', 243, 'https://www.amazon.de/MSI-GeForce-GTX-1060-6GT/dp/B01IEKYD5U'),
+(9, 'Gigabyte GAMING', 349.99, 'GeForce GTX 1080', 8, 1721, 1860, 'Black / Orange', 286, 'https://www.geizhals.de/gigabyte-geforce-gtx-1080-g1-gaming-8gd-gv-n1080g1-gaming-8gd-a1480770.html'),
+(10, 'ASRock Challenger D', 219.99, 'Radeon RX 6600', 8, 1626, null, 'Black', 269, 'https://www.amazon.de/ASRock-Radeon-RX-6600-Challenger/dp/B09HHLX543'),
+(11, 'XFX Speedster SWFT 309', 299.99, 'Radeon RX 6700 XT', 12, 2321, 2581, 'Black', 304, 'https://www.geizhals.de/xfx-radeon-rx-6700-xt-speedster-swft-309-12gb-gddr6-rx-67xtyjfdv-a2630200.html'),
+(12, 'Gigabyte EAGLE', 199.99, 'Radeon RX 6600', 8, 1626, 2491, 'Black / Silver', 282, 'https://www.amazon.de/Gigabyte-Radeon-RX-6600-EAGLE/dp/B09HHLX543');
 
 INSERT INTO 
     public.ram (ram_id, name, price, type, clock_speed, module_count, gb_per_module, price_per_gb, color, first_word_latency, cas_latency, img) 
 VALUES
-    (1, 'ADATA XPG LANCER RGB ROG CERTIFIED 32 GB', 159.99, 'DDR5', 6600, 2, 16, 5, 'Black', 9.697, 32, null),
-    (2, 'Kingston FURY Renegade Pro 32 GB', 174.54, 'DDR5', 6000, 1, 32, 5.454, 'Black', 10.667, 32, null),
-    (3, 'Mushkin MES4S240HF8G 8 GB', 27.99, 'DDR4', 2400, 1, 8, 3.499, null, 14.167, 17, null),
-    (4, 'GeIL EVO V RGB 16 GB', null, 'DDR5', 6400, 1, 16, null, 'Black', 11.875, 38, null),
-    (5, 'TEAMGROUP T-Force Vulcan 16 GB', null, 'DDR5', 5600, 1, 16, null, 'Red', 14.286, 40, null),
-    (6, 'ADATA XPG GAMMIX D10 8 GB', null, 'DDR4', 3000, 1, 8, null, 'Black / White', 10.667, 16, null),
-    (7, 'TEAMGROUP T-Force Delta RGB 16 GB', null, 'DDR4', 2400, 1, 16, null, 'White', 12.5, 15, null),
-    (8, 'Crucial CT7982449 16 GB', null, 'DDR4', 2133, 1, 16, null, 'Green', 14.065, 15, null),
-    (9, 'Corsair Vengeance LED 32 GB', null, 'DDR4', 3000, 2, 16, null, 'Black / Red', 10, 15, null),
-    (10, 'Corsair Vengeance 8 GB', null, 'DDR3', 1600, 2, 4, null, 'Black / Gold', 11.25, 9, null),
-    (11, 'Wintec AMPO 4 GB', null, 'DDR3', 1333, 1, 4, null, 'Green', 13.503, 9, null),
-    (12, 'G.Skill Ripjaws X 8 GB', 24.84, 'DDR3', 1600, 1, 8, 3.105, 'Black / Blue', 11.25, 9, null);
+    (1, 'ADATA XPG LANCER RGB ROG CERTIFIED 32 GB', 159.99, 'DDR5', 6600, 2, 16, 5, 'Black', 9.697, 32, 'https://gzhls.at/i/45/16/3014516-n0.jpg'),
+    (2, 'Kingston FURY Renegade Pro 32 GB', 174.54, 'DDR5', 6000, 1, 32, 5.454, 'Black', 10.667, 32, 'https://img-resizer.cyberport.de/cp/images/1368x1368/231124144736700301900042V'),
+    (3, 'Mushkin MES4S240HF8G 8 GB', 27.99, 'DDR4', 2400, 1, 8, 3.499, null, 14.167, 17, 'https://m.media-amazon.com/images/I/51rmXelHnXS._AC_UF894,1000_QL80_.jpg'),
+    (4, 'GeIL EVO V RGB 32 GB', null, 'DDR5', 8000, 2, 16, null, 'Black', 11.875, 38, 'https://www.hardwareluxx.de/images/cdn02/uploads/2022/May/quiet_oc_jp/geil-evo-v--ddr5-02_1920px.jpg'),
+    (5, 'TEAMGROUP T-Force Vulcan 32 GB', 112.90, 'DDR5', 5600, 2, 16, null, 'Red', 14.286, 40, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkWLIe0X6pIvo2kTYMCUfUZVYnmNiyKGd5eg&s'),
+    (6, 'ADATA XPG GAMMIX D10 8 GB', 23.77, 'DDR4', 3000, 1, 8, null, 'Black', 10.667, 16, 'https://imgproxy.0815.at/biTyYBJ_jrhQxEGMXlEWYPYMQ0F_CoE4rs6S8Qg1Fv8/aHR0cHM6Ly9tZWRpYS4wODE1LmF0L21lZGlhLzg0L2NiL2RkLzE2NzE1Mjg1NzUvMWZlMTdhNDMyNjI5NDBkY2IxMzk5YThiZGIyNzBlNWIuanBn'),
+    (7, 'TEAMGROUP T-Force Delta RGB 32 GB', 121.50, 'DDR4', 3600, 2, 16, null, 'Black', 12.5, 15, 'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcS7uVRnBF4yVdPGr7U2ajnb3Fyu5EXZtDoSCA5LPANYmjkaTyw8zn4ORbHfQDNuysmWFm8arc5yUi_m-jH8yfWOwCVmg06NU_4YWkNq4Y6tP9EKTxJJuTVF'),
+    (8, 'Crucial CT7982449 16 GB', 28.00, 'DDR4', 2133, 1, 16, null, 'Green', 14.065, 15, 'https://content.crucial.com/content/dam/crucial/dram-products/laptop/images/product/crucial-ddr4-sodimm-kit-2.psd.transform/medium-png/image.png'),
+    (9, 'Corsair Vengeance LED 32 GB', 73.51, 'DDR4', 3000, 2, 16, null, 'Black', 10, 15, 'https://asset.conrad.com/media10/isa/160267/c1/-/de/002861707PI00/image.jpg?x=400&y=400&format=jpg&ex=400&ey=400&align=center'),
+    (10, 'Corsair Vengeance 8 GB', 39.82, 'DDR3', 1600, 2, 4, null, 'Black / Gold', 11.25, 9, 'https://www.alternate.at/p/600x600/i/Corsair_DIMM_8_GB_DDR3_1600____Arbeitsspeicher@@idif57j2.jpg'),
+    (11, 'YongXinSheng 8GB', 24.19, 'DDR3', 1600, 2, 8, null, 'Green', 13.503, 9, 'https://m.media-amazon.com/images/I/61WRsE1zlNL._AC_SL1500_.jpg'),
+    (12, 'G.Skill Ripjaws X 8 GB', 24.84, 'DDR3', 1600, 1, 8, 3.105, 'Black / Blue', 11.25, 9, 'https://gzhls.at/i/44/50/694450-n0.jpg');
