@@ -32,6 +32,7 @@ h2 {
   width: 100%;
   max-width: 25vw; /* Maximale Breite für die Box */
   text-align: left;
+  margin-top: -7vw;
 }
 
 .components-list p {
