@@ -21,7 +21,7 @@ VALUES
 INSERT INTO 
     public.gpu (gpu_id, name, price, chipset, memory, core_clock, boost_clock, color, length, img) 
 VALUES
-(1, 'Gigabyte EAGLE OC Rev 2.0', 799.99, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 320, 'https://www.gigabyte.com/FileUpload/Global/KeyFeature/1903/innergigabyteimages/kf-img.pnghttps://www.gigabyte.com/FileUpload/Global/KeyFeature/1903/innergigabyteimages/kf-img.pnghttps://www.gigabyte.com/FileUpload/Global/KeyFeature/1903/innergigabyteimages/kf-img.pnghttps://www.gigabyte.com/FileUpload/Global/KeyFeature/1903/innergigabyteimages/kf-img.png'),
+(1, 'Gigabyte EAGLE OC Rev 2.0', 799.99, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 320, 'https://www.gigabyte.com/FileUpload/Global/KeyFeature/1903/innergigabyteimages/kf-img.png'),
 (2, 'MSI GAMING TRIO PLUS', 849.99, 'GeForce RTX 3080 10GB LHR', 10, 1440, 1755, 'Black', 323, 'https://asset.msi.com/resize/image/global/product/product_1613530906255d52bb34d6967d4bc3da3d1fe802d5.png62405b38c58fe0f07fcef2367d8a9ba1/600.png'),
 (3, 'MSI TWIN FAN OC', 499.99, 'GeForce RTX 3060 Ti LHR', 8, 1410, 1695, 'Black', 230, 'https://storage-asset.msi.com/global/picture/image/feature/vga/NVIDIA/RTX3060Ti/TWIN-FAN//kv-img.png'),
 (4, 'XFX THICC III Pro', 329.99, 'Radeon RX 5600 XT', 6, 1247, 1750, 'Black', 326, 'https://image1280.macovi.de/images/product_images/1280/1346457_0__73840.jpg'),
