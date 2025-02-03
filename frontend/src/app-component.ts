@@ -54,7 +54,9 @@ class AppComponent extends HTMLElement {
             <div> 
                 <!-- Navbar aus index.html -->
                 <div class="navbar">
-                    <button 
+                <div id="allButtons">
+                <div id="navButtons">    
+                <button 
                         @click="${() => this.switchTab('cpu')}" 
                         class="tab-button ${this.showCPUs ? 'active' : ''}">CPUs
                     </button>
@@ -70,19 +72,20 @@ class AppComponent extends HTMLElement {
                         @click="${() => this.switchTab('ram')}" 
                         class="tab-button ${this.showRAM ? 'active' : ''}">RAM <!-- Button für RAM hinzufügen -->
                     </button>
+                    </div>
                     <input type="checkbox" id="active">
                     <label for="active" class="menu-btn"><span></span></label>
                     <label for="active" class="close"></label>
                     <div class="wrapper">
                         <ul>
                             <div class="components-list">
-                                <h3 style="font-size: 1.5vw;">Deine Komponenten</h3>
                                 <p id="cpu-name">CPU: Keine Vorhanden</p>
                                 <p id="mb-name">Motherboard: Keines Vorhanden</p>
                                 <p id="gpu-name">GPU: Keine Vorhanden</p>
                                 <p id="ram-name">RAM: Keiner Vorhanden</p>
                             </div>
                         </ul>
+                    </div>
                     </div>
                     <!-- Umschaltbare Tabs -->
                 </div>
