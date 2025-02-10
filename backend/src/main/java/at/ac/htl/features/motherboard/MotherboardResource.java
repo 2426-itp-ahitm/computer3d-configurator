@@ -2,7 +2,6 @@ package at.ac.htl.features.motherboard;
 
 import java.util.List;
 
-import at.ac.htl.features.cpu.CPUDto;
 import at.ac.htl.features.cpu.CPURepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;

@@ -49,3 +49,8 @@ VALUES
     (10, 'Corsair Vengeance 8 GB', 39.82, 'DDR3', 1600, 2, 4, null, 'Black / Gold', 11.25, 9, 'https://www.alternate.at/p/600x600/i/Corsair_DIMM_8_GB_DDR3_1600____Arbeitsspeicher@@idif57j2.jpg'),
     (11, 'YongXinSheng 8GB', 24.19, 'DDR3', 1600, 2, 8, null, 'Green', 13.503, 9, 'https://m.media-amazon.com/images/I/61WRsE1zlNL._AC_SL1500_.jpg'),
     (12, 'G.Skill Ripjaws X 8 GB', 24.84, 'DDR3', 1600, 1, 8, 3.105, 'Black / Blue', 11.25, 9, 'https://gzhls.at/i/44/50/694450-n0.jpg');
+
+INSERT INTO 
+    public.shopping_cart (cpu_id, motherboard_id, gpu_id, ram_id, totalPrice, createdAt, updatedAt)
+VALUES 
+    (NULL, NULL, NULL, NULL, NULL, NULL, NULL);
