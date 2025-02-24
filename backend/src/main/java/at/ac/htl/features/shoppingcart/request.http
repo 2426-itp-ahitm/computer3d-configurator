@@ -1,0 +1,30 @@
+### Neuen Warenkorb erstellen
+POST http://localhost:8080/api/shoppingcart
+Content-Type: application/json
+
+{
+  "cpu": null,
+  "motherboard": null,
+  "gpu": null,
+  "ram": null,
+  "totalPrice": 0.0
+}
+
+### Warenkorb anhand der ID abrufen
+GET http://localhost:8080/api/shoppingcart/get-by-id/1
+Accept: application/json
+
+### Warenkorb aktualisieren – z. B. RAM hinzufügen
+PUT http://localhost:8080/api/shoppingcart/update-cart/1/ram/5
+Content-Type: application/json
+
+{
+  "cpu": null,
+  "motherboard": null,
+  "gpu": null,
+  "ram": {
+    "ram_id": 5
+  },
+  "totalPrice": 79.99
+}
+

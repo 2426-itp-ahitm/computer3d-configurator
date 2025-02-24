@@ -1,8 +1,5 @@
 package at.ac.htl.features.shoppingcart;
 
-import at.ac.htl.features.shoppingcart.ShoppingCartDto;
-import at.ac.htl.features.shoppingcart.ShoppingCart;
-import at.ac.htl.features.cpu.CPUDto;
 import at.ac.htl.features.cpu.CPUMapper;
 import at.ac.htl.features.motherboard.MotherboardMapper;
 import at.ac.htl.features.gpu.GPUMapper;

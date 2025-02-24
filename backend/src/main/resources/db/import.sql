@@ -54,3 +54,4 @@ INSERT INTO
     public.shopping_cart (cpu_id, motherboard_id, gpu_id, ram_id, totalPrice, createdAt, updatedAt)
 VALUES 
     (NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    
