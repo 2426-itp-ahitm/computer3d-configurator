@@ -1,0 +1,19 @@
+Mainpage hat ein input feld mit der Warenkorb id und eine Option zu sagen "I dont have a shoppingcart currently" 
+-> erstellt einen neuen Shoppingcart.
+macht ein POST auf den Path: "/shoppingcart"
+
+jedes mal wenn ein Component hinzugefügt wird soll geupdated werden.
+macht ein PUT auf den Path "shoppingcart/update-cart/{shoppingCartId}/{component}/{idComponent}"
+Beispiel: "shoppingcart/update-cart/1/ram/5"
+sollte folgende json zurückgeben: 
+{
+  "cpu": null,
+  "motherboard": null,
+  "gpu": null,
+  "ram": {
+    "ram_id": 5
+  },
+  "totalPrice": 79.99
+}
+
+zusätzlich gibt es noch einen "shoppingcart/get-by-id/{id}" Path, für shoppingcarts, falls es mal gebraucht wird
