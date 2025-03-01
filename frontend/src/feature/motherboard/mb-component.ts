@@ -42,7 +42,7 @@ class MbComponent extends HTMLElement {
                                 <br>
                                 <p>Sockel: ${mb.socket}</p>
                                 </div>
-                                <div>
+                                <div id="svgBox">
                                 ${
                                     this.addedMbId === mb.motherboard_id
                                         ? html`

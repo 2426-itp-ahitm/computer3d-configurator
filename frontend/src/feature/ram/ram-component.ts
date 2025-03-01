@@ -42,7 +42,7 @@ class RamComponent extends HTMLElement {
                             <br>
                             <p>Typ: ${ram.type}</p>
                             </div>
-                            <div>
+                            <div id="svgBox">
                                 ${
                                     this.addedRamId === ram.ram_id
                                         ? html`

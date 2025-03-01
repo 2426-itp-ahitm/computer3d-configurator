@@ -42,7 +42,7 @@ class CpuComponent extends HTMLElement {
                                 <br>
                                 <p>Sockel: ${cpu.socket}</p>
                             </div>
-                            <div> 
+                            <div id="svgBox"> 
                                 ${
                                     this.addedCpuId === cpu.cpu_id
                                         ? html`

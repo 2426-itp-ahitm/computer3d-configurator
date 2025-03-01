@@ -398,3 +398,6 @@ margin-right: 1.5vw;
   margin-bottom: 1vw;
   text-align: center;
 }
+#svgBox{
+  cursor: pointer;
+}

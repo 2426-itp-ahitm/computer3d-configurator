@@ -42,7 +42,7 @@ class GpuComponent extends HTMLElement {
                                 <br>
                                 <p>Speicher: ${gpu.memory} GB</p>
                             </div>
-                            <div>    
+                            <div id="svgBox">    
                                 ${
                                     this.addedGpuId === gpu.gpu_id
                                         ? html`
