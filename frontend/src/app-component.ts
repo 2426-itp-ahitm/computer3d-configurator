@@ -11,17 +11,17 @@ const cpuContent = html`
 
 const mbContent = html`
     <h3 class="headerTitle">Wähle dein Motherboard aus</h3>
-    <mb-component id="mbAllBox"></mb-component>
+    <mb-component id="mbAllBox" class="content-box"></mb-component>
 `;
 
 const gpuContent = html`
     <h3 class="headerTitle">Wähle deine GPU aus</h3>
-    <gpu-component id="gpuAllBox"></gpu-component>
+    <gpu-component id="gpuAllBox" class="content-box"></gpu-component>
 `;
 
 const ramContent = html`
     <h3 class="headerTitle">Wähle deinen RAM aus</h3>
-    <ram-component id="ramAllBox"></ram-component> <!-- RAM-Komponente hinzufügen -->
+    <ram-component id="ramAllBox" class="content-box"></ram-component> <!-- RAM-Komponente hinzufügen -->
 `;
 
 class AppComponent extends HTMLElement {
