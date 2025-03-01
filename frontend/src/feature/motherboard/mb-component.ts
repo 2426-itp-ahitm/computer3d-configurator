@@ -143,7 +143,7 @@ class MbComponent extends HTMLElement {
 
         const mbNameElement = document.getElementById('mb-name');
         if (mbNameElement) {
-            mbNameElement.textContent = "Motherboard: Keine vorhanden";
+            mbNameElement.textContent = "Motherboard: ———";
         }
 
         this.loadAllCPUs().then(allCPUs => {

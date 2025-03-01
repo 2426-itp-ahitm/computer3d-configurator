@@ -96,7 +96,7 @@ class GpuComponent extends HTMLElement {
 
         const gpuNameElement = document.getElementById('gpu-name');
         if (gpuNameElement) {
-            gpuNameElement.textContent = "GPU: Keine vorhanden";
+            gpuNameElement.textContent = "GPU: ———";
         }
     }
 }

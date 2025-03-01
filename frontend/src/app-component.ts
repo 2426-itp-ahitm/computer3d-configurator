@@ -79,10 +79,10 @@ class AppComponent extends HTMLElement {
                     <div class="wrapper">
                         <ul>
                             <div class="components-list">
-                                <p id="cpu-name">CPU: Keine Vorhanden</p>
-                                <p id="mb-name">Motherboard: Keines Vorhanden</p>
-                                <p id="gpu-name">GPU: Keine Vorhanden</p>
-                                <p id="ram-name">RAM: Keiner Vorhanden</p>
+                                <p id="cpu-name">CPU: ———</p>
+                                <p id="mb-name">Motherboard: ———</p>
+                                <p id="gpu-name">GPU: ———</p>
+                                <p id="ram-name">RAM: ———</p>
                             </div>
                         </ul>
                     </div>

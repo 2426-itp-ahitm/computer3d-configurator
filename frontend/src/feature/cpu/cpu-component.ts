@@ -120,7 +120,7 @@ class CpuComponent extends HTMLElement {
 
         const cpuNameElement = document.getElementById('cpu-name');
         if (cpuNameElement) {
-            cpuNameElement.textContent = "CPU: Keine vorhanden";
+            cpuNameElement.textContent = "CPU: ———";
         }
 
         this.loadAllMotherboards().then(allMotherboards => {

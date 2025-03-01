@@ -91,7 +91,7 @@ class RamComponent extends HTMLElement {
 
         const ramNameElement = document.getElementById('ram-name');
         if (ramNameElement) {
-            ramNameElement.textContent = "RAM: Keine vorhanden";
+            ramNameElement.textContent = "RAM: ———";
         }
     }
 }
