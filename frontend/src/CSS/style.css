@@ -340,7 +340,7 @@ align-items: center;
 }
 .content-box.menu-active {
   position: relative;
-  left: -15%;
+  left: -10%;
   transition: left 0.6s ease-in-out;
 }
 

@@ -11,17 +11,17 @@ const cpuContent = html`
 
 const mbContent = html`
     <h3 class="headerTitle">Wähle dein Motherboard aus</h3>
-    <mb-component id="mbAllBox"></mb-component>
+    <mb-component id="mbAllBox" class="content-box"></mb-component>
 `;
 
 const gpuContent = html`
     <h3 class="headerTitle">Wähle deine GPU aus</h3>
-    <gpu-component id="gpuAllBox"></gpu-component>
+    <gpu-component id="gpuAllBox" class="content-box"></gpu-component>
 `;
 
 const ramContent = html`
     <h3 class="headerTitle">Wähle deinen RAM aus</h3>
-    <ram-component id="ramAllBox"></ram-component> <!-- RAM-Komponente hinzufügen -->
+    <ram-component id="ramAllBox" class="content-box"></ram-component> <!-- RAM-Komponente hinzufügen -->
 `;
 
 class AppComponent extends HTMLElement {
@@ -47,10 +47,36 @@ class AppComponent extends HTMLElement {
         this.render();
     }
 
+     // Methode zum Erstellen des Einkaufswagens
+     async createShoppingCart() {
+        console.log("Erstelle Einkaufswagen...");
+        try {
+            const response = await fetch('http://localhost:8080/api/shoppingcart/createShoppingCart', {
+                method: 'POST', // Der HTTP-Methoden-Typ (POST)
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}) // Falls du Daten senden musst, ansonsten leer lassen
+            });
+
+            if (!response.ok) {
+                throw new Error('Fehler beim Erstellen des Einkaufswagens.');
+            }
+
+            const data = await response.json();
+            console.log('Einkaufswagen erstellt:', data);
+
+            // Hier kannst du mit der Antwort arbeiten, z. B. den Einkaufswagen anzeigen
+        } catch (error) {
+            console.error('Fehler beim Erstellen des Einkaufswagens:', error);
+        }
+    }
+
     render() {
         const content = this.showCPUs ? cpuContent : (this.showMotherboards ? mbContent : (this.showGPUs ? gpuContent : ramContent));  // RAM Content einfügen
 
         render(html`
+            <!-- Button für Einkaufswagen-Erstellung -->
             <div> 
                 <!-- Navbar aus index.html -->
                 <div class="navbar">
@@ -87,6 +113,7 @@ class AppComponent extends HTMLElement {
                         </ul>
                     </div>
                     </div>
+                    <button @click="${this.createShoppingCart}">Erstelle Einkaufswagen</button>
                     <!-- Umschaltbare Tabs -->
                 </div>
                 <div style="display: ${this.showCPUs ? 'block' : 'none'}">
