@@ -6,7 +6,7 @@ import "./feature/ram/ram-component";  // Importiere die RAM-Komponente
 
 const cpuContent = html`
     <h3 class="headerTitle">Wähle deine CPU aus</h3>
-    <cpu-component id="cpuAllBox"></cpu-component>
+    <cpu-component id="cpuAllBox" class="content-box"></cpu-component>
 `;
 
 const mbContent = html`

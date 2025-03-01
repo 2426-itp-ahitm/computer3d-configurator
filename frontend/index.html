@@ -8,6 +8,24 @@
     <link rel="stylesheet" href="./src/CSS/style.css">
 </head>
 
+<script defer>
+    document.addEventListener("DOMContentLoaded", function() {
+    const menuCheckbox = document.getElementById("active");
+    const contentBoxes = document.querySelectorAll("#cpuAllBox, #mbAllBox, #gpuAllBox, #ramAllBox");
+
+    menuCheckbox.addEventListener("change", function() {
+        contentBoxes.forEach(box => {
+            if (menuCheckbox.checked) {
+                box.classList.add("menu-active");
+            } else {
+                box.classList.remove("menu-active");
+            }
+        });
+    });
+});
+
+</script>
+
 <body>
 
     <app-component></app-component>

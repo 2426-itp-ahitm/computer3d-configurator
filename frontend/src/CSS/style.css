@@ -338,6 +338,18 @@ margin-bottom: 1vw;
 display: flex;
 align-items: center;
 }
+.content-box.menu-active {
+  position: relative;
+  left: -15%;
+  transition: left 0.6s ease-in-out;
+}
+
+.content-box {
+  position: relative;
+  left: 0;
+  transition: left 0.6s ease-in-out;
+}
+
 
 .Image img {
 mix-blend-mode: multiply;

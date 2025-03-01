@@ -40,13 +40,13 @@ public class ShoppingCartResource {
      * Erzeugt einen neuen Warenkorb.
      */
     @POST
+    @Path("/createShoppingCart")
     @Transactional
     public Response createCart(ShoppingCart cart) {
         // Optional: Berechnet hier den Gesamtpreis anhand der einzelnen Komponenten, falls gewünscht.
         cartRepository.persist(cart);
         return Response.status(Response.Status.CREATED).entity(cartMapper.toDto(cart)).build();
     }
-
     
     @GET
     @Path("/get-by-id/{id}")
