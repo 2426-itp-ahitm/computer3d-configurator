@@ -27,6 +27,10 @@ public class ShoppingCartResource {
 
     @Inject
     ShoppingCartMapper cartMapper;
+    @Inject
+    ShoppingCartRepository shoppingCartRepository;
+    @Inject
+    ShoppingCartMapper shoppingCartMapper;
 
     /**
      * Mainpage hat ein input feld mit der Warenkorb id
@@ -57,6 +61,18 @@ public class ShoppingCartResource {
         }
         return Response.ok(cartMapper.toDto(cart)).build();
     }
+
+    @GET
+    @Path("/getAll")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllCarts() {
+        var shoppingCarts = shoppingCartRepository.findAll()
+                .stream()
+                .map(shoppingCartMapper::toDto) // Verwende toDto statt toRessource
+                .toList();
+        return Response.ok(shoppingCarts).build(); // ✅ Richtige Rückgabe
+    }
+
 
     /**
      * Aktualisiert einen vorhandenen Warenkorb.

@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
@@ -22,6 +23,17 @@ public class RAMResource {
                 .map(ramMapper::toResource)
                 .toList();
         return rams;
+    }
+
+    @GET
+    @Path("/by-Motherboard-Type/{ramTypeMotherboard}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<RAMDto> getMotherboardsByRamType(@PathParam("ramTypeMotherboard") String ramType) {
+        var rams = ramRepository.findBySocket(ramType);
+
+        return rams.stream()
+                .map(ramMapper::toResource)
+                .toList();
     }
 
 }

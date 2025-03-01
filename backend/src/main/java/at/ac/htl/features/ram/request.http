@@ -1,0 +1,3 @@
+### Rams anhand des RamTyps auf dem Motherboard
+GET http://localhost:8080/api/rams/by-Motherboard-Type/DDR4
+Accept: application/json

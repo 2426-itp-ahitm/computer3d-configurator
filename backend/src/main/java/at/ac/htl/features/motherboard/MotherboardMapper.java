@@ -10,6 +10,7 @@ public class MotherboardMapper {
             motherboard.name,
             motherboard.price,
             motherboard.socket,
+            motherboard.ramType,
             motherboard.form_factor,
             motherboard.max_memory,
             motherboard.memory_slots,

@@ -3,6 +3,9 @@ package at.ac.htl.features.motherboard;
 import java.util.List;
 
 import at.ac.htl.features.cpu.CPURepository;
+import at.ac.htl.features.ram.RAMDto;
+import at.ac.htl.features.ram.RAMMapper;
+import at.ac.htl.features.ram.RAMRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -13,7 +16,9 @@ public class MotherboardResource {
 
     @Inject MotherboardRepository motherboardRepository;
     @Inject MotherboardMapper motherboardMapper;
+    @Inject RAMMapper ramMapper;
     @Inject CPURepository cpuRepository;
+    @Inject RAMRepository ramRepository;
 
     @GET
     public List<MotherboardDto> allMotherboards() {
@@ -39,6 +44,8 @@ public class MotherboardResource {
             .toList();
     }
 
+
+
     @GET
     @Path("/{motherboardId}")
     public Motherboard getMotherboardById(@PathParam("motherboardId") Long motherboardId) {
@@ -54,6 +61,17 @@ public class MotherboardResource {
         var motherboards = motherboardRepository.findBySocket(cpuSocket);
 
         return motherboards.stream()
+                .map(motherboardMapper::toResource)
+                .toList();
+    }
+
+    @GET
+    @Path("/by-RAM-Type/{ramType}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<MotherboardDto> getRamsByRamTypeOnMotherboard(@PathParam("ramType") String ramType) {
+        var motherBoards = motherboardRepository.findByRam(ramType);
+
+        return motherBoards.stream()
                 .map(motherboardMapper::toResource)
                 .toList();
     }

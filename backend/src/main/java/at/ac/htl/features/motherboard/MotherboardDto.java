@@ -5,6 +5,7 @@ public record MotherboardDto(
     String name,
     Float price,
     String socket,
+    String ramType,
     String form_factor,
     Long max_memory,
     Long memory_slots,

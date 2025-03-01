@@ -36,4 +36,9 @@ public class ShoppingCartMapper {
             cart.getUpdatedAt()
         );
     }
+
+
+    public Object toRessource(ShoppingCart shoppingCart) {
+        return toDto(shoppingCart);
+    }
 }

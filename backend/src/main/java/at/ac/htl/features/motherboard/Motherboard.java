@@ -13,11 +13,20 @@ public class Motherboard {
     String name;
     Float price;
     String socket;
+    String ramType;
     String form_factor;
     Long max_memory;
     Long memory_slots;
     String color;
     String img;
+
+    public String getRamType() {
+        return ramType;
+    }
+
+    public void setRamType(String ramType) {
+        this.ramType = ramType;
+    }
 
     // Getter und Setter
     public Long getMotherboard_id() {

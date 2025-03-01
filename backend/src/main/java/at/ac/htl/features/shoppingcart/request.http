@@ -1,5 +1,5 @@
 ### Neuen Warenkorb erstellen
-POST http://localhost:8080/api/shoppingcart
+POST http://localhost:8080/api/shoppingcart/createShoppingCart
 Content-Type: application/json
 
 {
@@ -12,6 +12,10 @@ Content-Type: application/json
 
 ### Warenkorb anhand der ID abrufen
 GET http://localhost:8080/api/shoppingcart/get-by-id/1
+Accept: application/json
+
+### alle Warenkörbe
+GET http://localhost:8080/api/shoppingcart/getAll
 Accept: application/json
 
 ### Warenkorb aktualisieren – z. B. RAM hinzufügen
