@@ -66,10 +66,10 @@ class AppComponent extends HTMLElement {
             const data = await response.json();
             console.log('Einkaufswagen geladen:', data);
 
-            cpuName.textContent = `CPU: ${data.cpu ?? "———"}`;
-            mbName.textContent = `Motherboard: ${data.motherboard ?? "———"}`;
-            gpuName.textContent = `GPU: ${data.gpu ?? "———"}`;
-            ramName.textContent = `RAM: ${data.ram ?? "———"}`;
+            cpuName.textContent = `CPU: ${data.cpu.name ?? "———"}`;
+            mbName.textContent = `Motherboard: ${data.motherboard.name ?? "———"}`;
+            gpuName.textContent = `GPU: ${data.gpu.name ?? "———"}`;
+            ramName.textContent = `RAM: ${data.ram.name ?? "———"}`;
 
 
 

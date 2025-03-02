@@ -1,7 +1,7 @@
 import { html, render } from "lit-html";
 import { loadAllMotherboards } from "./mb-service";
 import { Motherboard } from "./mb";
-import { Model, subscribe } from "../model";
+import { model, Model, subscribe } from "../model";
 
 class MbComponent extends HTMLElement {
     addedMbId: number | null = null; // Initialisieren als null
@@ -83,12 +83,40 @@ class MbComponent extends HTMLElement {
     async addMotherboard(mbId: number, socket: string, ramType: string, mbName: string) {
         console.log("Motherboard ID hinzugefügt:", mbId);
         this.addedMbId = mbId;
-        this.renderMotherboards(this.motherboards);  // Jetzt nach dem Hinzufügen neu rendern
+        this.renderMotherboards(this.motherboards);  // Rendern nach dem Hinzufügen
+        
+        // API-Aufruf zum Hinzufügen des Motherboards zum Warenkorb
+        await this.updateShoppingCart(mbId);
+    
+        // Lade die passenden Komponenten für das Motherboard
         await this.filterComponentsBySocketAndRAM(ramType, socket);
-
+    
+        // Aktualisiere den angezeigten Namen des Motherboards
         const mbNameElement = document.getElementById('mb-name');
         if (mbNameElement) {
             mbNameElement.textContent = `Motherboard: ${mbName}`;
+        }
+    }
+
+    async updateShoppingCart(mbId: number) {
+        console.log("Aktualisiere Warenkorb mit Motherboard ID:", mbId);
+    
+        try {
+            const response = await fetch(`http://localhost:8080/api/shoppingcart/update-cart/${model.shoppingCartId}/motherboard/${mbId}`, {
+                method: 'PUT', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Fehler beim Hinzufügen des Motherboards zum Warenkorb.');
+            }
+    
+            const data = await response.json();
+            console.log('Warenkorb erfolgreich aktualisiert:', data);
+        } catch (error) {
+            console.error('Fehler beim Aktualisieren des Warenkorbs:', error);
         }
     }
 
@@ -163,27 +191,53 @@ class MbComponent extends HTMLElement {
     removeMotherboard(mbId: number) {
         console.log("Motherboard ID entfernt:", mbId);
         this.addedMbId = null;
-        this.renderMotherboards(this.motherboards);  // Alle Motherboards wieder rendern
-
+        this.renderMotherboards(this.motherboards);  // Rendern nach dem Entfernen
+    
+        // Name des Motherboards zurücksetzen
         const mbNameElement = document.getElementById('mb-name');
         if (mbNameElement) {
             mbNameElement.textContent = "Motherboard: ———";
         }
-
+    
+        // Entferne das Motherboard aus dem Warenkorb
+        this.removeMotherboardFromCart(mbId);
+    
+        // Optionally, alle Komponenten zurückladen (CPUs und RAMs)
         this.loadAllCPUs().then(allCPUs => {
             const cpuComponent = document.querySelector('cpu-component');
             if (cpuComponent && typeof (cpuComponent as any).updateCPUs === "function") {
                 (cpuComponent as any).updateCPUs(allCPUs);
             }
         });
-
-        // Optionally, reset RAM filtering
+    
         this.loadAllRAMs().then(allRAMs => {
             const ramComponent = document.querySelector('ram-component');
             if (ramComponent && typeof (ramComponent as any).updateRAMs === "function") {
                 (ramComponent as any).updateRAMs(allRAMs);
             }
         });
+    }
+    
+    async removeMotherboardFromCart(mbId: number) {
+        console.log("Motherboard aus Warenkorb entfernen:", mbId);
+    
+        try {
+            const response = await fetch(`http://localhost:8080/api/shoppingcart/remove-component/${model.shoppingCartId}/motherboard`, {
+                method: 'DELETE', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Fehler beim Entfernen des Motherboards aus dem Warenkorb.');
+            }
+    
+            const data = await response.json();
+            console.log('Motherboard erfolgreich aus dem Warenkorb entfernt:', data);
+        } catch (error) {
+            console.error('Fehler beim Entfernen des Motherboards aus dem Warenkorb:', error);
+        }
     }
 
     async loadAllRAMs() {

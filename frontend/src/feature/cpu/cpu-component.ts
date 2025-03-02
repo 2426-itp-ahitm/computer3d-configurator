@@ -173,10 +173,27 @@ class CpuComponent extends HTMLElement {
                 cpuNameElement.textContent = `CPU: ———`;
             }
             
+            // Alle Motherboards neu laden, da keine CPU mehr hinzugefügt wurde
+            await this.loadAllMotherboardsAndUpdateUI();
+            
         } catch (error) {
             console.error('Fehler beim Entfernen der CPU aus dem Warenkorb:', error);
         }
     }
+    
+    async loadAllMotherboardsAndUpdateUI() {
+        console.log("Lade alle Motherboards zurück.");
+        try {
+            const motherboards = await this.loadAllMotherboards();
+            const mbComponent = document.querySelector('mb-component');
+            if (mbComponent && typeof (mbComponent as any).updateMotherboards === "function") {
+                (mbComponent as any).updateMotherboards(motherboards);  // Alle Motherboards wieder anzeigen
+            }
+        } catch (error) {
+            console.error('Fehler beim Laden der Motherboards:', error);
+        }
+    }
+    
     
 
     async loadAllMotherboards() {
