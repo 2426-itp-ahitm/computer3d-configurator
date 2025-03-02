@@ -1,3 +1,7 @@
 ### Motherboards anhand des RamTypes
 GET http://localhost:8080/api/motherboards/by-RAM-Type/DDR5
 Accept: application/json
+
+### Motherboards anhand des RamTypes & CPU Socket
+GET http://localhost:8080/api/motherboards/by-RAM-Type-And-CPU-Socket/DDR5/AM5
+Accept: application/json

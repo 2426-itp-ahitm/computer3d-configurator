@@ -32,3 +32,31 @@ Content-Type: application/json
   "totalPrice": 79.99
 }
 
+### Warenkorb aktualisieren – z. B. RAM Gelöscht
+DELETE http://localhost:8080/api/shoppingcart/remove-component/1/ram
+Content-Type: application/json
+
+{
+  "cpu": null,
+  "motherboard": null,
+  "gpu": null,
+  "ram": {
+    "ram_id": 0
+  },
+  "totalPrice": 0.00
+}
+
+### Warenkorb aktualisieren – z. B. RAM Gelöscht
+DELETE http://localhost:8080/api/shoppingcart/remove-component/1/ram
+Content-Type: application/json
+
+{
+  "cpu": null,
+  "motherboard": null,
+  "gpu": null,
+  "ram": {
+    "ram_id": 0
+  },
+  "totalPrice": 0.00
+}
+

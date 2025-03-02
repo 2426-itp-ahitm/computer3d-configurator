@@ -127,4 +127,50 @@ public class ShoppingCartResource {
         return Response.ok(cartMapper.toDto(cart)).build();
     }
 
+    /**
+     * Entfernt eine bestimmte Komponente aus dem Warenkorb.
+     */
+    @DELETE
+    @Path("/remove-component/{shoppingCartId}/{component}")
+    @Transactional
+    public Response removeComponent(
+            @PathParam("shoppingCartId") Long cartId,
+            @PathParam("component") String component) {
+
+        ShoppingCart cart = cartRepository.findById(cartId);
+        if (cart == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        switch (component.toLowerCase()) {
+            case "cpu":
+                cart.setCpu(null);
+                break;
+            case "motherboard":
+                cart.setMotherboard(null);
+                break;
+            case "gpu":
+                cart.setGpu(null);
+                break;
+            case "ram":
+                cart.setRam(null);
+                break;
+            default:
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("Invalid component type").build();
+        }
+
+        // Gesamtpreis neu berechnen
+        double totalPrice = 0.0;
+        if (cart.getCpu() != null) totalPrice += cart.getCpu().getPrice();
+        if (cart.getMotherboard() != null) totalPrice += cart.getMotherboard().getPrice();
+        if (cart.getGpu() != null) totalPrice += cart.getGpu().getPrice();
+        if (cart.getRam() != null) totalPrice += cart.getRam().getPrice();
+        cart.setTotalPrice(totalPrice);
+
+        cartRepository.persist(cart);
+        return Response.ok(cartMapper.toDto(cart)).build();
+    }
+
+
 }

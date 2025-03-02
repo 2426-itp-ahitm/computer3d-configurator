@@ -68,12 +68,31 @@ public class MotherboardResource {
     @GET
     @Path("/by-RAM-Type/{ramType}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<MotherboardDto> getRamsByRamTypeOnMotherboard(@PathParam("ramType") String ramType) {
+    public List<MotherboardDto> getMotherboardsByRamTypeOnMotherboard(@PathParam("ramType") String ramType) {
         var motherBoards = motherboardRepository.findByRam(ramType);
 
         return motherBoards.stream()
                 .map(motherboardMapper::toResource)
                 .toList();
+    }
+
+    @GET
+    @Path("/by-RAM-Type-And-CPU-Socket/{ramType}/{cpuSocket}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<MotherboardDto> getMotherboardsByCpuSocketAndRamType(@PathParam("ramType") String ramType, @PathParam("cpuSocket") String cpuSocket) {
+        var motherBoardsByRamType = motherboardRepository.findByRam(ramType);
+        var motherBoardsByCPUSocket = motherboardRepository.findBySocket(cpuSocket);
+
+        motherBoardsByRamType.retainAll(motherBoardsByCPUSocket);
+
+
+
+
+
+        return motherBoardsByRamType.stream()
+                .map(motherboardMapper::toResource)
+                .toList();
+
     }
 
 
