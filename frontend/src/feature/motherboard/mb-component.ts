@@ -41,6 +41,8 @@ class MbComponent extends HTMLElement {
                                 <p>Preis: ${mb.price} €</p>
                                 <br>
                                 <p>Sockel: ${mb.socket}</p>
+                                <br>
+                                <p>RAM-Typ: ${mb.ramType}</p>
                                 </div>
                                 <div id="svgBox">
                                 ${
@@ -51,7 +53,7 @@ class MbComponent extends HTMLElement {
 </svg>
                                         `
                                         : html`
-                                            <svg @click=${() => this.addMotherboard(mb.motherboard_id, mb.socket, mb.name)} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                                            <svg @click=${() => this.addMotherboard(mb.motherboard_id, mb.socket, mb.ramType, mb.name)} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
                                                 <path d="M25,2C12.317,2,2,12.317,2,25s10.317,23,23,23s23-10.317,23-23S37.683,2,25,2z M37,26H26v11h-2V26H13v-2h11V13h2v11h11V26z"></path>
                                             </svg>
                                         `
@@ -78,11 +80,11 @@ class MbComponent extends HTMLElement {
         this.renderMotherboards(motherboards);
     }
 
-    async addMotherboard(mbId: number, socket: string, mbName: string) {
+    async addMotherboard(mbId: number, socket: string, ramType: string, mbName: string) {
         console.log("Motherboard ID hinzugefügt:", mbId);
         this.addedMbId = mbId;
         this.renderMotherboards(this.motherboards);  // Jetzt nach dem Hinzufügen neu rendern
-        await this.filterCPUsBySocket(socket);
+        await this.filterComponentsBySocketAndRAM(ramType, socket);
 
         const mbNameElement = document.getElementById('mb-name');
         if (mbNameElement) {
@@ -90,29 +92,51 @@ class MbComponent extends HTMLElement {
         }
     }
 
-    async filterCPUsBySocket(socket: string) {
-        console.log("Filtere CPUs für den Sockel:", socket);
+    async filterComponentsBySocketAndRAM(ramType: string, socket: string) {
+        console.log("Filtere CPUs und RAMs für Sockel:", socket, "und RAM-Typ:", ramType);
         try {
-            const response = await fetch(`/api/cpus/by-motherboard-socket/${socket}`, {
+            // Fetch CPUs, die zum Sockel des Motherboards passen
+            const cpuResponse = await fetch(`/api/cpus/by-motherboard-socket/${socket}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
 
-            if (!response.ok) {
+            if (!cpuResponse.ok) {
                 throw new Error('Fehler beim Abrufen der CPUs.');
             }
 
-            const cpus = await response.json();
+            const cpus = await cpuResponse.json();
             console.log('Gefilterte CPUs:', cpus);
 
             const cpuComponent = document.querySelector('cpu-component');
             if (cpuComponent && typeof (cpuComponent as any).updateCPUs === "function") {
-                (cpuComponent as any).updateCPUs(cpus);  // Passende CPUs werden an das CPU-Component übergeben
+                (cpuComponent as any).updateCPUs(cpus);  // Passende CPUs an das CPU-Component weitergeben
             }
+
+            // Fetch RAMs, die zum RAM-Typ des Motherboards passen
+            const ramResponse = await fetch(`/api/rams/by-Motherboard-Type/${ramType}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!ramResponse.ok) {
+                throw new Error('Fehler beim Abrufen der RAMs.');
+            }
+
+            const rams = await ramResponse.json();
+            console.log('Gefilterte RAMs:', rams);
+
+            const ramComponent = document.querySelector('ram-component');
+            if (ramComponent && typeof (ramComponent as any).updateRAMs === "function") {
+                (ramComponent as any).updateRAMs(rams);  // Passende RAMs an das RAM-Component weitergeben
+            }
+
         } catch (error) {
-            console.error('Fehler beim Filtern der CPUs:', error);
+            console.error('Fehler beim Filtern der Komponenten:', error);
         }
     }
 
@@ -152,6 +176,34 @@ class MbComponent extends HTMLElement {
                 (cpuComponent as any).updateCPUs(allCPUs);
             }
         });
+
+        // Optionally, reset RAM filtering
+        this.loadAllRAMs().then(allRAMs => {
+            const ramComponent = document.querySelector('ram-component');
+            if (ramComponent && typeof (ramComponent as any).updateRAMs === "function") {
+                (ramComponent as any).updateRAMs(allRAMs);
+            }
+        });
+    }
+
+    async loadAllRAMs() {
+        try {
+            const response = await fetch(`/api/rams`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Fehler beim Abrufen aller RAMs.');
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Fehler beim Laden aller RAMs:', error);
+            return [];
+        }
     }
 }
 

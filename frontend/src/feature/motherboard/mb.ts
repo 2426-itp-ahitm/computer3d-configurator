@@ -8,4 +8,5 @@ export interface Motherboard {
     memory_slot: number
     color: string
     img: string
+    ramType: string
 }

@@ -30,7 +30,7 @@ class AppComponent extends HTMLElement {
     showGPUs = false;
     showRAM = false;
 
-    shoppingCartId = 20; // Beispiel-Warenkorb-ID
+    shoppingCartId = 1; // Beispiel-Warenkorb-ID
 
     constructor() {
         super();

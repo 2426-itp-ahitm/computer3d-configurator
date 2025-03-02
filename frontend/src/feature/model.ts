@@ -48,7 +48,8 @@ const state: Model = {
         max_memory: 0,
         memory_slot: 0,
         color: "",
-        img: ""
+        img: "",
+        ramType: ""
     },
     gpu: { // Initialisiere das GPU-Objekt
         gpu_id: 0,

@@ -6,6 +6,7 @@ import { Model, subscribe } from "../model";
 class RamComponent extends HTMLElement {
     addedRamId: number | null = null; // Initialisieren als null
     rams: Ram[] = []; // Zu speichernde RAMs, die vom Service geladen werden
+    filteredMotherboards: any[] = []; // Array für gefilterte Motherboards
 
     async connectedCallback() {
         subscribe(model => {
@@ -51,7 +52,7 @@ class RamComponent extends HTMLElement {
                                             </svg>
                                         `
                                         : html`
-                                            <svg @click=${() => this.addRam(ram.ram_id, ram.name)} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                                            <svg @click=${() => this.addRam(ram.ram_id, ram.type)} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
                                                 <path d="M25,2C12.317,2,2,12.317,2,25s10.317,23,23,23s23-10.317,23-23S37.683,2,25,2z M37,26H26v11h-2V26H13v-2h11V13h2v11h11V26z"></path>
                                             </svg>
                                         `
@@ -73,14 +74,48 @@ class RamComponent extends HTMLElement {
         this.renderRAMs(rams);
     }
 
-    addRam(ramId: number, ramName: string) {
+    addRam(ramId: number, ramType: string) {
         console.log("RAM ID hinzugefügt:", ramId);
         this.addedRamId = ramId;
         this.renderRAMs(this.rams);  // Jetzt nach dem Hinzufügen neu rendern
 
         const ramNameElement = document.getElementById('ram-name');
         if (ramNameElement) {
-            ramNameElement.textContent = `RAM: ${ramName}`;
+            ramNameElement.textContent = `RAM: ${ramType}`;
+        }
+
+        // Hole die gefilterten Motherboards für den gewählten RAM-Typ
+        this.filterMotherboardsByRamType(ramType);
+    }
+
+    async filterMotherboardsByRamType(ramType: string) {
+        try {
+            // API-Anfrage, um die Motherboards zu filtern, die zu diesem RAM-Typ passen
+            const response = await fetch(`http://localhost:8080/api/motherboards/by-RAM-Type/${ramType}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Fehler beim Abrufen der Motherboards.');
+            }
+
+            const filteredMotherboards = await response.json();
+            console.log('Gefilterte Motherboards:', filteredMotherboards);
+
+            // Jetzt die gefilterten Motherboards in der Komponente anzeigen
+            this.filteredMotherboards = filteredMotherboards;
+
+            // Rendern der gefilterten Motherboards
+            const mbComponent = document.querySelector('mb-component');
+            if (mbComponent && typeof (mbComponent as any).updateMotherboards === "function") {
+                (mbComponent as any).updateMotherboards(filteredMotherboards);
+            }
+
+        } catch (error) {
+            console.error('Fehler beim Abrufen der gefilterten Motherboards:', error);
         }
     }
 
