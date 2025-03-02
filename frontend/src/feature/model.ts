@@ -17,6 +17,9 @@ interface Model {
 
   // Neu: CPU-Socket global speichern
   cpuSocket: string; 
+
+  // Neu: shoppingCartId
+  shoppingCartId: number | null;
 }
 
 /**
@@ -77,7 +80,8 @@ const state: Model = {
   componentsShown: 0,
 
   // Neu hinzugefügt
-  cpuSocket: ""
+  cpuSocket: "",
+  shoppingCartId: 1 // Anfangs null, wird beim Laden/Erstellen gesetzt
 };
 
 type Subscription = (model: Model) => void;

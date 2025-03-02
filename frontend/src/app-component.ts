@@ -3,6 +3,7 @@ import "./feature/cpu/cpu-component";
 import "./feature/motherboard/mb-component";
 import "./feature/gpu/gpu-component";
 import "./feature/ram/ram-component";  // Importiere die RAM-Komponente
+import { model } from './feature/model';
 
 const cpuContent = html`
     <h3 class="headerTitle">Wähle deine CPU aus</h3>
@@ -30,8 +31,6 @@ class AppComponent extends HTMLElement {
     showGPUs = false;
     showRAM = false;
 
-    shoppingCartId = 1; // Beispiel-Warenkorb-ID
-
     constructor() {
         super();
     }
@@ -58,7 +57,7 @@ class AppComponent extends HTMLElement {
         const ramName = document.getElementById('ram-name');
         console.log("Lade Einkaufswagen...");
         try {
-            const response = await fetch(`http://localhost:8080/api/shoppingcart/get-by-id/${this.shoppingCartId}`);
+            const response = await fetch(`http://localhost:8080/api/shoppingcart/get-by-id/${model.shoppingCartId}`);
 
             if (!response.ok) {
                 throw new Error('Fehler beim Abrufen des Einkaufswagens.');
@@ -67,12 +66,13 @@ class AppComponent extends HTMLElement {
             const data = await response.json();
             console.log('Einkaufswagen geladen:', data);
 
-            cpuName.textContent = `CPU: ${data.cpu}`; 
-            mbName.textContent = `Motherboard: ${data.motherboard}`; 
-            gpuName.textContent = `GPU: ${data.gpu}`;
-            ramName.textContent = `RAM: ${data.ram}`;
+            cpuName.textContent = `CPU: ${data.cpu ?? "———"}`;
+            mbName.textContent = `Motherboard: ${data.motherboard ?? "———"}`;
+            gpuName.textContent = `GPU: ${data.gpu ?? "———"}`;
+            ramName.textContent = `RAM: ${data.ram ?? "———"}`;
 
-            
+
+
 
         } catch (error) {
             console.error('Fehler beim Abrufen des Einkaufswagens:', error);
@@ -80,7 +80,7 @@ class AppComponent extends HTMLElement {
     }
 
     // Methode zum Aktualisieren der Warenkorb-Anzeige
-   
+
 
     // Methode zum Erstellen des Einkaufswagens
     async createShoppingCart() {
@@ -135,7 +135,7 @@ class AppComponent extends HTMLElement {
                             </ul>
                         </div>
                     </div>
-                    <button @click="${this.createShoppingCart}">Erstelle Einkaufswagen</button>
+                    <!--<button @click="${this.createShoppingCart}">Erstelle Einkaufswagen</button>-->
                 </div>
 
                 <!-- Umschaltbare Tabs -->

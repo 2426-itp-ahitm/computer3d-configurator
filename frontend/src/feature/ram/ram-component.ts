@@ -67,7 +67,7 @@ class RamComponent extends HTMLElement {
                         `
                       : html`
                           <svg
-                            @click=${() => this.addRam(ram.ram_id, ram.type)}
+                            @click=${() => this.addRam(ram.ram_id, ram.type, ram.name)}
                             xmlns="http://www.w3.org/2000/svg"
                             x="0px"
                             y="0px"
@@ -98,18 +98,43 @@ class RamComponent extends HTMLElement {
     this.renderRAMs(rams);
   }
 
-  addRam(ramId: number, ramType: string) {
+  async addRam(ramId: number, ramType: string, ramName: string) {
     console.log("RAM ID hinzugefügt:", ramId);
     this.addedRamId = ramId;
-    this.renderRAMs(this.rams); // Jetzt nach dem Hinzufügen neu rendern
+    this.renderRAMs(this.rams);  // Neu rendern nach dem Hinzufügen
 
     const ramNameElement = document.getElementById("ram-name");
     if (ramNameElement) {
-      ramNameElement.textContent = `RAM: ${ramType}`;
+      ramNameElement.textContent = `RAM: ${ramName}`;
     }
+
+    // API-Aufruf zum Hinzufügen des RAMs zum Warenkorb
+    this.updateShoppingCart(ramId);
 
     // Hole die gefilterten Motherboards für den gewählten RAM-Typ
     this.filterMotherboardsByRamType(ramType);
+  }
+
+  async updateShoppingCart(ramId: number) {
+    console.log("Aktualisiere Warenkorb mit RAM ID:", ramId);
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/shoppingcart/update-cart/${model.shoppingCartId}/ram/${ramId}`, {
+        method: 'PUT', // POST oder PUT je nach API-Design
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Fehler beim Aktualisieren des Warenkorbs.');
+      }
+
+      const data = await response.json();
+      console.log('Warenkorb erfolgreich aktualisiert:', data);
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren des Warenkorbs:', error);
+    }
   }
 
   async filterMotherboardsByRamType(ramType: string) {
@@ -143,14 +168,38 @@ class RamComponent extends HTMLElement {
     }
   }
 
-  removeRam(ramId: number) {
-    console.log("RAM ID entfernt:", ramId);
-    this.addedRamId = null;
-    this.renderRAMs(this.rams); // Alle RAMs wieder rendern
+  async removeRam(ramId: number) {
+    console.log("Entferne RAM ID:", ramId);
 
-    const ramNameElement = document.getElementById("ram-name");
-    if (ramNameElement) {
-      ramNameElement.textContent = "RAM: ———";
+    // API-Aufruf zum Entfernen des RAMs aus dem Warenkorb
+    try {
+      const response = await fetch(`http://localhost:8080/api/shoppingcart/remove-component/${model.shoppingCartId}/ram`, {
+        method: 'DELETE', // DELETE-Methode für das Entfernen
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Fehler beim Entfernen des RAMs aus dem Warenkorb.');
+      }
+
+      const data = await response.json();
+      console.log('RAM erfolgreich aus dem Warenkorb entfernt:', data);
+
+      // RAM-ID zurücksetzen, da kein RAM mehr im Warenkorb ist
+      this.addedRamId = null;
+
+      // Anzeige nach dem Entfernen neu rendern
+      this.renderRAMs(this.rams);
+
+      // Anzeige des Texts zurücksetzen
+      const ramNameElement = document.getElementById("ram-name");
+      if (ramNameElement) {
+        ramNameElement.textContent = "RAM: ———";
+      }
+    } catch (error) {
+      console.error('Fehler beim Entfernen des RAMs aus dem Warenkorb:', error);
     }
   }
 }

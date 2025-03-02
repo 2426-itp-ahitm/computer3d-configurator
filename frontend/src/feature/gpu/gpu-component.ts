@@ -1,7 +1,7 @@
 import { html, render } from "lit-html";
 import { loadAllGPUs } from "./gpu-service";
 import { Gpu } from "./gpu";
-import { Model, subscribe } from "../model";
+import { model, Model, subscribe } from "../model";
 
 class GpuComponent extends HTMLElement {
     addedGpuId: number | null = null; // Initialisieren als null
@@ -78,7 +78,7 @@ class GpuComponent extends HTMLElement {
         this.renderGPUs(gpus);
     }
 
-    addGpu(gpuId: number, gpuName: string) {
+    async addGpu(gpuId: number, gpuName: string) {
         console.log("GPU ID hinzugefügt:", gpuId);
         this.addedGpuId = gpuId;
         this.renderGPUs(this.gpus);  // Jetzt nach dem Hinzufügen neu rendern
@@ -87,9 +87,12 @@ class GpuComponent extends HTMLElement {
         if (gpuNameElement) {
             gpuNameElement.textContent = `GPU: ${gpuName}`;
         }
+
+        // API-Aufruf zum Hinzufügen der GPU zum Warenkorb
+        this.updateShoppingCart(gpuId);
     }
 
-    removeGpu(gpuId: number) {
+    async removeGpu(gpuId: number) {
         console.log("GPU ID entfernt:", gpuId);
         this.addedGpuId = null;
         this.renderGPUs(this.gpus);  // Alle GPUs wieder rendern
@@ -97,6 +100,67 @@ class GpuComponent extends HTMLElement {
         const gpuNameElement = document.getElementById('gpu-name');
         if (gpuNameElement) {
             gpuNameElement.textContent = "GPU: ———";
+        }
+
+        // API-Aufruf zum Entfernen der GPU aus dem Warenkorb
+        this.removeFromShoppingCart(gpuId);
+    }
+
+    // Funktion zum Aktualisieren des Warenkorbs (GPU hinzufügen)
+    async updateShoppingCart(gpuId: number) {
+        console.log("Aktualisiere Warenkorb mit GPU ID:", gpuId);
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/shoppingcart/update-cart/${model.shoppingCartId}/gpu/${gpuId}`, {
+                method: 'PUT', // POST oder PUT je nach API-Design
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Fehler beim Aktualisieren des Warenkorbs.');
+            }
+
+            const data = await response.json();
+            console.log('Warenkorb erfolgreich aktualisiert:', data);
+        } catch (error) {
+            console.error('Fehler beim Aktualisieren des Warenkorbs:', error);
+        }
+    }
+
+    // Funktion zum Entfernen der GPU aus dem Warenkorb
+    async removeFromShoppingCart(gpuId: number) {
+        console.log("Entferne GPU ID aus dem Warenkorb:", gpuId);
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/shoppingcart/remove-component/${model.shoppingCartId}/gpu`, {
+                method: 'DELETE', // DELETE-Methode für das Entfernen
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Fehler beim Entfernen der GPU aus dem Warenkorb.');
+            }
+
+            const data = await response.json();
+            console.log('GPU erfolgreich aus dem Warenkorb entfernt:', data);
+
+            // GPU-ID zurücksetzen, da keine GPU mehr im Warenkorb ist
+            this.addedGpuId = null;
+
+            // Anzeige nach dem Entfernen neu rendern
+            this.renderGPUs(this.gpus);
+
+            // Anzeige des Texts zurücksetzen
+            const gpuNameElement = document.getElementById("gpu-name");
+            if (gpuNameElement) {
+                gpuNameElement.textContent = "GPU: ———";
+            }
+        } catch (error) {
+            console.error('Fehler beim Entfernen der GPU aus dem Warenkorb:', error);
         }
     }
 }

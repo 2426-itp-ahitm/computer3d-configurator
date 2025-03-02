@@ -2,6 +2,7 @@ import { html, render } from "lit-html";
 import { loadAllCPUs } from "./cpu-service";
 import { CPU } from "./cpu";
 import { Model, subscribe } from "../model";
+import { model } from '../model';
 
 class CpuComponent extends HTMLElement {
     addedCpuId: number | null = null;
@@ -80,10 +81,38 @@ class CpuComponent extends HTMLElement {
         this.addedCpuId = cpuId;
         this.renderCPUs(this.cpus);  // Jetzt nach dem Hinzufügen neu rendern
         await this.fetchMotherboardsBySocket(socket);
-
+    
         const cpuNameElement = document.getElementById('cpu-name');
         if (cpuNameElement) {
             cpuNameElement.textContent = `CPU: ${cpuName}`;
+        }
+    
+        // API-Aufruf zum Hinzufügen der CPU zum Warenkorb
+        this.updateShoppingCart(cpuId);
+    }
+
+    async updateShoppingCart(cpuId: number) {
+        console.log("Aktualisiere Warenkorb mit CPU ID:", cpuId);
+    
+        try {
+            const response = await fetch(`http://localhost:8080/api/shoppingcart/update-cart/${model.shoppingCartId}/cpu/${cpuId}`, {
+                method: 'PUT', // POST oder PUT je nach API-Design
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Fehler beim Aktualisieren des Warenkorbs.');
+            }
+    
+            const data = await response.json();
+            console.log('Warenkorb erfolgreich aktualisiert:', data);
+    
+            // // Optional: Warenkorb neu laden, um die Änderungen anzuzeigen
+            // this.loadShoppingCart();
+        } catch (error) {
+            console.error('Fehler beim Aktualisieren des Warenkorbs:', error);
         }
     }
 
@@ -113,23 +142,42 @@ class CpuComponent extends HTMLElement {
         }
     }
 
-    removeCpu(cpuId: number) {
-        console.log("CPU ID entfernt:", cpuId);
-        this.addedCpuId = null;
-        this.renderCPUs(this.cpus);  // Alle CPUs wieder rendern
-
-        const cpuNameElement = document.getElementById('cpu-name');
-        if (cpuNameElement) {
-            cpuNameElement.textContent = "CPU: ———";
-        }
-
-        this.loadAllMotherboards().then(allMotherboards => {
-            const mbComponent = document.querySelector('mb-component');
-            if (mbComponent && typeof (mbComponent as any).updateMotherboards === "function") {
-                (mbComponent as any).updateMotherboards(allMotherboards);
+    async removeCpu(cpuId: number) {
+        console.log("Entferne CPU ID:", cpuId);
+        
+        // API-Aufruf zum Entfernen der CPU aus dem Warenkorb
+        try {
+            const response = await fetch(`http://localhost:8080/api/shoppingcart/remove-component/${model.shoppingCartId}/cpu`, {
+                method: 'DELETE', // DELETE-Methode für das Entfernen
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Fehler beim Entfernen der CPU aus dem Warenkorb.');
             }
-        });
+    
+            const data = await response.json();
+            console.log('CPU erfolgreich aus dem Warenkorb entfernt:', data);
+    
+            // CPU-ID zurücksetzen, da keine CPU mehr im Warenkorb ist
+            this.addedCpuId = null;
+    
+            // Anzeige nach dem Entfernen neu rendern
+            this.renderCPUs(this.cpus);
+    
+            // Anzeige des Texts zurücksetzen
+            const cpuNameElement = document.getElementById('cpu-name');
+            if (cpuNameElement) {
+                cpuNameElement.textContent = `CPU: ———`;
+            }
+            
+        } catch (error) {
+            console.error('Fehler beim Entfernen der CPU aus dem Warenkorb:', error);
+        }
     }
+    
 
     async loadAllMotherboards() {
         try {
