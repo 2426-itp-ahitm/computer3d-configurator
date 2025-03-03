@@ -15,6 +15,10 @@ class CpuComponent extends HTMLElement {
 
         // Lade alle CPUs und speichere sie
         this.cpus = await loadAllCPUs();
+
+        // Prüfe, ob bereits eine CPU im Warenkorb liegt
+        await this.checkCpuInCart();
+
         this.renderCPUs(this.cpus);
     }
 
@@ -69,6 +73,34 @@ class CpuComponent extends HTMLElement {
             </style>
             ${data}
         `;
+    }
+
+    // Methode zum Prüfen, ob eine CPU bereits im Warenkorb liegt
+    async checkCpuInCart() {
+        try {
+            const response = await fetch("http://localhost:8080/api/shoppingcart/get-by-id/1");
+            if (!response.ok) {
+                throw new Error("Fehler beim Abrufen des Warenkorbs.");
+            }
+            const shoppingCart = await response.json();
+            
+            // Angenommen, shoppingCart.cpu enthält ein Objekt mit CPU-Daten
+            if (shoppingCart.cpu && shoppingCart.cpu.name) {
+                // Suche die CPU in der bereits geladenen CPUs-Liste anhand des Namens
+                const matchingCpu = this.cpus.find(cpu => cpu.name === shoppingCart.cpu.name);
+                if (matchingCpu) {
+                    this.addedCpuId = matchingCpu.cpu_id;
+                    
+                    // Optional: CPU-Name im UI aktualisieren
+                    const cpuNameElement = document.getElementById('cpu-name');
+                    if (cpuNameElement) {
+                        cpuNameElement.textContent = `CPU: ${matchingCpu.name}`;
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Fehler beim Laden des Warenkorbs:", error);
+        }
     }
 
     updateCPUs(cpus: CPU[]) {

@@ -14,6 +14,10 @@ class GpuComponent extends HTMLElement {
 
         // Lade alle GPUs und speichere sie
         this.gpus = await loadAllGPUs();
+
+        // Prüfe, ob bereits eine GPU im Warenkorb liegt
+        await this.checkGpuInCart();
+
         this.renderGPUs(this.gpus);
     }
 
@@ -76,6 +80,33 @@ class GpuComponent extends HTMLElement {
     updateGPUs(gpus: Gpu[]) {
         this.gpus = gpus;
         this.renderGPUs(gpus);
+    }
+
+    // Neue Methode zum Überprüfen, ob bereits eine GPU im Warenkorb liegt
+    async checkGpuInCart() {
+        try {
+            const response = await fetch("http://localhost:8080/api/shoppingcart/get-by-id/1");
+            if (!response.ok) {
+                throw new Error("Fehler beim Abrufen des Warenkorbs.");
+            }
+            const shoppingCart = await response.json();
+            
+            // Angenommen, shoppingCart.gpu enthält ein Objekt mit den GPU-Daten
+            if (shoppingCart.gpu && shoppingCart.gpu.name) {
+                const matchingGpu = this.gpus.find(gpu => gpu.name === shoppingCart.gpu.name);
+                if (matchingGpu) {
+                    this.addedGpuId = matchingGpu.gpu_id;
+                    
+                    // Optional: Aktualisiere den angezeigten Namen
+                    const gpuNameElement = document.getElementById('gpu-name');
+                    if (gpuNameElement) {
+                        gpuNameElement.textContent = `GPU: ${matchingGpu.name}`;
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Fehler beim Laden des Warenkorbs:", error);
+        }
     }
 
     async addGpu(gpuId: number, gpuName: string) {

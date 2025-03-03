@@ -14,6 +14,8 @@ class MbComponent extends HTMLElement {
 
         // Lade alle Motherboards und speichere sie
         this.motherboards = await loadAllMotherboards();
+        // Prüfe, ob bereits ein Motherboard im Warenkorb liegt
+        await this.checkMbInCart();
         this.renderMotherboards(this.motherboards);
     }
 
@@ -73,6 +75,33 @@ class MbComponent extends HTMLElement {
             </style>
             ${data}
         `;
+    }
+
+    // Neue Methode zum Überprüfen, ob bereits ein Motherboard im Warenkorb liegt
+    async checkMbInCart() {
+        try {
+            const response = await fetch("http://localhost:8080/api/shoppingcart/get-by-id/1");
+            if (!response.ok) {
+                throw new Error("Fehler beim Abrufen des Warenkorbs.");
+            }
+            const shoppingCart = await response.json();
+            
+            // Angenommen, shoppingCart.motherboard enthält ein Objekt mit den Motherboard-Daten
+            if (shoppingCart.motherboard && shoppingCart.motherboard.name) {
+                const matchingMb = this.motherboards.find(mb => mb.name === shoppingCart.motherboard.name);
+                if (matchingMb) {
+                    this.addedMbId = matchingMb.motherboard_id;
+                    
+                    // Optional: Aktualisiere den angezeigten Namen
+                    const mbNameElement = document.getElementById('mb-name');
+                    if (mbNameElement) {
+                        mbNameElement.textContent = `Motherboard: ${matchingMb.name}`;
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Fehler beim Laden des Warenkorbs:", error);
+        }
     }
 
     updateMotherboards(motherboards: Motherboard[]) {

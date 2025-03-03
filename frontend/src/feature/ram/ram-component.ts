@@ -15,6 +15,10 @@ class RamComponent extends HTMLElement {
 
     // Lade alle RAMs und speichere sie
     this.rams = await loadAllRams();
+
+    // Prüfe, ob bereits ein RAM im Warenkorb liegt
+    await this.checkRamInCart();
+
     this.renderRAMs(this.rams);
   }
 
@@ -91,6 +95,33 @@ class RamComponent extends HTMLElement {
     return html`
       ${data}
     `;
+  }
+
+  // Neue Methode zum Überprüfen, ob bereits ein RAM im Warenkorb liegt
+  async checkRamInCart() {
+    try {
+      const response = await fetch("http://localhost:8080/api/shoppingcart/get-by-id/1");
+      if (!response.ok) {
+        throw new Error("Fehler beim Abrufen des Warenkorbs.");
+      }
+      const shoppingCart = await response.json();
+      
+      // Angenommen, shoppingCart.ram enthält ein Objekt mit den RAM-Daten
+      if (shoppingCart.ram && shoppingCart.ram.name) {
+        const matchingRam = this.rams.find(ram => ram.name === shoppingCart.ram.name);
+        if (matchingRam) {
+          this.addedRamId = matchingRam.ram_id;
+          
+          // Optional: Aktualisiere den angezeigten Namen
+          const ramNameElement = document.getElementById("ram-name");
+          if (ramNameElement) {
+            ramNameElement.textContent = `RAM: ${matchingRam.name}`;
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Fehler beim Laden des Warenkorbs:", error);
+    }
   }
 
   updateRAMs(rams: Ram[]) {
