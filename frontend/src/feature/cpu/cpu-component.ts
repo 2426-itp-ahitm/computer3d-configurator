@@ -48,19 +48,18 @@ class CpuComponent extends HTMLElement {
                                 <p>Sockel: ${cpu.socket}</p>
                             </div>
                             <div id="svgBox"> 
-                                ${
-                                    this.addedCpuId === cpu.cpu_id
-                                        ? html`
+                                ${this.addedCpuId === cpu.cpu_id
+                    ? html`
                                             <svg @click=${() => this.removeCpu(cpu.cpu_id)} width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M8 12H16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="darkred" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
                                         `
-                                        : html`
+                    : html`
                                             <svg @click=${() => this.addCpu(cpu.cpu_id, cpu.socket, cpu.name)} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
                                                 <path d="M25,2C12.317,2,2,12.317,2,25s10.317,23,23,23s23-10.317,23-23S37.683,2,25,2z M37,26H26v11h-2V26H13v-2h11V13h2v11h11V26z"></path>
                                             </svg>
                                         `
-                                }
+                }
                                 </div>
                             </div>
                         </div>
@@ -83,25 +82,29 @@ class CpuComponent extends HTMLElement {
                 throw new Error("Fehler beim Abrufen des Warenkorbs.");
             }
             const shoppingCart = await response.json();
-            
+
             // Angenommen, shoppingCart.cpu enthält ein Objekt mit CPU-Daten
             if (shoppingCart.cpu && shoppingCart.cpu.name) {
                 // Suche die CPU in der bereits geladenen CPUs-Liste anhand des Namens
                 const matchingCpu = this.cpus.find(cpu => cpu.name === shoppingCart.cpu.name);
                 if (matchingCpu) {
                     this.addedCpuId = matchingCpu.cpu_id;
-                    
+
                     // Optional: CPU-Name im UI aktualisieren
                     const cpuNameElement = document.getElementById('cpu-name');
                     if (cpuNameElement) {
                         cpuNameElement.textContent = `CPU: ${matchingCpu.name}`;
                     }
+
+                    // Filtere die Motherboards anhand des CPU-Sockels
+                    await this.fetchMotherboardsBySocket(matchingCpu.socket);
                 }
             }
         } catch (error) {
             console.error("Fehler beim Laden des Warenkorbs:", error);
         }
     }
+
 
     updateCPUs(cpus: CPU[]) {
         this.cpus = cpus;
@@ -113,19 +116,19 @@ class CpuComponent extends HTMLElement {
         this.addedCpuId = cpuId;
         this.renderCPUs(this.cpus);  // Jetzt nach dem Hinzufügen neu rendern
         await this.fetchMotherboardsBySocket(socket);
-    
+
         const cpuNameElement = document.getElementById('cpu-name');
         if (cpuNameElement) {
             cpuNameElement.textContent = `CPU: ${cpuName}`;
         }
-    
+
         // API-Aufruf zum Hinzufügen der CPU zum Warenkorb
         this.updateShoppingCart(cpuId);
     }
 
     async updateShoppingCart(cpuId: number) {
         console.log("Aktualisiere Warenkorb mit CPU ID:", cpuId);
-    
+
         try {
             const response = await fetch(`http://localhost:8080/api/shoppingcart/update-cart/${model.shoppingCartId}/cpu/${cpuId}`, {
                 method: 'PUT', // POST oder PUT je nach API-Design
@@ -133,14 +136,14 @@ class CpuComponent extends HTMLElement {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error('Fehler beim Aktualisieren des Warenkorbs.');
             }
-    
+
             const data = await response.json();
             console.log('Warenkorb erfolgreich aktualisiert:', data);
-    
+
             // // Optional: Warenkorb neu laden, um die Änderungen anzuzeigen
             // this.loadShoppingCart();
         } catch (error) {
@@ -176,7 +179,7 @@ class CpuComponent extends HTMLElement {
 
     async removeCpu(cpuId: number) {
         console.log("Entferne CPU ID:", cpuId);
-        
+
         // API-Aufruf zum Entfernen der CPU aus dem Warenkorb
         try {
             const response = await fetch(`http://localhost:8080/api/shoppingcart/remove-component/${model.shoppingCartId}/cpu`, {
@@ -185,34 +188,34 @@ class CpuComponent extends HTMLElement {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error('Fehler beim Entfernen der CPU aus dem Warenkorb.');
             }
-    
+
             const data = await response.json();
             console.log('CPU erfolgreich aus dem Warenkorb entfernt:', data);
-    
+
             // CPU-ID zurücksetzen, da keine CPU mehr im Warenkorb ist
             this.addedCpuId = null;
-    
+
             // Anzeige nach dem Entfernen neu rendern
             this.renderCPUs(this.cpus);
-    
+
             // Anzeige des Texts zurücksetzen
             const cpuNameElement = document.getElementById('cpu-name');
             if (cpuNameElement) {
                 cpuNameElement.textContent = `CPU: ———`;
             }
-            
+
             // Alle Motherboards neu laden, da keine CPU mehr hinzugefügt wurde
             await this.loadAllMotherboardsAndUpdateUI();
-            
+
         } catch (error) {
             console.error('Fehler beim Entfernen der CPU aus dem Warenkorb:', error);
         }
     }
-    
+
     async loadAllMotherboardsAndUpdateUI() {
         console.log("Lade alle Motherboards zurück.");
         try {
@@ -225,8 +228,8 @@ class CpuComponent extends HTMLElement {
             console.error('Fehler beim Laden der Motherboards:', error);
         }
     }
-    
-    
+
+
 
     async loadAllMotherboards() {
         try {

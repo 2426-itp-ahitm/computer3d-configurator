@@ -133,18 +133,19 @@ class RamComponent extends HTMLElement {
     console.log("RAM ID hinzugefügt:", ramId);
     this.addedRamId = ramId;
     this.renderRAMs(this.rams);  // Neu rendern nach dem Hinzufügen
-
+  
     const ramNameElement = document.getElementById("ram-name");
     if (ramNameElement) {
       ramNameElement.textContent = `RAM: ${ramName}`;
     }
-
+  
     // API-Aufruf zum Hinzufügen des RAMs zum Warenkorb
-    this.updateShoppingCart(ramId);
-
-    // Hole die gefilterten Motherboards für den gewählten RAM-Typ
-    this.filterMotherboardsByRamType(ramType);
+    await this.updateShoppingCart(ramId);
+  
+    // Nutze die neue Methode, um Motherboards basierend auf den im Warenkorb ausgewählten Komponenten zu filtern
+    await this.filterMotherboardsBySelectedComponents();
   }
+  
 
   async updateShoppingCart(ramId: number) {
     console.log("Aktualisiere Warenkorb mit RAM ID:", ramId);
@@ -167,6 +168,58 @@ class RamComponent extends HTMLElement {
       console.error('Fehler beim Aktualisieren des Warenkorbs:', error);
     }
   }
+
+  async filterMotherboardsBySelectedComponents() {
+    try {
+      // Hole den Warenkorb, um die ausgewählten Komponenten zu ermitteln
+      const response = await fetch("http://localhost:8080/api/shoppingcart/get-by-id/1");
+      if (!response.ok) {
+        throw new Error("Fehler beim Abrufen des Warenkorbs.");
+      }
+      const shoppingCart = await response.json();
+  
+      // Prüfe, ob ein RAM ausgewählt wurde
+      if (shoppingCart.ram && shoppingCart.ram.type) {
+        const ramType = shoppingCart.ram.type;
+        let endpoint: string;
+  
+        // Falls eine CPU ausgewählt wurde, filtere nach CPU-Socket und RAM-Typ
+        if (shoppingCart.cpu && shoppingCart.cpu.socket) {
+          const cpuSocket = shoppingCart.cpu.socket;
+          console.log("Filtere Motherboards mit CPU-Socket:", cpuSocket, "und RAM-Typ:", ramType);
+          endpoint = `http://localhost:8080/api/motherboards/by-RAM-Type-And-CPU-Socket/${ramType}/${cpuSocket}`;
+        } else {
+          // Falls keine CPU ausgewählt wurde, filtere nur nach RAM-Typ
+          console.log("Nur RAM ausgewählt. Filtere Motherboards nur nach RAM-Typ:", ramType);
+          endpoint = `http://localhost:8080/api/motherboards/by-RAM-Type/${ramType}`;
+        }
+  
+        const filterResponse = await fetch(endpoint, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!filterResponse.ok) {
+          throw new Error("Fehler beim Abrufen der gefilterten Motherboards.");
+        }
+        const filteredMotherboards = await filterResponse.json();
+        console.log("Gefilterte Motherboards:", filteredMotherboards);
+  
+        // Übergib die gefilterten Motherboards an das mb-component
+        const mbComponent = document.querySelector("mb-component");
+        if (mbComponent && typeof (mbComponent as any).updateMotherboards === "function") {
+          (mbComponent as any).updateMotherboards(filteredMotherboards);
+        }
+      } else {
+        console.error("Kein RAM ausgewählt. Filterung kann nicht durchgeführt werden.");
+      }
+    } catch (error) {
+      console.error("Fehler beim Filtern der Motherboards:", error);
+    }
+  }
+  
+  
 
   async filterMotherboardsByRamType(ramType: string) {
     // Ermitteln des ausgewählten CPU-Sockets aus dem globalen Model
