@@ -16,7 +16,7 @@ VALUES
     (3, 'MSI B760 GAMING PLUS WIFI', 159.99, 'LGA1700','DDR5', 'ATX', 192, 4, 'Black / Silver', 'https://www.e-tec.at/xstorage/1/_cache/20240410/370142-etc-1_695141_1_0094c99430fbb30f6bf5cceefd894a84.jpg'),
     (4, 'MSI PRO Z790-A MAX WIFI', 239.99, 'LGA1700','DDR5', 'ATX', 192, 4, 'Silver / Black', 'https://storage-asset.msi.com/global/picture/image/feature/mb/Z790/PRO-Z790-A-MAX-WIFI/images/kv-pd.png'),
     (5, 'MSI B550 GAMING GEN3', 99.99, 'AM4','DDR4', 'ATX', 128, 4, 'Black', 'https://gzhls.at/i/28/48/2802848-n0.jpg'),
-    (6, 'MSI B450M-A PRO MAX II', 69.98, 'AM4','DDR', 'Micro ATX', 64, 2, 'Black', 'https://gzhls.at/i/09/34/3300934-l0.webp');
+    (6, 'MSI B450M-A PRO MAX II', 69.98, 'AM4','DDR4', 'Micro ATX', 64, 2, 'Black', 'https://gzhls.at/i/09/34/3300934-l0.webp');
 
 INSERT INTO 
     public.gpu (gpu_id, name, price, chipset, memory, core_clock, boost_clock, color, length, img) 
