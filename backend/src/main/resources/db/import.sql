@@ -54,4 +54,10 @@ INSERT INTO
     public.shopping_cart (cpu_id, motherboard_id, gpu_id, ram_id, totalPrice, createdAt, updatedAt)
 VALUES 
     (NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO
+    public.powersupply (powersupply_id, name, price,type,efficiency,wattage,modular,color,img)
+VALUES
+    (NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
     
