@@ -24,12 +24,17 @@ const ramContent = html`
     <h3 class="headerTitle">Wähle deinen RAM aus</h3>
     <ram-component id="ramAllBox" class="content-box"></ram-component> <!-- RAM-Komponente hinzufügen -->
 `;
+const internalHardDriveContent = html`
+    <h3 class="headerTitle">Wähle deinen InternalHardDrive aus</h3>
+    <internalharddrive-component id="internalHardDriveAllBox" class="content-box"></internalharddrive-component> <!-- RAM-Komponente hinzufügen -->
+`;
 
 class AppComponent extends HTMLElement {
     showCPUs = true;
     showMotherboards = false;
     showGPUs = false;
     showRAM = false;
+    showInternalHardDrive = false;
 
     constructor() {
         super();
@@ -46,6 +51,7 @@ class AppComponent extends HTMLElement {
         this.showMotherboards = tab === 'motherboard';
         this.showGPUs = tab === 'gpu';
         this.showRAM = tab === 'ram';
+        this.showInternalHardDrive = tab === 'internalHardDrive'
         this.render();
     }
 
@@ -55,6 +61,7 @@ class AppComponent extends HTMLElement {
         const mbName = document.getElementById('mb-name');
         const gpuName = document.getElementById('gpu-name');
         const ramName = document.getElementById('ram-name');
+        const internalHardDriveName = document.getElementById('internalHardDrive-name')
         console.log("Lade Einkaufswagen...");
         try {
             const response = await fetch(`http://localhost:8080/api/shoppingcart/get-by-id/${model.shoppingCartId}`);
@@ -70,6 +77,7 @@ class AppComponent extends HTMLElement {
             mbName.textContent = `Motherboard: ${data.motherboard.name ?? "———"}`;
             gpuName.textContent = `GPU: ${data.gpu.name ?? "———"}`;
             ramName.textContent = `RAM: ${data.ram.name ?? "———"}`;
+            internalHardDriveName.textContent = `InternalHardDrive: ${data.internalHardDrive.name ?? "———"}`
 
 
 
@@ -120,6 +128,7 @@ class AppComponent extends HTMLElement {
                             <button @click="${() => this.switchTab('motherboard')}" class="tab-button ${this.showMotherboards ? 'active' : ''}">Motherboards</button>
                             <button @click="${() => this.switchTab('gpu')}" class="tab-button ${this.showGPUs ? 'active' : ''}">GPUs</button>
                             <button @click="${() => this.switchTab('ram')}" class="tab-button ${this.showRAM ? 'active' : ''}">RAM</button>
+                            <button @click="${() => this.switchTab('internalHardDrive')}" class="tab-button ${this.showInternalHardDrive ? 'active' : ''}">InternalHardDrive</button>
                         </div>
                         <input type="checkbox" id="active">
                         <label for="active" class="menu-btn"><span></span></label>
@@ -131,6 +140,7 @@ class AppComponent extends HTMLElement {
                                     <p id="mb-name">Motherboard: ———</p>
                                     <p id="gpu-name">GPU: ———</p>
                                     <p id="ram-name">RAM: ———</p>
+                                    <p id="internalHardDrive-name">InternalHardDrive: ———</p>
                                 </div>
                             </ul>
                         </div>
@@ -143,6 +153,7 @@ class AppComponent extends HTMLElement {
                 <div style="display: ${this.showMotherboards ? 'block' : 'none'}">${mbContent}</div>
                 <div style="display: ${this.showGPUs ? 'block' : 'none'}">${gpuContent}</div>
                 <div style="display: ${this.showRAM ? 'block' : 'none'}">${ramContent}</div>
+                <div style="display: ${this.showInternalHardDrive ? 'block' : 'none'}">${internalHardDriveContent}</div>
             </div>
         `, this);
     }
