@@ -42,10 +42,7 @@ class CpuCoolerComponent extends HTMLElement {
                             <div class="Info">
                                 <div style="margin-bottom: 1vw">
                                     <p>Preis: ${cooler.price} €</p>
-                                    <p>RPM: ${cooler.min_rpm} – ${cooler.max_rpm}</p>
-                                    <p>Lautstärke: ${cooler.min_noise_level} – ${cooler.max_noise_level} dB</p>
                                     <p>Farbe: ${cooler.color}</p>
-                                    <p>Größe: ${cooler.size ?? "N/A"}</p>
                                 </div>
                                 <div id="svgBox">
                                     ${this.addedCpuCoolerId === cooler.cpu_cooler_id
