@@ -3,7 +3,8 @@ import { Motherboard } from "./motherboard/mb";
 import { Gpu } from "./gpu/gpu";
 import { Ram } from "./ram/ram";
 import { InternalHardDrive } from "./internalHardDrive/internalHardDrive";
-import { Case } from "./case/case"
+import { Case } from "./case/case";
+import { PowerSupply } from "./powersupply/powersupply";  // Importiere PowerSupply
 
 /**
  * Model beschreibt den globalen Zustand.
@@ -18,6 +19,7 @@ interface Model {
   componentsShown: number;
   internalHardDrive: InternalHardDrive;
   case: Case;
+  powersupply: PowerSupply;  // Neu: PowerSupply hinzufügen
 
   // Neu: CPU-Socket global speichern
   cpuSocket: string; 
@@ -103,6 +105,17 @@ const state: Model = {
     side_panel: "",
     external_volume: 0,
     internal_35_bays: 0,
+    img: ""
+  },
+  powersupply: {   // Neu: PowerSupply im Initialzustand hinzufügen
+    powersupply_id: 0,
+    name: "",
+    price: 0,
+    type: "",
+    efficiency: "",
+    wattage: 0,
+    modular: false,
+    color: "",
     img: ""
   },
   componentsShown: 0,
