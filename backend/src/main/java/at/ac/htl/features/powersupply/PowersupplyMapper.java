@@ -1,7 +1,5 @@
 package at.ac.htl.features.powersupply;
 
-import at.ac.htl.features.gpu.GPU;
-import at.ac.htl.features.gpu.GPUDto;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped

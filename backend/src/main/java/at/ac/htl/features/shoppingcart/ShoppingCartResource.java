@@ -195,6 +195,18 @@ public class ShoppingCartResource {
             case "ram":
                 cart.setRam(null);
                 break;
+            case "psu":
+                cart.setPowersupply(null);
+                break;
+            case "internalHarddrive":
+                cart.setInternalHarddrive(null);
+                break;
+            case "cpuCooler":
+                cart.setCpuCooler(null);
+                break;
+            case "case":
+                cart.setComputerCase(null);
+                break;
             default:
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity("Invalid component type").build();
@@ -206,6 +218,10 @@ public class ShoppingCartResource {
         if (cart.getMotherboard() != null) totalPrice += cart.getMotherboard().getPrice();
         if (cart.getGpu() != null) totalPrice += cart.getGpu().getPrice();
         if (cart.getRam() != null) totalPrice += cart.getRam().getPrice();
+        if(cart.getPowersupply() != null) totalPrice += cart.getPowersupply().getPrice();
+        if(cart.getInternalHarddrive() != null) totalPrice += cart.getInternalHarddrive().getPrice();
+        if (cart.getCpuCooler() != null) totalPrice += cart.getCpuCooler().getPrice();
+        if (cart.getComputerCase() != null) totalPrice += cart.getComputerCase().getPrice();
         cart.setTotalPrice(totalPrice);
 
         cartRepository.persist(cart);
