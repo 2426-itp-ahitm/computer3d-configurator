@@ -169,89 +169,6 @@ class InternalHardDriveComponent extends HTMLElement {
     }
   }
 
-  // async filterMotherboardsBySelectedComponents() {
-  //   try {
-  //     // Hole den Warenkorb, um die ausgewählten Komponenten zu ermitteln
-  //     const response = await fetch("http://localhost:8080/api/shoppingcart/get-by-id/1");
-  //     if (!response.ok) {
-  //       throw new Error("Fehler beim Abrufen des Warenkorbs.");
-  //     }
-  //     const shoppingCart = await response.json();
-  
-  //     // Prüfe, ob ein RAM ausgewählt wurde
-  //     if (shoppingCart.ram && shoppingCart.ram.type) {
-  //       const ramType = shoppingCart.ram.type;
-  //       let endpoint: string;
-  
-  //       // Falls eine CPU ausgewählt wurde, filtere nach CPU-Socket und RAM-Typ
-  //       if (shoppingCart.cpu && shoppingCart.cpu.socket) {
-  //         const cpuSocket = shoppingCart.cpu.socket;
-  //         console.log("Filtere Motherboards mit CPU-Socket:", cpuSocket, "und RAM-Typ:", ramType);
-  //         endpoint = `http://localhost:8080/api/motherboards/by-RAM-Type-And-CPU-Socket/${ramType}/${cpuSocket}`;
-  //       } else {
-  //         // Falls keine CPU ausgewählt wurde, filtere nur nach RAM-Typ
-  //         console.log("Nur RAM ausgewählt. Filtere Motherboards nur nach RAM-Typ:", ramType);
-  //         endpoint = `http://localhost:8080/api/motherboards/by-RAM-Type/${ramType}`;
-  //       }
-  
-  //       const filterResponse = await fetch(endpoint, {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       });
-  //       if (!filterResponse.ok) {
-  //         throw new Error("Fehler beim Abrufen der gefilterten Motherboards.");
-  //       }
-  //       const filteredMotherboards = await filterResponse.json();
-  //       console.log("Gefilterte Motherboards:", filteredMotherboards);
-  
-  //       // Übergib die gefilterten Motherboards an das mb-component
-  //       const mbComponent = document.querySelector("mb-component");
-  //       if (mbComponent && typeof (mbComponent as any).updateMotherboards === "function") {
-  //         (mbComponent as any).updateMotherboards(filteredMotherboards);
-  //       }
-  //     } else {
-  //       console.error("Kein RAM ausgewählt. Filterung kann nicht durchgeführt werden.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Fehler beim Filtern der Motherboards:", error);
-  //   }
-  // }
-  
-  
-
-  // async filterMotherboardsByRamType(ramType: string) {
-  //   // Ermitteln des ausgewählten CPU-Sockets aus dem globalen Model
-  //   const selectedCpuSocket = model.cpuSocket;
-  //   if (!selectedCpuSocket) {
-  //     console.error("Kein CPU-Socket ausgewählt, daher kann die Filterung nicht erfolgen.");
-  //     return;
-  //   }
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:8080/api/motherboards/by-RAM-Type-And-CPU-Socket/${ramType}/${selectedCpuSocket}`,
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     if (!response.ok) {
-  //       throw new Error("Fehler beim Abrufen der Motherboards.");
-  //     }
-  //     const filteredMotherboards = await response.json();
-  //     console.log("Gefilterte Motherboards:", filteredMotherboards);
-  //     const mbComponent = document.querySelector("mb-component");
-  //     if (mbComponent && typeof (mbComponent as any).updateMotherboards === "function") {
-  //       (mbComponent as any).updateMotherboards(filteredMotherboards);
-  //     }
-  //   } catch (error) {
-  //     console.error("Fehler beim Abrufen der gefilterten Motherboards:", error);
-  //   }
-  // }
-
   async removeInternalHardDrive(internalHardDriveId: number) {
     console.log("Entferne internalHardDrive ID:", internalHardDriveId);
 
@@ -288,4 +205,4 @@ class InternalHardDriveComponent extends HTMLElement {
   }
 }
 
-customElements.define("ram-component", InternalHardDriveComponent);
+customElements.define("internalharddrive-component", InternalHardDriveComponent);
