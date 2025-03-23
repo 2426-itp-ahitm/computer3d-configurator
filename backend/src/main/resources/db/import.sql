@@ -76,3 +76,14 @@ VALUES
     (4, 'Lian Li O11 Vision', 138.94, 'ATX Mid Tower', 'White', NULL, 'Tempered Glass', 67.8, 2, NULL),
     (5, 'Fractal Design North', 139.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 45.1, 2, NULL),
     (6, 'Phanteks XT PRO', 49.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 51.8, 2, NULL);
+
+INSERT INTO
+    public.cpu_cooler (cpu_cooler_id, name, price, min_rpm, max_rpm, min_noise_level, max_noise_level, color, size, img)
+VALUES
+    (1, 'Thermalright Peerless Assassin 120 SE', 33.9, 1550, 1550, 25.6, 25.6, 'Black', NULL, NULL),
+    (2, 'NZXT Kraken Elite 360 RGB', 273.99, 500, 1800, 17.9, 30.6, 'White', 360, NULL),
+    (3, 'Deepcool GAMMAXX AG400 ARGB', 29.99, 500, 2000, 31.6, 31.6, 'Black', NULL, NULL),
+    (4, 'Corsair iCUE H150i ELITE CAPELLIX XT', 189.99, 550, 2100, 5, 34.1, 'Black', 360, NULL),
+    (5, 'Cooler Master MASTERLIQUID ML240L RGB V2', 99.99, 650, 1800, 6, 27, 'Black', 240, NULL),
+    (6, 'Noctua NH-D15 chromax.black', 119.95, 300, 1500, 19.2, 24.6, 'Black', NULL, NULL),
+    (7, 'NZXT Kraken 240', 120.99, 500, 1800, 17.9, 30.6, 'Black', 240, NULL);
