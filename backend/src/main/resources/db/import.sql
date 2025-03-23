@@ -63,27 +63,27 @@ VALUES
 INSERT INTO
     public.Internal_Harddrive (internalHarddrive_id, name, price, capacity, pricePerGb, type, cache, formFactor, memoryInterface, image)
 VALUES
-    (1, 'Samsung 980 Pro', 169.99, 2000, 0.085, 'SSD', 2048, 'M.2-2280', 'M.2 PCIe 4.0 X4', NULL),
-    (2, 'Kingston NV2', 60.99, 1000, 0.061, 'SSD', NULL, 'M.2-2280', 'M.2 PCIe 4.0 X4', NULL),
-    (3, 'Samsung 970 Evo Plus', 97.5, 1000, 0.098, 'SSD', 1024, 'M.2-2280', 'M.2 PCIe 3.0 X4', NULL);
+    (1, 'Samsung 980 Pro', 169.99, 2000, 0.085, 'SSD', 2048, 'M.2-2280', 'M.2 PCIe 4.0 X4', 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTlqWVQZ0Gbux0qrCLmdCML6_AAQiFyRulFvItbDsfCTmVC6eTJJDKp2ZoLJ42WFX0o_i_anpi9U1T9mTWWWzUO_g1VAHmBC8wpIRaUzsGhQ01RZXvuTwatJ88'),
+    (2, 'Kingston NV2', 60.99, 1000, 0.061, 'SSD', NULL, 'M.2-2280', 'M.2 PCIe 4.0 X4', 'https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MP_142006815?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402'),
+    (3, 'Samsung 970 Evo Plus', 97.5, 1000, 0.098, 'SSD', 1024, 'M.2-2280', 'M.2 PCIe 3.0 X4', 'https://gfx3.senetic.com/akeneo-catalog/6/c/2/9/6c2920e458f09125ba39522d85506b1dd5687458_MZ_V7S1T0BW_1.jpg');
 
 INSERT INTO
     public.casing (case_id, name, price, type, color, psu, side_panel, external_volume, internal_35_bays, img)
 VALUES
-    (1, 'Corsair 4000D Airflow', 104.99, 'ATX Mid Tower', 'Black', NULL, 'Tinted Tempered Glass', 48.6, 2, NULL),
-    (2, 'NZXT H5 Flow', 94.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 47, 1, NULL),
-    (3, 'NZXT H9 Flow', 159.99, 'ATX Mid Tower', 'White', NULL, 'Tempered Glass', 66.9, 2, NULL),
-    (4, 'Lian Li O11 Vision', 138.94, 'ATX Mid Tower', 'White', NULL, 'Tempered Glass', 67.8, 2, NULL),
-    (5, 'Fractal Design North', 139.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 45.1, 2, NULL),
-    (6, 'Phanteks XT PRO', 49.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 51.8, 2, NULL);
+    (1, 'Corsair 4000D Airflow', 104.99, 'ATX Mid Tower', 'Black', NULL, 'Tinted Tempered Glass', 48.6, 2, 'https://www.e-tec.at/xstorage/1/_cache/20250220/306721-1_1067254_1_4794ec45b941022584d4929699e6f3e3.jpg'),
+    (2, 'NZXT H5 Flow', 94.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 47, 1, 'https://cdn-reichelt.de/resize/600%2F-/web/xxl_ws/E910%2FNZXT_CC-H51FW-R1_01.png?type=ProductXxl&resize=600%252F-&'),
+    (3, 'NZXT H9 Flow', 159.99, 'ATX Mid Tower', 'White', NULL, 'Tempered Glass', 66.9, 2, 'https://www.alternate.at/p/1200x630/0/6/NZXT_H9_Flow_All_White__Tower_Geh_use@@1863960_11.jpg'),
+    (4, 'Lian Li O11 Vision', 138.94, 'ATX Mid Tower', 'White', NULL, 'Tempered Glass', 67.8, 2, 'https://lian-li.com/wp-content/uploads/2023/11/O11_Vision_06.webp'),
+    (5, 'Fractal Design North', 139.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 45.1, 2, 'https://www.alternate.at/p/600x600/4/6/Fractal_Design_North_Charcoal_Black__Tower_Geh_use@@1858064.jpg'),
+    (6, 'Phanteks XT PRO', 49.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 51.8, 2, 'https://gzhls.at/i/72/61/3147261-l0.jpg');
 
 INSERT INTO
     public.cpu_cooler (cpu_cooler_id, name, price, min_rpm, max_rpm, min_noise_level, max_noise_level, color, size, img)
 VALUES
-    (1, 'Thermalright Peerless Assassin 120 SE', 33.9, 1550, 1550, 25.6, 25.6, 'Black', NULL, NULL),
-    (2, 'NZXT Kraken Elite 360 RGB', 273.99, 500, 1800, 17.9, 30.6, 'White', 360, NULL),
-    (3, 'Deepcool GAMMAXX AG400 ARGB', 29.99, 500, 2000, 31.6, 31.6, 'Black', NULL, NULL),
-    (4, 'Corsair iCUE H150i ELITE CAPELLIX XT', 189.99, 550, 2100, 5, 34.1, 'Black', 360, NULL),
-    (5, 'Cooler Master MASTERLIQUID ML240L RGB V2', 99.99, 650, 1800, 6, 27, 'Black', 240, NULL),
-    (6, 'Noctua NH-D15 chromax.black', 119.95, 300, 1500, 19.2, 24.6, 'Black', NULL, NULL),
-    (7, 'NZXT Kraken 240', 120.99, 500, 1800, 17.9, 30.6, 'Black', 240, NULL);
+    (1, 'Thermalright Peerless Assassin 120 SE', 33.9, 1550, 1550, 25.6, 25.6, 'Black', NULL, 'https://gzhls.at/i/71/75/2647175-n0.jpg'),
+    (2, 'NZXT Kraken Elite 360 RGB', 273.99, 500, 1800, 17.9, 30.6, 'White', 360, 'https://www.alternate.at/p/600x600/3/7/NZXT_Kraken_Elite_360_RGB_360_mm__Wasserk_hlung@@100074073.jpg'),
+    (3, 'Deepcool GAMMAXX AG400 ARGB', 29.99, 500, 2000, 31.6, 31.6, 'Black', NULL, 'https://www.alternate.at/p/600x600/6/0/DeepCool_AG400_BK_ARGB__CPU_K_hler@@1861306.jpg'),
+    (4, 'Corsair iCUE H150i ELITE CAPELLIX XT', 189.99, 550, 2100, 5, 34.1, 'Black', 360, 'https://gzhls.at/i/16/36/2891636-n0.jpg'),
+    (5, 'Cooler Master MASTERLIQUID ML240L RGB V2', 99.99, 650, 1800, 6, 27, 'Black', 240, 'https://gzhls.at/i/27/06/2242706-n0.jpg'),
+    (6, 'Noctua NH-D15 chromax.black', 119.95, 300, 1500, 19.2, 24.6, 'Black', NULL, 'https://www.ditech.at/xstorage/1/_cache/20240702/nh_d15_chromax_black_1_4_916599_1_9202ddddbf5a6f06ab81ac583f717959.webp'),
+    (7, 'NZXT Kraken 240', 120.99, 500, 1800, 17.9, 30.6, 'Black', 240, 'https://www.ditech.at/xstorage/1/_cache/20240409/368250_840918_1_b00ccac86d6a595f31f8d18662c2b0a3.jpg');
