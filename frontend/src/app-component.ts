@@ -5,6 +5,7 @@ import "./feature/gpu/gpu-component";
 import "./feature/ram/ram-component";  // Importiere die RAM-Komponente
 import "./feature/internalHardDrive/internalHardDrive-component";
 import "./feature/case/case-component"; // Importiere die Case-Komponente
+import "./feature/powersupply/powersupply-component"; // Importiere die PowerSupply-Komponente
 import { model } from './feature/model';
 
 const cpuContent = html`
@@ -37,6 +38,11 @@ const caseContent = html`
     <case-component id="caseAllBox" class="content-box"></case-component>
 `;
 
+const powerSupplyContent = html`
+    <h3 class="headerTitle">Wähle dein PowerSupply aus</h3>
+    <powersupply-component id="powerSupplyAllBox" class="content-box"></powersupply-component>
+`;
+
 class AppComponent extends HTMLElement {
     showCPUs = true;
     showMotherboards = false;
@@ -44,6 +50,7 @@ class AppComponent extends HTMLElement {
     showRAM = false;
     showInternalHardDrive = false;
     showCase = false;
+    showPowerSupply = false;  // Neues Flag für PowerSupply
 
     constructor() {
         super();
@@ -62,6 +69,7 @@ class AppComponent extends HTMLElement {
         this.showRAM = tab === 'ram';
         this.showInternalHardDrive = tab === 'internalHardDrive';
         this.showCase = tab === 'case';
+        this.showPowerSupply = tab === 'powersupply';  // Neue Bedingung für PowerSupply
         this.render();
     }
 
@@ -73,6 +81,7 @@ class AppComponent extends HTMLElement {
         const ramName = document.getElementById('ram-name');
         const internalHardDriveName = document.getElementById('internalHardDrive-name');
         const caseName = document.getElementById('case-name');
+        const powerSupplyName = document.getElementById('powerSupply-name');  // Neues Element für PowerSupply
         console.log("Lade Einkaufswagen...");
         try {
             const response = await fetch(`http://localhost:8080/api/shoppingcart/get-by-id/${model.shoppingCartId}`);
@@ -90,31 +99,9 @@ class AppComponent extends HTMLElement {
             ramName.textContent = `RAM: ${data.ram?.name ?? "———"}`;
             internalHardDriveName.textContent = `InternalHardDrive: ${data.internalHardDrive?.name ?? "———"}`;
             caseName.textContent = `Case: ${data.case?.name ?? "———"}`;
+            powerSupplyName.textContent = `PowerSupply: ${data.powersupply?.name ?? "———"}`;  // PowerSupply hinzugefügt
         } catch (error) {
             console.error('Fehler beim Abrufen des Einkaufswagens:', error);
-        }
-    }
-
-    // Methode zum Erstellen des Einkaufswagens
-    async createShoppingCart() {
-        console.log("Erstelle Einkaufswagen...");
-        try {
-            const response = await fetch('http://localhost:8080/api/shoppingcart/createShoppingCart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({}) // Falls du Daten senden musst, ansonsten leer lassen
-            });
-
-            if (!response.ok) {
-                throw new Error('Fehler beim Erstellen des Einkaufswagens.');
-            }
-
-            const data = await response.json();
-            console.log('Einkaufswagen erstellt:', data);
-        } catch (error) {
-            console.error('Fehler beim Erstellen des Einkaufswagens:', error);
         }
     }
 
@@ -131,6 +118,7 @@ class AppComponent extends HTMLElement {
                             <button @click="${() => this.switchTab('ram')}" class="tab-button ${this.showRAM ? 'active' : ''}">RAM</button>
                             <button @click="${() => this.switchTab('internalHardDrive')}" class="tab-button ${this.showInternalHardDrive ? 'active' : ''}">InternalHardDrive</button>
                             <button @click="${() => this.switchTab('case')}" class="tab-button ${this.showCase ? 'active' : ''}">Case</button>
+                            <button @click="${() => this.switchTab('powersupply')}" class="tab-button ${this.showPowerSupply ? 'active' : ''}">PowerSupply</button>  <!-- Neuer Tab für PowerSupply -->
                         </div>
                         <input type="checkbox" id="active">
                         <label for="active" class="menu-btn"><span></span></label>
@@ -144,11 +132,11 @@ class AppComponent extends HTMLElement {
                                     <p id="ram-name">RAM: ———</p>
                                     <p id="internalHardDrive-name">InternalHardDrive: ———</p>
                                     <p id="case-name">Case: ———</p>
+                                    <p id="powerSupply-name">PowerSupply: ———</p>  <!-- Neues Element für PowerSupply -->
                                 </div>
                             </ul>
                         </div>
                     </div>
-                    <!--<button @click="${this.createShoppingCart}">Erstelle Einkaufswagen</button>-->
                 </div>
 
                 <!-- Umschaltbare Tabs -->
@@ -158,6 +146,7 @@ class AppComponent extends HTMLElement {
                 <div style="display: ${this.showRAM ? 'block' : 'none'}">${ramContent}</div>
                 <div style="display: ${this.showInternalHardDrive ? 'block' : 'none'}">${internalHardDriveContent}</div>
                 <div style="display: ${this.showCase ? 'block' : 'none'}">${caseContent}</div>
+                <div style="display: ${this.showPowerSupply ? 'block' : 'none'}">${powerSupplyContent}</div>  <!-- PowerSupply-Content hinzufügen -->
             </div>
         `, this);
     }
