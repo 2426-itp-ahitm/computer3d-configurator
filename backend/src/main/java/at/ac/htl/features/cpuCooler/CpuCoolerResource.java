@@ -6,7 +6,7 @@ import jakarta.ws.rs.Path;
 
 import java.util.List;
 
-@Path("cpu-cooler")
+@Path("/cpu-cooler")
 public class CpuCoolerResource {
     @Inject CpuCoolerRepository cpuCoolerRepository;
     @Inject CpuCoolerMapper cpuCoolerMapper;

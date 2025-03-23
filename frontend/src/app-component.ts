@@ -3,6 +3,8 @@ import "./feature/cpu/cpu-component";
 import "./feature/motherboard/mb-component";
 import "./feature/gpu/gpu-component";
 import "./feature/ram/ram-component";  // Importiere die RAM-Komponente
+import "./feature/internalHardDrive/internalHardDrive-component";
+import "./feature/case/case-component"; // Importiere die Case-Komponente
 import { model } from './feature/model';
 
 const cpuContent = html`
@@ -22,11 +24,17 @@ const gpuContent = html`
 
 const ramContent = html`
     <h3 class="headerTitle">Wähle deinen RAM aus</h3>
-    <ram-component id="ramAllBox" class="content-box"></ram-component> <!-- RAM-Komponente hinzufügen -->
+    <ram-component id="ramAllBox" class="content-box"></ram-component>
 `;
+
 const internalHardDriveContent = html`
     <h3 class="headerTitle">Wähle deinen InternalHardDrive aus</h3>
-    <internalharddrive-component id="internalHardDriveAllBox" class="content-box"></internalharddrive-component> <!-- RAM-Komponente hinzufügen -->
+    <internalharddrive-component id="internalHardDriveAllBox" class="content-box"></internalharddrive-component>
+`;
+
+const caseContent = html`
+    <h3 class="headerTitle">Wähle dein Case aus</h3>
+    <case-component id="caseAllBox" class="content-box"></case-component>
 `;
 
 class AppComponent extends HTMLElement {
@@ -35,6 +43,7 @@ class AppComponent extends HTMLElement {
     showGPUs = false;
     showRAM = false;
     showInternalHardDrive = false;
+    showCase = false;
 
     constructor() {
         super();
@@ -46,12 +55,13 @@ class AppComponent extends HTMLElement {
     }
 
     // Methode, um zwischen den Tabs zu wechseln
-    switchTab(tab) {
+    switchTab(tab: string) {
         this.showCPUs = tab === 'cpu';
         this.showMotherboards = tab === 'motherboard';
         this.showGPUs = tab === 'gpu';
         this.showRAM = tab === 'ram';
-        this.showInternalHardDrive = tab === 'internalHardDrive'
+        this.showInternalHardDrive = tab === 'internalHardDrive';
+        this.showCase = tab === 'case';
         this.render();
     }
 
@@ -61,7 +71,8 @@ class AppComponent extends HTMLElement {
         const mbName = document.getElementById('mb-name');
         const gpuName = document.getElementById('gpu-name');
         const ramName = document.getElementById('ram-name');
-        const internalHardDriveName = document.getElementById('internalHardDrive-name')
+        const internalHardDriveName = document.getElementById('internalHardDrive-name');
+        const caseName = document.getElementById('case-name');
         console.log("Lade Einkaufswagen...");
         try {
             const response = await fetch(`http://localhost:8080/api/shoppingcart/get-by-id/${model.shoppingCartId}`);
@@ -73,29 +84,23 @@ class AppComponent extends HTMLElement {
             const data = await response.json();
             console.log('Einkaufswagen geladen:', data);
 
-            cpuName.textContent = `CPU: ${data.cpu.name ?? "———"}`;
-            mbName.textContent = `Motherboard: ${data.motherboard.name ?? "———"}`;
-            gpuName.textContent = `GPU: ${data.gpu.name ?? "———"}`;
-            ramName.textContent = `RAM: ${data.ram.name ?? "———"}`;
-            internalHardDriveName.textContent = `InternalHardDrive: ${data.internalHardDrive.name ?? "———"}`
-
-
-
-
+            cpuName.textContent = `CPU: ${data.cpu?.name ?? "———"}`;
+            mbName.textContent = `Motherboard: ${data.motherboard?.name ?? "———"}`;
+            gpuName.textContent = `GPU: ${data.gpu?.name ?? "———"}`;
+            ramName.textContent = `RAM: ${data.ram?.name ?? "———"}`;
+            internalHardDriveName.textContent = `InternalHardDrive: ${data.internalHardDrive?.name ?? "———"}`;
+            caseName.textContent = `Case: ${data.case?.name ?? "———"}`;
         } catch (error) {
             console.error('Fehler beim Abrufen des Einkaufswagens:', error);
         }
     }
-
-    // Methode zum Aktualisieren der Warenkorb-Anzeige
-
 
     // Methode zum Erstellen des Einkaufswagens
     async createShoppingCart() {
         console.log("Erstelle Einkaufswagen...");
         try {
             const response = await fetch('http://localhost:8080/api/shoppingcart/createShoppingCart', {
-                method: 'POST', // Der HTTP-Methoden-Typ (POST)
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -108,16 +113,12 @@ class AppComponent extends HTMLElement {
 
             const data = await response.json();
             console.log('Einkaufswagen erstellt:', data);
-
-            // Hier kannst du mit der Antwort arbeiten, z. B. den Einkaufswagen anzeigen
         } catch (error) {
             console.error('Fehler beim Erstellen des Einkaufswagens:', error);
         }
     }
 
     render() {
-        const content = this.showCPUs ? cpuContent : (this.showMotherboards ? mbContent : (this.showGPUs ? gpuContent : ramContent));
-
         render(html`
             <div> 
                 <!-- Navbar -->
@@ -129,6 +130,7 @@ class AppComponent extends HTMLElement {
                             <button @click="${() => this.switchTab('gpu')}" class="tab-button ${this.showGPUs ? 'active' : ''}">GPUs</button>
                             <button @click="${() => this.switchTab('ram')}" class="tab-button ${this.showRAM ? 'active' : ''}">RAM</button>
                             <button @click="${() => this.switchTab('internalHardDrive')}" class="tab-button ${this.showInternalHardDrive ? 'active' : ''}">InternalHardDrive</button>
+                            <button @click="${() => this.switchTab('case')}" class="tab-button ${this.showCase ? 'active' : ''}">Case</button>
                         </div>
                         <input type="checkbox" id="active">
                         <label for="active" class="menu-btn"><span></span></label>
@@ -141,6 +143,7 @@ class AppComponent extends HTMLElement {
                                     <p id="gpu-name">GPU: ———</p>
                                     <p id="ram-name">RAM: ———</p>
                                     <p id="internalHardDrive-name">InternalHardDrive: ———</p>
+                                    <p id="case-name">Case: ———</p>
                                 </div>
                             </ul>
                         </div>
@@ -154,6 +157,7 @@ class AppComponent extends HTMLElement {
                 <div style="display: ${this.showGPUs ? 'block' : 'none'}">${gpuContent}</div>
                 <div style="display: ${this.showRAM ? 'block' : 'none'}">${ramContent}</div>
                 <div style="display: ${this.showInternalHardDrive ? 'block' : 'none'}">${internalHardDriveContent}</div>
+                <div style="display: ${this.showCase ? 'block' : 'none'}">${caseContent}</div>
             </div>
         `, this);
     }
