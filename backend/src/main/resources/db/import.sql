@@ -58,14 +58,14 @@ VALUES
 INSERT INTO
     public.powersupply (powersupply_id, name, price, type, efficiency, wattage, modular, color, img)
 VALUES
-    (DEFAULT, 'Example PSU', 99.99, 'ATX', '80+ Bronze', 550, true, 'Black', 'https://example.com/image.jpg');
+    (1, 'Example PSU', 99.99, 'ATX', '80+ Bronze', 550, true, 'Black', 'https://example.com/image.jpg');
              
 INSERT INTO
     public.Internal_Harddrive (internalHarddrive_id, name, price, capacity, pricePerGb, type, cache, formFactor, memoryInterface, image)
 VALUES
-    (DEFAULT, 'Samsung 980 Pro', 169.99, 2000, 0.085, 'SSD', 2048, 'M.2-2280', 'M.2 PCIe 4.0 X4', NULL),
-    (DEFAULT, 'Kingston NV2', 60.99, 1000, 0.061, 'SSD', NULL, 'M.2-2280', 'M.2 PCIe 4.0 X4', NULL),
-    (DEFAULT, 'Samsung 970 Evo Plus', 97.5, 1000, 0.098, 'SSD', 1024, 'M.2-2280', 'M.2 PCIe 3.0 X4', NULL);
+    (1, 'Samsung 980 Pro', 169.99, 2000, 0.085, 'SSD', 2048, 'M.2-2280', 'M.2 PCIe 4.0 X4', NULL),
+    (2, 'Kingston NV2', 60.99, 1000, 0.061, 'SSD', NULL, 'M.2-2280', 'M.2 PCIe 4.0 X4', NULL),
+    (3, 'Samsung 970 Evo Plus', 97.5, 1000, 0.098, 'SSD', 1024, 'M.2-2280', 'M.2 PCIe 3.0 X4', NULL);
 
 INSERT INTO
     public.casing (case_id, name, price, type, color, psu, side_panel, external_volume, internal_35_bays, img)
