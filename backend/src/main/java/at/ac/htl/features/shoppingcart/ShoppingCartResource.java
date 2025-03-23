@@ -132,7 +132,7 @@ public class ShoppingCartResource {
                 if (psu == null) return Response.status(Response.Status.NOT_FOUND).build();
                 cart.setPowersupply(psu);
                 break;
-            case "internalHarddrive":
+            case "internalHardDrive":
                 InternalHarddrive internalHarddrive = internalHarddriveRepository.findById(componentId);
                 if (internalHarddrive == null) return Response.status(Response.Status.NOT_FOUND).build();
                 cart.setInternalHarddrive(internalHarddrive);
@@ -198,7 +198,7 @@ public class ShoppingCartResource {
             case "psu":
                 cart.setPowersupply(null);
                 break;
-            case "internalHarddrive":
+            case "internalHardDrive":
                 cart.setInternalHarddrive(null);
                 break;
             case "cpuCooler":
