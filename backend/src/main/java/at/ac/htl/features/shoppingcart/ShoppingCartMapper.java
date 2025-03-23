@@ -27,11 +27,15 @@ public class ShoppingCartMapper {
     public ShoppingCartMapper(CPUMapper cpuMapper,
                               MotherboardMapper motherboardMapper,
                               GPUMapper gpuMapper,
-                              RAMMapper ramMapper) {
+                              RAMMapper ramMapper, CaseMapper caseMapper, PowersupplyMapper powersupplyMapper, InternalHarddriveMapper internalHarddriveMapper, CpuCoolerMapper cpuCoolerMapper) {
         this.cpuMapper = cpuMapper;
         this.motherboardMapper = motherboardMapper;
         this.gpuMapper = gpuMapper;
         this.ramMapper = ramMapper;
+        this.caseMapper = caseMapper;
+        this.powersupplyMapper = powersupplyMapper;
+        this.internalHarddriveMapper = internalHarddriveMapper;
+        this.cpuCoolerMapper = cpuCoolerMapper;
     }
 
     public ShoppingCartDto toDto(ShoppingCart cart) {
