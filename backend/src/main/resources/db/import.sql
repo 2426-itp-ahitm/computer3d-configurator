@@ -61,8 +61,18 @@ VALUES
     (DEFAULT, 'Example PSU', 99.99, 'ATX', '80+ Bronze', 550, true, 'Black', 'https://example.com/image.jpg');
              
 INSERT INTO
-    Internal_Harddrive (internalHarddrive_id, name, price, capacity, pricePerGb, type, cache, formFactor, memoryInterface, image)
+    public.Internal_Harddrive (internalHarddrive_id, name, price, capacity, pricePerGb, type, cache, formFactor, memoryInterface, image)
 VALUES
     (DEFAULT, 'Samsung 980 Pro', 169.99, 2000, 0.085, 'SSD', 2048, 'M.2-2280', 'M.2 PCIe 4.0 X4', NULL),
     (DEFAULT, 'Kingston NV2', 60.99, 1000, 0.061, 'SSD', NULL, 'M.2-2280', 'M.2 PCIe 4.0 X4', NULL),
     (DEFAULT, 'Samsung 970 Evo Plus', 97.5, 1000, 0.098, 'SSD', 1024, 'M.2-2280', 'M.2 PCIe 3.0 X4', NULL);
+
+INSERT INTO
+    public.casing (case_id, name, price, type, color, psu, side_panel, external_volume, internal_35_bays, img)
+VALUES
+    (1, 'Corsair 4000D Airflow', 104.99, 'ATX Mid Tower', 'Black', NULL, 'Tinted Tempered Glass', 48.6, 2, NULL),
+    (2, 'NZXT H5 Flow', 94.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 47, 1, NULL),
+    (3, 'NZXT H9 Flow', 159.99, 'ATX Mid Tower', 'White', NULL, 'Tempered Glass', 66.9, 2, NULL),
+    (4, 'Lian Li O11 Vision', 138.94, 'ATX Mid Tower', 'White', NULL, 'Tempered Glass', 67.8, 2, NULL),
+    (5, 'Fractal Design North', 139.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 45.1, 2, NULL),
+    (6, 'Phanteks XT PRO', 49.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 51.8, 2, NULL);
