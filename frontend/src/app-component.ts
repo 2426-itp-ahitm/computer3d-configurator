@@ -105,7 +105,7 @@ class AppComponent extends HTMLElement {
             gpuName.textContent = `GPU: ${data.gpu?.name ?? "———"}`;
             ramName.textContent = `RAM: ${data.ram?.name ?? "———"}`;
             internalHardDriveName.textContent = `InternalHardDrive: ${data.internalHardDrive?.name ?? "———"}`;
-            caseName.textContent = `Case: ${data.case?.name ?? "———"}`;
+            caseName.textContent = `Case: ${data.cases?.name ?? "———"}`;
             powerSupplyName.textContent = `PowerSupply: ${data.powersupply?.name ?? "———"}`;
             cpuCoolerName.textContent = `CPU Cooler: ${data.cpuCooler?.name ?? "———"}`;
         } catch (error) {
