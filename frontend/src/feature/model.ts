@@ -5,6 +5,7 @@ import { Ram } from "./ram/ram";
 import { InternalHardDrive } from "./internalHardDrive/internalHardDrive";
 import { Case } from "./case/case";
 import { PowerSupply } from "./powersupply/powersupply";  // Importiere PowerSupply
+import { CpuCooler } from "./cpuCooler/cpuCooler";
 
 /**
  * Model beschreibt den globalen Zustand.
@@ -20,6 +21,7 @@ interface Model {
   internalHardDrive: InternalHardDrive;
   case: Case;
   powersupply: PowerSupply;  // Neu: PowerSupply hinzufügen
+  cpuCooler: CpuCooler;      // Neu: CpuCooler hinzufügen
 
   // Neu: CPU-Socket global speichern
   cpuSocket: string; 
@@ -118,9 +120,19 @@ const state: Model = {
     color: "",
     img: ""
   },
+  cpuCooler: {  // Neu: CpuCooler im Initialzustand hinzufügen
+    cpu_cooler_id: 0,
+    name: "",
+    price: 0,
+    min_rpm: 0,
+    max_rpm: 0,
+    min_noise_level: 0,
+    max_noise_level: 0,
+    color: "",
+    size: 0,
+    img: ""
+  },
   componentsShown: 0,
-
-  // Neu hinzugefügt
   cpuSocket: "",
   shoppingCartId: 1 // Anfangs null, wird beim Laden/Erstellen gesetzt
 };
