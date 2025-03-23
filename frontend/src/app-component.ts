@@ -3,6 +3,7 @@ import "./feature/cpu/cpu-component";
 import "./feature/motherboard/mb-component";
 import "./feature/gpu/gpu-component";
 import "./feature/ram/ram-component";  // Importiere die RAM-Komponente
+import "./feature/internalHardDrive/internalHardDrive-component"
 import { model } from './feature/model';
 
 const cpuContent = html`
