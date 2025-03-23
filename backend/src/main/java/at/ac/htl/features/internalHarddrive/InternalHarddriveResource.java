@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
 
-@Path("internal-Harddrive")
+@Path("internal-harddrive")
 @Produces(MediaType.APPLICATION_JSON)
 public class InternalHarddriveResource{
     @Inject InternalHarddriveMapper internalHarddriveMapper;
