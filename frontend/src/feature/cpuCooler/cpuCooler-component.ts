@@ -89,11 +89,8 @@ class CpuCoolerComponent extends HTMLElement {
     async removeCpuCooler(cpuCoolerId: number) {
         console.log("Entferne CPU-Kühler:", cpuCoolerId);
         try {
-<<<<<<< HEAD
             const response = await fetch(`http://localhost:8080/api/shoppingcart/remove-component/${model.shoppingCartId}/cpucooler`, {
-=======
-            const response = await fetch(`http://localhost:8080/api/shoppingcart/remove-component/${model.shoppingCartId}/cpuCooler`, {
->>>>>>> refs/remotes/origin/main
+
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -112,11 +109,7 @@ class CpuCoolerComponent extends HTMLElement {
     async updateShoppingCart(cpuCoolerId: number) {
         console.log("Aktualisiere Warenkorb mit CPU-Kühler ID:", cpuCoolerId);
         try {
-<<<<<<< HEAD
             const response = await fetch(`http://localhost:8080/api/shoppingcart/update-cart/${model.shoppingCartId}/cpucooler/${cpuCoolerId}`, {
-=======
-            const response = await fetch(`http://localhost:8080/api/shoppingcart/update-cart/${model.shoppingCartId}/cpuCooler/${cpuCoolerId}`, {
->>>>>>> refs/remotes/origin/main
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' }
             });
