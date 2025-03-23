@@ -3,6 +3,7 @@ import { Motherboard } from "./motherboard/mb";
 import { Gpu } from "./gpu/gpu";
 import { Ram } from "./ram/ram";
 import { InternalHardDrive } from "./internalHardDrive/internalHardDrive";
+import { Case } from "./case/case"
 
 /**
  * Model beschreibt den globalen Zustand.
@@ -16,6 +17,7 @@ interface Model {
   gpu: Gpu;
   componentsShown: number;
   internalHardDrive: InternalHardDrive;
+  case: Case;
 
   // Neu: CPU-Socket global speichern
   cpuSocket: string; 
@@ -90,6 +92,18 @@ const state: Model = {
     formFactor: "",
     memoryInterface: "",
     image: ""
+  },
+  case: {
+    case_id: 0,
+    name: "",
+    price: 0,
+    type: "",
+    color: "",
+    psu: 0,
+    side_panel: "",
+    external_volume: 0,
+    internal_35_bays: 0,
+    img: ""
   },
   componentsShown: 0,
 
