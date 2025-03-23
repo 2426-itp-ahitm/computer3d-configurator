@@ -1,11 +1,19 @@
 package at.ac.htl.features.shoppingcart;
 
+import at.ac.htl.features.casing.Case;
+import at.ac.htl.features.casing.CaseRepository;
 import at.ac.htl.features.cpu.CPU;
 import at.ac.htl.features.cpu.CPURepository;
+import at.ac.htl.features.cpuCooler.CpuCooler;
+import at.ac.htl.features.cpuCooler.CpuCoolerRepository;
 import at.ac.htl.features.gpu.GPU;
 import at.ac.htl.features.gpu.GPURepository;
+import at.ac.htl.features.internalHarddrive.InternalHarddrive;
+import at.ac.htl.features.internalHarddrive.InternalHarddriveRepository;
 import at.ac.htl.features.motherboard.Motherboard;
 import at.ac.htl.features.motherboard.MotherboardRepository;
+import at.ac.htl.features.powersupply.Powersupply;
+import at.ac.htl.features.powersupply.PowersupplyRepository;
 import at.ac.htl.features.ram.RAM;
 import at.ac.htl.features.ram.RAMRepository;
 import jakarta.inject.Inject;
@@ -31,6 +39,14 @@ public class ShoppingCartResource {
     ShoppingCartRepository shoppingCartRepository;
     @Inject
     ShoppingCartMapper shoppingCartMapper;
+    @Inject
+    PowersupplyRepository powersupplyRepository;
+    @Inject
+    InternalHarddriveRepository internalHarddriveRepository;
+    @Inject
+    CpuCoolerRepository cpuCoolerRepository;
+    @Inject
+    CaseRepository caseRepository;
 
     /**
      * Mainpage hat ein input feld mit der Warenkorb id
@@ -111,6 +127,26 @@ public class ShoppingCartResource {
                 if (ram == null) return Response.status(Response.Status.NOT_FOUND).build();
                 cart.setRam(ram);
                 break;
+            case "psu":
+                Powersupply psu = powersupplyRepository.findById(componentId);
+                if (psu == null) return Response.status(Response.Status.NOT_FOUND).build();
+                cart.setPowersupply(psu);
+                break;
+            case "internalHarddrive":
+                InternalHarddrive internalHarddrive = internalHarddriveRepository.findById(componentId);
+                if (internalHarddrive == null) return Response.status(Response.Status.NOT_FOUND).build();
+                cart.setInternalHarddrive(internalHarddrive);
+                break;
+            case "cpuCooler":
+                CpuCooler cpuCooler = cpuCoolerRepository.findById(componentId);
+                if (cpuCooler == null) return Response.status(Response.Status.NOT_FOUND).build();
+                cart.setCpuCooler(cpuCooler);
+                break;
+            case "case":
+                Case casing = caseRepository.findById(componentId);
+                if (casing == null) return Response.status(Response.Status.NOT_FOUND).build();
+                cart.setComputerCase(casing);
+                break;
             default:
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity("Invalid component type").build();
@@ -121,6 +157,10 @@ public class ShoppingCartResource {
         if (cart.getMotherboard() != null) totalPrice += cart.getMotherboard().getPrice();
         if (cart.getGpu() != null) totalPrice += cart.getGpu().getPrice();
         if (cart.getRam() != null) totalPrice += cart.getRam().getPrice();
+        if (cart.getPowersupply() != null) totalPrice += cart.getPowersupply().getPrice();
+        if (cart.getInternalHarddrive() != null) totalPrice += cart.getInternalHarddrive().getPrice();
+        if (cart.getCpuCooler() != null) totalPrice += cart.getCpuCooler().getPrice();
+        if (cart.getComputerCase() != null) totalPrice += cart.getComputerCase().getPrice();
         cart.setTotalPrice(totalPrice);
 
         cartRepository.persist(cart);
