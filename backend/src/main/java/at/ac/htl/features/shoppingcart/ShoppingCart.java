@@ -1,8 +1,12 @@
 package at.ac.htl.features.shoppingcart;
 
+import at.ac.htl.features.casing.Case;
 import at.ac.htl.features.cpu.CPU;
+import at.ac.htl.features.cpuCooler.CpuCooler;
+import at.ac.htl.features.internalHarddrive.InternalHarddrive;
 import at.ac.htl.features.motherboard.Motherboard;
 import at.ac.htl.features.gpu.GPU;
+import at.ac.htl.features.powersupply.Powersupply;
 import at.ac.htl.features.ram.RAM;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -31,6 +35,22 @@ public class ShoppingCart {
     @JoinColumn(name = "ram_id")
     private RAM ram;
 
+    @OneToOne
+    @JoinColumn(name = "case_id")
+    private Case computerCase;
+
+    @OneToOne
+    @JoinColumn(name = "cpu_cooler_id")
+    private CpuCooler cpuCooler;
+
+    @OneToOne
+    @JoinColumn(name = "internalHarddrive_id")
+    private InternalHarddrive internalHarddrive;
+
+    @OneToOne
+    @JoinColumn(name="powersupply_id")
+    private Powersupply powersupply;
+
     private Double totalPrice;
 
     private LocalDateTime createdAt;
@@ -41,7 +61,51 @@ public class ShoppingCart {
         createdAt = LocalDateTime.now();
         updatedAt = createdAt;
     }
-    
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Case getComputerCase() {
+        return computerCase;
+    }
+
+    public void setComputerCase(Case computerCase) {
+        this.computerCase = computerCase;
+    }
+
+    public CpuCooler getCpuCooler() {
+        return cpuCooler;
+    }
+
+    public void setCpuCooler(CpuCooler cpuCooler) {
+        this.cpuCooler = cpuCooler;
+    }
+
+    public InternalHarddrive getInternalHarddrive() {
+        return internalHarddrive;
+    }
+
+    public void setInternalHarddrive(InternalHarddrive internalHarddrive) {
+        this.internalHarddrive = internalHarddrive;
+    }
+
+    public Powersupply getPowersupply() {
+        return powersupply;
+    }
+
+    public void setPowersupply(Powersupply powersupply) {
+        this.powersupply = powersupply;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @PreUpdate
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
