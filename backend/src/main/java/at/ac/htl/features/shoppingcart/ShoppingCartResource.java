@@ -137,7 +137,7 @@ public class ShoppingCartResource {
                 if (internalHarddrive == null) return Response.status(Response.Status.NOT_FOUND).build();
                 cart.setInternalHarddrive(internalHarddrive);
                 break;
-            case "cpuCooler":
+            case "cpucooler":
                 CpuCooler cpuCooler = cpuCoolerRepository.findById(componentId);
                 if (cpuCooler == null) return Response.status(Response.Status.NOT_FOUND).build();
                 cart.setCpuCooler(cpuCooler);
@@ -201,7 +201,7 @@ public class ShoppingCartResource {
             case "internalHardDrive":
                 cart.setInternalHarddrive(null);
                 break;
-            case "cpuCooler":
+            case "cpucooler":
                 cart.setCpuCooler(null);
                 break;
             case "case":
