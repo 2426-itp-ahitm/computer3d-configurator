@@ -11,7 +11,7 @@
 <script defer>
     document.addEventListener("DOMContentLoaded", function() {
     const menuCheckbox = document.getElementById("active");
-    const contentBoxes = document.querySelectorAll("#cpuAllBox, #mbAllBox, #gpuAllBox, #ramAllBox");
+    const contentBoxes = document.querySelectorAll("#cpuAllBox, #mbAllBox, #gpuAllBox, #ramAllBox, #internalHardDriveAllBox, #caseAllBox, #powerSupplyAllBox, #cpuCoolerAllBox");
 
     menuCheckbox.addEventListener("change", function() {
         contentBoxes.forEach(box => {
