@@ -71,7 +71,7 @@ h2 {
 }
 
 /* Abstand um die Komponentenboxen */
-#cpuAllBox, #mbAllBox, #gpuAllBox, #ramAllBox{
+#cpuAllBox, #mbAllBox, #gpuAllBox, #ramAllBox, #internalHardDriveAllBox, #caseAllBox, #powerSupplyAllBox, #cpuCoolerAllBox{
   flex-wrap: wrap;
   margin: 0 10vw;
   padding: 20px;
