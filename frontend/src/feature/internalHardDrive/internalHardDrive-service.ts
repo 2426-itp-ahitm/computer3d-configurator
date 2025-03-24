@@ -4,7 +4,7 @@ const BASE_URL = "/api"
 
 export async function loadAllInternalHardDrive(): Promise<InternalHardDrive[]> {
     try {
-        const response = await fetch(`${BASE_URL}/internalHardDrive`);
+        const response = await fetch(`${BASE_URL}/internalharddrive`);
         
         if (!response.ok) {
             throw new Error("Fehler beim Laden der RAMs");

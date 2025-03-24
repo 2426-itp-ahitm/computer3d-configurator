@@ -151,7 +151,7 @@ class InternalHardDriveComponent extends HTMLElement {
     console.log("Aktualisiere Warenkorb mit InternalHardDrive ID:", internalHardDriveId);
 
     try {
-      const response = await fetch(`http://localhost:8080/api/shoppingcart/update-cart/${model.shoppingCartId}/internalHardDrive/${internalHardDriveId}`, {
+      const response = await fetch(`http://localhost:8080/api/shoppingcart/update-cart/${model.shoppingCartId}/internalharddrive/${internalHardDriveId}`, {
         method: 'PUT', // POST oder PUT je nach API-Design
         headers: {
           'Content-Type': 'application/json',
@@ -174,7 +174,7 @@ class InternalHardDriveComponent extends HTMLElement {
 
     // API-Aufruf zum Entfernen des RAMs aus dem Warenkorb
     try {
-      const response = await fetch(`http://localhost:8080/api/shoppingcart/remove-component/${model.shoppingCartId}/internalHardDrive`, {
+      const response = await fetch(`http://localhost:8080/api/shoppingcart/remove-component/${model.shoppingCartId}/internalharddrive`, {
         method: 'DELETE', // DELETE-Methode für das Entfernen
         headers: {
           'Content-Type': 'application/json',
@@ -195,9 +195,9 @@ class InternalHardDriveComponent extends HTMLElement {
       this.renderInternalHardDrives(this.internalHardDrives);
 
       // Anzeige des Texts zurücksetzen
-      const ramNameElement = document.getElementById("ram-name");
+      const ramNameElement = document.getElementById("internalHardDrive-name");
       if (ramNameElement) {
-        ramNameElement.textContent = "RAM: ———";
+        ramNameElement.textContent = "InternalHardDrive: ———";
       }
     } catch (error) {
       console.error('Fehler beim Entfernen des RAMs aus dem Warenkorb:', error);
