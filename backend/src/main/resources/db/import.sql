@@ -58,11 +58,11 @@ VALUES
 INSERT INTO
     public.powersupply (powersupply_id, name, price, type, efficiency, wattage, modular, color, img)
 VALUES
-    (1, 'SeaSonic FOCUS Plus 650 Gold', 126.47, 'ATX', 'gold', 650, true, NULL, NULL),
-    (2, 'Corsair RM750', 109.99, 'ATX', 'gold', 750, true, 'White / Black', NULL),
-    (3, 'be quiet! Pure Power 12 M', 89.9, 'ATX', 'gold', 750, true, 'Black', NULL),
-    (4, 'be quiet! Pure Power 12 M', 99.9, 'ATX', 'gold', 850, true, 'Black', NULL),
-    (5, 'Gigabyte UD750GM', 92.12, 'ATX', 'gold', 750, true, 'Black', NULL);
+    (1, 'SeaSonic FOCUS Plus 650 Gold', 126.47, 'ATX', 'gold', 650, true, NULL, 'https://seasonic.com/wp-content/uploads/2024/04/focus-plus-gold-connector-side-1440x1080.webp'),
+    (2, 'Corsair RM750', 109.99, 'ATX', 'gold', 750, true, 'White / Black', 'https://asset.conrad.com/media10/isa/160267/c1/-/de/002901696PI00/image.jpg'),
+    (3, 'be quiet! Pure Power 12 M', 89.9, 'ATX', 'gold', 750, true, 'Black', 'https://gzhls.at/i/40/20/2884020-n34.jpg'),
+    (4, 'be quiet! Pure Power 12 M', 99.9, 'ATX', 'gold', 850, true, 'Black', 'https://gzhls.at/i/40/20/2884020-n34.jpg'),
+    (5, 'Gigabyte UD750GM', 92.12, 'ATX', 'gold', 750, true, 'Black', 'https://gzhls.at/i/34/85/3063485-n3.webp');
      
 INSERT INTO
     public.Internal_Harddrive (internalHarddrive_id, name, price, capacity, pricePerGb, type, cache, formFactor, memoryInterface, image)
@@ -76,7 +76,7 @@ INSERT INTO
 VALUES
     (1, 'Corsair 4000D Airflow', 104.99, 'ATX Mid Tower', 'Black', NULL, 'Tinted Tempered Glass', 48.6, 2, 'https://www.e-tec.at/xstorage/1/_cache/20250220/306721-1_1067254_1_4794ec45b941022584d4929699e6f3e3.jpg'),
     (2, 'NZXT H5 Flow', 94.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 47, 1, 'https://cdn-reichelt.de/resize/600%2F-/web/xxl_ws/E910%2FNZXT_CC-H51FW-R1_01.png?type=ProductXxl&resize=600%252F-&'),
-    (3, 'NZXT H9 Flow', 159.99, 'ATX Mid Tower', 'White', NULL, 'Tempered Glass', 66.9, 2, 'https://www.alternate.at/p/1200x630/0/6/NZXT_H9_Flow_All_White__Tower_Geh_use@@1863960_11.jpg'),
+    (3, 'NZXT H9 Flow', 159.99, 'ATX Mid Tower', 'White', NULL, 'Tempered Glass', 66.9, 2, 'https://www.alternate-b2b.at/p/600x600/0/6/NZXT_H9_Flow_All_White__Tower_Geh_use@@1863960_11.jpg'),
     (4, 'Lian Li O11 Vision', 138.94, 'ATX Mid Tower', 'White', NULL, 'Tempered Glass', 67.8, 2, 'https://lian-li.com/wp-content/uploads/2023/11/O11_Vision_06.webp'),
     (5, 'Fractal Design North', 139.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 45.1, 2, 'https://www.alternate.at/p/600x600/4/6/Fractal_Design_North_Charcoal_Black__Tower_Geh_use@@1858064.jpg'),
     (6, 'Phanteks XT PRO', 49.99, 'ATX Mid Tower', 'Black', NULL, 'Tempered Glass', 51.8, 2, 'https://gzhls.at/i/72/61/3147261-l0.jpg');
