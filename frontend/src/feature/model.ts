@@ -134,7 +134,7 @@ const state: Model = {
   },
   componentsShown: 0,
   cpuSocket: "",
-  shoppingCartId: 1 // Anfangs null, wird beim Laden/Erstellen gesetzt
+  shoppingCartId: 0 
 };
 
 type Subscription = (model: Model) => void;

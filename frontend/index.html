@@ -9,26 +9,26 @@
 </head>
 
 <script defer>
-    document.addEventListener("DOMContentLoaded", function() {
-    const menuCheckbox = document.getElementById("active");
-    const contentBoxes = document.querySelectorAll("#cpuAllBox, #mbAllBox, #gpuAllBox, #ramAllBox, #internalHardDriveAllBox, #caseAllBox, #powerSupplyAllBox, #cpuCoolerAllBox");
+//     document.addEventListener("DOMContentLoaded", function() {
+//     const menuCheckbox = document.getElementById("active");
+//     const contentBoxes = document.querySelectorAll("#cpuAllBox, #mbAllBox, #gpuAllBox, #ramAllBox, #internalHardDriveAllBox, #caseAllBox, #powerSupplyAllBox, #cpuCoolerAllBox");
 
-    menuCheckbox.addEventListener("change", function() {
-        contentBoxes.forEach(box => {
-            if (menuCheckbox.checked) {
-                box.classList.add("menu-active");
-            } else {
-                box.classList.remove("menu-active");
-            }
-        });
-    });
-});
+//     menuCheckbox.addEventListener("change", function() {
+//         contentBoxes.forEach(box => {
+//             if (menuCheckbox.checked) {
+//                 box.classList.add("menu-active");
+//             } else {
+//                 box.classList.remove("menu-active");
+//             }
+//         });
+//     });
+// });
 
 </script>
 
 <body>
 
-    <app-component></app-component>
+    <shopping-cart-component></shopping-cart-component>
 
 
 

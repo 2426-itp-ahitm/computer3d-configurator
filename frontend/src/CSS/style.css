@@ -128,6 +128,16 @@ h2 {
 #active:checked ~ .wrapper{
   right:0;
 }
+.shopping-cart-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin: 20px;
+  border-radius: 5px;
+}
 /* Menü Button */
 .menu-btn {
   user-select: none;
