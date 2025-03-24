@@ -1,6 +1,6 @@
 import { html, render } from "lit-html";
 import "../app-component";  // Die app-component muss importiert werden
-import {model, Model} from "../feature/model"
+import {model, Model} from "../feature/model";
 
 class ShoppingCartComponent extends HTMLElement {
     shoppingCartId = null;
@@ -31,6 +31,12 @@ class ShoppingCartComponent extends HTMLElement {
             
             //localStorage.setItem("shoppingCartId", this.shoppingCartId.toString());
             model.shoppingCartId = this.shoppingCartId;  // Modell aktualisieren
+
+            // Hier wird der andere Component mit der ID ausgeblendet
+            const otherComponent = document.getElementById('shoppingCartSelector');
+            if (otherComponent) {
+                otherComponent.style.display = 'none'; // Setze das Display auf none
+            }
 
             // Jetzt rendern wir die app-component, nachdem der Warenkorb erstellt wurde
             this.render();

@@ -1,5 +1,5 @@
 import { html, render } from "lit-html";
-import { model } from "./model";  // Importiere das Modell, um auf das globale Model zuzugreifen
+import { model } from "./model";  // Importiere das Modell, um auf das globale Modell zuzugreifen
 
 class ShoppingCartIdSelectorComponent extends HTMLElement {
     newShoppingCartId: number = 0;  // Speichert die neue Warenkorb-ID des Benutzers, immer eine Zahl
@@ -17,6 +17,12 @@ class ShoppingCartIdSelectorComponent extends HTMLElement {
 
             // Rückmeldung für den Benutzer
             console.log(`Warenkorb-ID auf ${this.newShoppingCartId} gesetzt`);
+
+            // Hier wird der andere Component mit der ID ausgeblendet
+            const otherComponent = document.getElementById('shoppingCart');
+            if (otherComponent) {
+                otherComponent.style.display = 'none'; // Setze das Display auf none
+            }
 
             // Rufe render auf, um die app-component anzuzeigen
             this.render();
