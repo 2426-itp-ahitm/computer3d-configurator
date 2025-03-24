@@ -78,7 +78,7 @@ class PowerSupplyComponent extends HTMLElement {
     // Methode zum Prüfen, ob ein PowerSupply bereits im Warenkorb liegt
     async checkPowerSupplyInCart() {
         try {
-            const response = await fetch("http://localhost:8080/api/shoppingcart/get-by-id/1");
+            const response = await fetch(`http://localhost:8080/api/shoppingcart/get-by-id/${model.shoppingCartId}`);
             if (!response.ok) {
                 throw new Error("Fehler beim Abrufen des Warenkorbs.");
             }

@@ -77,7 +77,7 @@ class CpuComponent extends HTMLElement {
     // Methode zum Prüfen, ob eine CPU bereits im Warenkorb liegt
     async checkCpuInCart() {
         try {
-            const response = await fetch("http://localhost:8080/api/shoppingcart/get-by-id/1");
+            const response = await fetch(`http://localhost:8080/api/shoppingcart/get-by-id/${model.shoppingCartId}`);
             if (!response.ok) {
                 throw new Error("Fehler beim Abrufen des Warenkorbs.");
             }

@@ -100,7 +100,7 @@ class RamComponent extends HTMLElement {
   // Neue Methode zum Überprüfen, ob bereits ein RAM im Warenkorb liegt
   async checkRamInCart() {
     try {
-      const response = await fetch("http://localhost:8080/api/shoppingcart/get-by-id/1");
+      const response = await fetch(`http://localhost:8080/api/shoppingcart/get-by-id/${model.shoppingCartId}`);
       if (!response.ok) {
         throw new Error("Fehler beim Abrufen des Warenkorbs.");
       }
