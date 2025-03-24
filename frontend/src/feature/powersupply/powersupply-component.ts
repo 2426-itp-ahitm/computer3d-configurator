@@ -108,7 +108,7 @@ class PowerSupplyComponent extends HTMLElement {
         this.addedPowerSupplyId = powerSupplyId;
         this.renderPowerSupplies(this.powerSupplies);  // Jetzt nach dem Hinzufügen neu rendern
 
-        const powerSupplyNameElement = document.getElementById('powersupply-name');
+        const powerSupplyNameElement = document.getElementById('powerSupply-name');
         if (powerSupplyNameElement) {
             powerSupplyNameElement.textContent = `PowerSupply: ${powerSupplyName}`;
         }
@@ -165,7 +165,7 @@ class PowerSupplyComponent extends HTMLElement {
             this.renderPowerSupplies(this.powerSupplies);
 
             // Anzeige des Texts zurücksetzen
-            const powerSupplyNameElement = document.getElementById('powersupply-name');
+            const powerSupplyNameElement = document.getElementById('powerSupply-name');
             if (powerSupplyNameElement) {
                 powerSupplyNameElement.textContent = `PowerSupply: ———`;
             }

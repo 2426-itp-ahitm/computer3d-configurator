@@ -106,7 +106,7 @@ class AppComponent extends HTMLElement {
             ramName.textContent = `RAM: ${data.ram?.name ?? "———"}`;
             internalHardDriveName.textContent = `InternalHardDrive: ${data.internalHardDrive?.name ?? "———"}`;
             caseName.textContent = `Case: ${data.cases?.name ?? "———"}`;
-            powerSupplyName.textContent = `PowerSupply: ${data.powersupply?.name ?? "———"}`;
+            powerSupplyName.textContent = `PowerSupply: ${data.powerSupply?.name ?? "———"}`;
             cpuCoolerName.textContent = `CPU Cooler: ${data.cpuCooler?.name ?? "———"}`;
         } catch (error) {
             console.error('Fehler beim Abrufen des Einkaufswagens:', error);
