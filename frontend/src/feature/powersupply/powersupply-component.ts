@@ -121,7 +121,7 @@ class PowerSupplyComponent extends HTMLElement {
         console.log("Aktualisiere Warenkorb mit PowerSupply ID:", powerSupplyId);
 
         try {
-            const response = await fetch(`http://localhost:8080/api/shoppingcart/update-cart/${model.shoppingCartId}/powersupply/${powerSupplyId}`, {
+            const response = await fetch(`http://localhost:8080/api/shoppingcart/update-cart/${model.shoppingCartId}/psu/${powerSupplyId}`, {
                 method: 'PUT', // POST oder PUT je nach API-Design
                 headers: {
                     'Content-Type': 'application/json',
@@ -144,7 +144,7 @@ class PowerSupplyComponent extends HTMLElement {
 
         // API-Aufruf zum Entfernen des PowerSupplies aus dem Warenkorb
         try {
-            const response = await fetch(`http://localhost:8080/api/shoppingcart/remove-component/${model.shoppingCartId}/powersupply`, {
+            const response = await fetch(`http://localhost:8080/api/shoppingcart/remove-component/${model.shoppingCartId}/psu`, {
                 method: 'DELETE', // DELETE-Methode für das Entfernen
                 headers: {
                     'Content-Type': 'application/json',
