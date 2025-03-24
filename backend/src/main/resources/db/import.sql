@@ -58,8 +58,12 @@ VALUES
 INSERT INTO
     public.powersupply (powersupply_id, name, price, type, efficiency, wattage, modular, color, img)
 VALUES
-    (1, 'Example PSU', 99.99, 'ATX', '80+ Bronze', 550, true, 'Black', 'https://example.com/image.jpg');
-             
+    (1, 'SeaSonic FOCUS Plus 650 Gold', 126.47, 'ATX', 'gold', 650, true, NULL, NULL),
+    (2, 'Corsair RM750', 109.99, 'ATX', 'gold', 750, true, 'White / Black', NULL),
+    (3, 'be quiet! Pure Power 12 M', 89.9, 'ATX', 'gold', 750, true, 'Black', NULL),
+    (4, 'be quiet! Pure Power 12 M', 99.9, 'ATX', 'gold', 850, true, 'Black', NULL),
+    (5, 'Gigabyte UD750GM', 92.12, 'ATX', 'gold', 750, true, 'Black', NULL);
+     
 INSERT INTO
     public.Internal_Harddrive (internalHarddrive_id, name, price, capacity, pricePerGb, type, cache, formFactor, memoryInterface, image)
 VALUES
