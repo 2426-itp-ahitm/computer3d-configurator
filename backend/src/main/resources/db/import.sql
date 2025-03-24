@@ -58,11 +58,11 @@ VALUES
 INSERT INTO
     public.powersupply (powersupply_id, name, price, type, efficiency, wattage, modular, color, img)
 VALUES
-    (1, 'SeaSonic FOCUS Plus 650 Gold', 126.47, 'ATX', 'gold', 650, true, NULL, NULL),
-    (2, 'Corsair RM750', 109.99, 'ATX', 'gold', 750, true, 'White / Black', NULL),
-    (3, 'be quiet! Pure Power 12 M', 89.9, 'ATX', 'gold', 750, true, 'Black', NULL),
-    (4, 'be quiet! Pure Power 12 M', 99.9, 'ATX', 'gold', 850, true, 'Black', NULL),
-    (5, 'Gigabyte UD750GM', 92.12, 'ATX', 'gold', 750, true, 'Black', NULL);
+    (1, 'SeaSonic FOCUS Plus 650 Gold', 126.47, 'ATX', 'gold', 650, true, NULL, 'https://seasonic.com/wp-content/uploads/2024/04/focus-plus-gold-connector-side-1440x1080.webp'),
+    (2, 'Corsair RM750', 109.99, 'ATX', 'gold', 750, true, 'White / Black', 'https://asset.conrad.com/media10/isa/160267/c1/-/de/002901696PI00/image.jpg'),
+    (3, 'be quiet! Pure Power 12 M', 89.9, 'ATX', 'gold', 750, true, 'Black', 'https://gzhls.at/i/40/20/2884020-n34.jpg'),
+    (4, 'be quiet! Pure Power 12 M', 99.9, 'ATX', 'gold', 850, true, 'Black', 'https://gzhls.at/i/40/20/2884020-n34.jpg'),
+    (5, 'Gigabyte UD750GM', 92.12, 'ATX', 'gold', 750, true, 'Black', 'https://gzhls.at/i/34/85/3063485-n3.webp');
      
 INSERT INTO
     public.Internal_Harddrive (internalHarddrive_id, name, price, capacity, pricePerGb, type, cache, formFactor, memoryInterface, image)
