@@ -10,6 +10,7 @@ import at.ac.htl.features.powersupply.Powersupply;
 import at.ac.htl.features.ram.RAM;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "shopping_cart")
@@ -19,7 +20,7 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cpu_id")
     private CPU cpu;
 
@@ -161,5 +162,13 @@ public class ShoppingCart {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public List<ShoppingCart> getShoppingCarts() {
+        return shoppingCarts;
+    }
+
+    public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
+        this.shoppingCarts = shoppingCarts;
     }
 }

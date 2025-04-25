@@ -1,9 +1,13 @@
 package at.ac.htl.features.cpu;
 
+import java.util.List;
+
+import at.ac.htl.features.shoppingcart.ShoppingCart;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class CPU {
@@ -20,6 +24,17 @@ public class CPU {
     Boolean smt;
     String socket;
     String img;
+
+    @OneToMany(mappedBy = "cpu")
+    private List<ShoppingCart> shoppingCarts;
+
+    public List<ShoppingCart> getShoppingCarts() {
+        return shoppingCarts;
+    }
+
+    public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
+        this.shoppingCarts = shoppingCarts;
+    }
 
     public String getSocket() {
         return socket;
