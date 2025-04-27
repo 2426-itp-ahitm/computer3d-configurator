@@ -1,10 +1,9 @@
 package at.ac.htl.features.casing;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import at.ac.htl.features.shoppingcart.ShoppingCart;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "casing")
@@ -21,6 +20,17 @@ public class Case {
     Float external_volume;
     Long internal_35_bays;
     String img;
+
+    @OneToMany(mappedBy = "computerCase")
+    private List<ShoppingCart> shoppingCarts;
+
+    public List<ShoppingCart> getShoppingCarts() {
+        return shoppingCarts;
+    }
+
+    public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
+        this.shoppingCarts = shoppingCarts;
+    }
 
     public Long getCase_id() {
         return case_id;

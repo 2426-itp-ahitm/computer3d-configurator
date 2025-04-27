@@ -1,9 +1,9 @@
 package at.ac.htl.features.motherboard;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import at.ac.htl.features.shoppingcart.ShoppingCart;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Motherboard {
@@ -20,6 +20,17 @@ public class Motherboard {
     String color;
     String img;
 
+    @OneToMany(mappedBy = "motherboard")
+    private List<ShoppingCart> shoppingCarts;
+
+    public List<ShoppingCart> getShoppingCarts() {
+        return shoppingCarts;
+    }
+
+    public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
+        this.shoppingCarts = shoppingCarts;
+    }
+
     public String getRamType() {
         return ramType;
     }
@@ -28,7 +39,6 @@ public class Motherboard {
         this.ramType = ramType;
     }
 
-    // Getter und Setter
     public Long getMotherboard_id() {
         return motherboard_id;
     }

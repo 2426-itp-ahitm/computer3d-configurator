@@ -24,31 +24,31 @@ public class ShoppingCart {
     @JoinColumn(name = "cpu_id")
     private CPU cpu;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "motherboard_id")
     private Motherboard motherboard;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "gpu_id")
     private GPU gpu;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ram_id")
     private RAM ram;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "case_id")
     private Case computerCase;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cpu_cooler_id")
     private CpuCooler cpuCooler;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "internalHarddrive_id")
     private InternalHarddrive internalHarddrive;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="powersupply_id")
     private Powersupply powersupply;
 
@@ -162,13 +162,5 @@ public class ShoppingCart {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
-
-    public List<ShoppingCart> getShoppingCarts() {
-        return shoppingCarts;
-    }
-
-    public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
-        this.shoppingCarts = shoppingCarts;
     }
 }

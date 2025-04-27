@@ -1,6 +1,9 @@
 package at.ac.htl.features.powersupply;
 
+import at.ac.htl.features.shoppingcart.ShoppingCart;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Powersupply {
@@ -15,6 +18,17 @@ public class Powersupply {
     String modular;
     String color;
     String img;
+
+    @OneToMany(mappedBy = "powersupply")
+    private List<ShoppingCart> shoppingCarts;
+
+    public List<ShoppingCart> getShoppingCarts() {
+        return shoppingCarts;
+    }
+
+    public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
+        this.shoppingCarts = shoppingCarts;
+    }
 
     public Long getPowersupply_id() {
         return powersupply_id;

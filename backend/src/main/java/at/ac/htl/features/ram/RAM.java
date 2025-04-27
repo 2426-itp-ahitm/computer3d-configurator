@@ -1,9 +1,9 @@
 package at.ac.htl.features.ram;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import at.ac.htl.features.shoppingcart.ShoppingCart;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class RAM {
@@ -21,6 +21,17 @@ public class RAM {
     Long first_word_latency;
     Long cas_latency;
     String img;
+
+    @OneToMany(mappedBy = "ram")
+    private List<ShoppingCart> shoppingCarts;
+
+    public List<ShoppingCart> getShoppingCarts() {
+        return shoppingCarts;
+    }
+
+    public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
+        this.shoppingCarts = shoppingCarts;
+    }
 
     public Long getRam_id() {
         return ram_id;
