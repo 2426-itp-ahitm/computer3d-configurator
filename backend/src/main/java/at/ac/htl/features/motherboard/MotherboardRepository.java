@@ -15,6 +15,9 @@ public class MotherboardRepository implements PanacheRepository<Motherboard> {
     public List<Motherboard> findByRam(String ramType)   {
         return list("ramType", ramType); // filter by sockets
     }
+    public List<Motherboard> findBySize(String formFactor)   {
+        return list("form_factor", formFactor);
+    }
 
 
 }

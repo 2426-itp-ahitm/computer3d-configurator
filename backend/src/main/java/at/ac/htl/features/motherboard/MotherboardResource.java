@@ -1,5 +1,6 @@
 package at.ac.htl.features.motherboard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import at.ac.htl.features.cpu.CPURepository;
@@ -44,8 +45,6 @@ public class MotherboardResource {
             .toList();
     }
 
-
-
     @GET
     @Path("/{motherboardId}")
     public Motherboard getMotherboardById(@PathParam("motherboardId") Long motherboardId) {
@@ -82,18 +81,69 @@ public class MotherboardResource {
     public List<MotherboardDto> getMotherboardsByCpuSocketAndRamType(@PathParam("ramType") String ramType, @PathParam("cpuSocket") String cpuSocket) {
         var motherBoardsByRamType = motherboardRepository.findByRam(ramType);
         var motherBoardsByCPUSocket = motherboardRepository.findBySocket(cpuSocket);
-
         motherBoardsByRamType.retainAll(motherBoardsByCPUSocket);
-
-
-
-
 
         return motherBoardsByRamType.stream()
                 .map(motherboardMapper::toResource)
                 .toList();
-
     }
+
+    @GET
+    @Path("/by-RAM-Type-CPU-Socket-Case-Type/{ramType}/{cpuSocket}/{caseType}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<MotherboardDto> getMotherboardsByCpuSocketAndRamTypeAndCaseType(@PathParam("ramType") String ramType, @PathParam("cpuSocket") String cpuSocket, @PathParam("caseType") String caseType) {
+
+        var motherBoardsByRamType = motherboardRepository.findByRam(ramType);
+        var motherBoardsByCPUSocket = motherboardRepository.findBySocket(cpuSocket);
+        var motherBoardByCaseFactor = motherboardRepository.findBySize(caseType);
+
+        var result = new ArrayList<>(motherBoardsByRamType);
+        result.retainAll(motherBoardsByCPUSocket);
+        result.retainAll(motherBoardByCaseFactor);
+
+
+        return result.stream()
+                .map(motherboardMapper::toResource)
+                .toList();
+    }
+
+    @GET
+    @Path("/by-CPU-Socket-Case-Type/{cpuSocket}/{caseType}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<MotherboardDto> getMotherboardsByCpuSocketAndCaseType( @PathParam("cpuSocket") String cpuSocket, @PathParam("caseType") String caseType) {
+
+        var motherBoardsByCPUSocket = motherboardRepository.findBySocket(cpuSocket);
+        var motherBoardByCaseFactor = motherboardRepository.findBySize(caseType);
+
+        var result = new ArrayList<>(motherBoardsByCPUSocket);
+        result.retainAll(motherBoardByCaseFactor);
+
+
+        return result.stream()
+                .map(motherboardMapper::toResource)
+                .toList();
+    }
+
+    @GET
+    @Path("/by-RAM-Type-Case-Type/{ramType}/{caseType}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<MotherboardDto> getMotherboardsByRamTypeAndCaseType(@PathParam("ramType") String ramType, @PathParam("caseType") String caseType) {
+
+        var motherBoardsByRamType = motherboardRepository.findByRam(ramType);
+        var motherBoardByCaseFactor = motherboardRepository.findBySize(caseType);
+
+        var result = new ArrayList<>(motherBoardsByRamType);
+        result.retainAll(motherBoardByCaseFactor);
+
+
+        return result.stream()
+                .map(motherboardMapper::toResource)
+                .toList();
+    }
+
+
+
+
 
 
 }
