@@ -158,8 +158,13 @@ class MbComponent extends HTMLElement {
     
         try {
             // --- CPUs filtern ---
-            const cpuResponse = await fetch(`/api/cpus/by-motherboard-socket/${socket}`, { method: 'GET' });
-            if (!cpuResponse.ok) throw new Error('Fehler beim Abrufen der CPUs.');
+            const cpuResponse = await fetch(`/api/cpus/by-motherboard-socket/${socket}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            if (!cpuResponse.ok) {
+                throw new Error('Fehler beim Abrufen der CPUs.');
+            }
             const cpus = await cpuResponse.json();
             console.log('Gefilterte CPUs:', cpus);
     
@@ -169,8 +174,13 @@ class MbComponent extends HTMLElement {
             }
     
             // --- RAMs filtern ---
-            const ramResponse = await fetch(`/api/rams/by-Motherboard-Type/${ramType}`, { method: 'GET' });
-            if (!ramResponse.ok) throw new Error('Fehler beim Abrufen der RAMs.');
+            const ramResponse = await fetch(`/api/rams/by-Motherboard-Type/${ramType}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            if (!ramResponse.ok) {
+                throw new Error('Fehler beim Abrufen der RAMs.');
+            }
             const rams = await ramResponse.json();
             console.log('Gefilterte RAMs:', rams);
     
@@ -180,26 +190,23 @@ class MbComponent extends HTMLElement {
             }
     
             // --- Cases filtern ---
-            // Hier kannst du den passenden CaseType wählen. Ich nehme als Beispiel das erste Mainboard-CaseType "Mid-Tower"
-            const caseType = "Mid-Tower"; // Du kannst das auch dynamisch abhängig machen!
+           // Hier entscheidest du, welchen CaseType du standardmäßig verwenden willst oder woher er kommt
+           const defaultCaseType = "Mid-Tower"; // Beispiel: könnte auch dynamisch sein!
     
-            const caseResponse = await fetch(`/api/cases/by-CaseType/${caseType}`, { method: 'GET' });
-            if (!caseResponse.ok) throw new Error('Fehler beim Abrufen der Cases.');
+           const caseResponse = await fetch(`/api/cases/by-CaseType/${defaultCaseType}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        });
+        if (!caseResponse.ok) {
+            throw new Error('Fehler beim Abrufen der Cases.');
+        }
             const cases = await caseResponse.json();
             console.log('Gefilterte Cases:', cases);
     
-            const caseComponent = document.querySelector('case-component');
+            const caseComponent = document.querySelector('case-component'); // Dein Case-Component
             if (caseComponent && typeof (caseComponent as any).updateCases === "function") {
                 (caseComponent as any).updateCases(cases);
             }
-    
-            // --- Motherboards filtern ---
-            const mbResponse = await fetch(`/api/motherboards/by-RAM-Type-CPU-Socket-Case-Type/${ramType}/${socket}/${caseType}`, { method: 'GET' });
-            if (!mbResponse.ok) throw new Error('Fehler beim Abrufen der Motherboards.');
-            const motherboards = await mbResponse.json();
-            console.log('Gefilterte Motherboards:', motherboards);
-    
-            this.updateMotherboards(motherboards);
     
         } catch (error) {
             console.error('Fehler beim Filtern der Komponenten:', error);

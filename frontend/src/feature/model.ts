@@ -28,6 +28,9 @@ interface Model {
 
   // Neu: shoppingCartId
   shoppingCartId: number | null;
+  
+  selectedCaseType?: string;
+  caseType: string | null;
 }
 
 /**
@@ -109,7 +112,7 @@ const state: Model = {
     internal_35_bays: 0,
     img: ""
   },
-  powersupply: {   // Neu: PowerSupply im Initialzustand hinzufügen
+  powersupply: {
     powersupply_id: 0,
     name: "",
     price: 0,
@@ -120,7 +123,7 @@ const state: Model = {
     color: "",
     img: ""
   },
-  cpuCooler: {  // Neu: CpuCooler im Initialzustand hinzufügen
+  cpuCooler: {
     cpu_cooler_id: 0,
     name: "",
     price: 0,
@@ -134,7 +137,8 @@ const state: Model = {
   },
   componentsShown: 0,
   cpuSocket: "",
-  shoppingCartId: 0 
+  shoppingCartId: 0,
+  caseType: ""
 };
 
 type Subscription = (model: Model) => void;
