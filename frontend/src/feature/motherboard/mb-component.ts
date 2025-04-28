@@ -154,52 +154,64 @@ class MbComponent extends HTMLElement {
     }
 
     async filterComponentsBySocketAndRAM(ramType: string, socket: string) {
-        console.log("Filtere CPUs und RAMs für Sockel:", socket, "und RAM-Typ:", ramType);
+        console.log("Filtere CPUs, RAMs und Cases für Sockel:", socket, "und RAM-Typ:", ramType);
         try {
-            // Fetch CPUs, die zum Sockel des Motherboards passen
+            // --- CPUs filtern ---
             const cpuResponse = await fetch(`/api/cpus/by-motherboard-socket/${socket}`, {
                 method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
             });
-
             if (!cpuResponse.ok) {
                 throw new Error('Fehler beim Abrufen der CPUs.');
             }
-
             const cpus = await cpuResponse.json();
             console.log('Gefilterte CPUs:', cpus);
-
+    
             const cpuComponent = document.querySelector('cpu-component');
             if (cpuComponent && typeof (cpuComponent as any).updateCPUs === "function") {
-                (cpuComponent as any).updateCPUs(cpus);  // Passende CPUs an das CPU-Component weitergeben
+                (cpuComponent as any).updateCPUs(cpus);
             }
-
-            // Fetch RAMs, die zum RAM-Typ des Motherboards passen
+    
+            // --- RAMs filtern ---
             const ramResponse = await fetch(`/api/rams/by-Motherboard-Type/${ramType}`, {
                 method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
             });
-
             if (!ramResponse.ok) {
                 throw new Error('Fehler beim Abrufen der RAMs.');
             }
-
             const rams = await ramResponse.json();
             console.log('Gefilterte RAMs:', rams);
-
+    
             const ramComponent = document.querySelector('ram-component');
             if (ramComponent && typeof (ramComponent as any).updateRAMs === "function") {
-                (ramComponent as any).updateRAMs(rams);  // Passende RAMs an das RAM-Component weitergeben
+                (ramComponent as any).updateRAMs(rams);
             }
-
+    
+            // --- Cases filtern ---
+            // Hier entscheidest du, welchen CaseType du standardmäßig verwenden willst oder woher er kommt
+            const defaultCaseType = "Mid-Tower"; // Beispiel: könnte auch dynamisch sein!
+    
+            const caseResponse = await fetch(`/api/cases/by-CaseType/${defaultCaseType}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            if (!caseResponse.ok) {
+                throw new Error('Fehler beim Abrufen der Cases.');
+            }
+            const cases = await caseResponse.json();
+            console.log('Gefilterte Cases:', cases);
+    
+            const caseComponent = document.querySelector('case-component'); // Dein Case-Component
+            if (caseComponent && typeof (caseComponent as any).updateCases === "function") {
+                (caseComponent as any).updateCases(cases);
+            }
+    
         } catch (error) {
             console.error('Fehler beim Filtern der Komponenten:', error);
         }
     }
+    
 
     async loadAllCPUs() {
         try {
@@ -292,6 +304,27 @@ class MbComponent extends HTMLElement {
             return [];
         }
     }
+
+    async loadAllCases() {
+        try {
+            const response = await fetch(`/api/cases`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Fehler beim Abrufen aller Cases.');
+            }
+    
+            return await response.json();
+        } catch (error) {
+            console.error('Fehler beim Laden aller Cases:', error);
+            return [];
+        }
+    }
+    
 }
 
 customElements.define("mb-component", MbComponent);
