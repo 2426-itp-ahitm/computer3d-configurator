@@ -80,7 +80,7 @@ VALUES
     (4, 'Lian Li O11 Vision', 138.94, 'ATX', 'White', NULL, 'Tempered Glass', 67.8, 2, 'https://lian-li.com/wp-content/uploads/2023/11/O11_Vision_06.webp'),
     (5, 'Fractal Design North', 139.99, 'ATX', 'Black', NULL, 'Tempered Glass', 45.1, 2, 'https://www.alternate.at/p/600x600/4/6/Fractal_Design_North_Charcoal_Black__Tower_Geh_use@@1858064.jpg'),
     (6, 'Phanteks XT PRO', 49.99, 'ATX', 'Black', NULL, 'Tempered Glass', 51.8, 2, 'https://gzhls.at/i/72/61/3147261-l0.jpg'),
-    (7, 'Montech AIR 100 ARGB', NULL, 'MicroATX', 'Black', NULL, 'Tempered Glass', 36.1, 2, 'https://gzhls.at/i/83/79/2578379-l13.jpg');
+    (7, 'Montech AIR 100 ARGB', 100.00, 'MicroATX', 'Black', NULL, 'Tempered Glass', 36.1, 2, 'https://gzhls.at/i/83/79/2578379-l13.jpg');
 
 
 INSERT INTO
