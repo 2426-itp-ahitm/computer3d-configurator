@@ -62,7 +62,8 @@ VALUES
     (2, 'Corsair RM750', 109.99, 'ATX', 'gold', 750, true, 'White / Black', 'https://asset.conrad.com/media10/isa/160267/c1/-/de/002901696PI00/image.jpg'),
     (3, 'be quiet! Pure Power 12 M', 89.9, 'ATX', 'gold', 750, true, 'Black', 'https://gzhls.at/i/40/20/2884020-n34.jpg'),
     (4, 'be quiet! Pure Power 12 M', 99.9, 'ATX', 'gold', 850, true, 'Black', 'https://gzhls.at/i/40/20/2884020-n34.jpg'),
-    (5, 'Gigabyte UD750GM', 92.12, 'ATX', 'gold', 750, true, 'Black', 'https://gzhls.at/i/34/85/3063485-n3.webp');
+    (5, 'Gigabyte UD750GM', 92.12, 'ATX', 'gold', 750, true, 'Black', 'https://gzhls.at/i/34/85/3063485-n3.webp'),
+    (6, 'SilverStone SX500-G', 119.99, 'MicroATX', 'gold', 500, true, 'Black', 'https://www.silverstonetek.com/images/products/SX500-G/01-SX500-G.jpg');
      
 INSERT INTO
     public.Internal_Harddrive (internalHarddrive_id, name, price, capacity, pricePerGb, type, cache, formFactor, memoryInterface, image)

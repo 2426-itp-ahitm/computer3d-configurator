@@ -17,3 +17,16 @@ export async function loadAllPowerSupplies(): Promise<PowerSupply[]> {
         return [];  // Rückgabe eines leeren Arrays im Fehlerfall
     }
 }
+export async function loadPowerSuppliesByCaseType(caseType: string): Promise<PowerSupply[]> {
+    try {
+        const response = await fetch(`http://localhost:8080/api/powersupply/by-CaseType/${caseType}/`);
+        if (!response.ok) {
+            throw new Error('Fehler beim Laden der kompatiblen PowerSupplies.');
+        }
+        const powerSupplies = await response.json();
+        return powerSupplies;
+    } catch (error) {
+        console.error('Fehler beim Laden der PowerSupplies:', error);
+        return []; // wichtig: leere Liste zurückgeben, damit UI nicht abstürzt
+    }
+}

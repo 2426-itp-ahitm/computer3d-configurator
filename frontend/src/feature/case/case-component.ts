@@ -3,10 +3,12 @@ import { loadAllCases } from "./case-service";
 import { Case } from "./case";
 import { Model, subscribe } from "../model";
 import { model } from "../model";
+import { Motherboard } from "src/model";
 
 class CaseComponent extends HTMLElement {
   addedCaseId: number | null = null;
   cases: Case[] = [];
+  filteredMotherboards: Motherboard[] = []; // Gefilterte Motherboards
 
   async connectedCallback() {
     // Reagiere auf Model-Updates
@@ -17,11 +19,36 @@ class CaseComponent extends HTMLElement {
     // Lade alle Cases über die API: http://localhost:8080/api/cases
     this.cases = await loadAllCases();
 
+    // Lade alle Motherboards und filtere sie bei Bedarf
+    await this.loadAndFilterMotherboards();
+
     // Prüfe, ob bereits ein Case im Warenkorb liegt
     await this.checkCaseInCart();
 
     // Render die Cases
     this.renderCases(this.cases);
+  }
+
+  async loadAndFilterMotherboards() {
+    // Filtere die Motherboards basierend auf den aktuellen Model-Eigenschaften
+    if (model.ram && model.cpuSocket && model.caseType) {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/motherboards/by-RAM-Type-Case-Type/${model.ram.type}/${model.caseType}`
+        );
+        if (response.ok) {
+          const motherboards = await response.json();
+          this.filteredMotherboards = motherboards.filter((mb: Motherboard) =>
+            mb.socket === model.cpuSocket
+          );
+          console.log("Gefilterte Motherboards:", this.filteredMotherboards);
+        } else {
+          console.error("Fehler beim Abrufen der Motherboards.");
+        }
+      } catch (error) {
+        console.error("Fehler beim Laden der Motherboards:", error);
+      }
+    }
   }
 
   render(model: Model) {
@@ -75,7 +102,7 @@ class CaseComponent extends HTMLElement {
                     : html`
                         <svg
                           @click=${() =>
-                            this.addCase(c.case_id, c.name)}
+                            this.addCase(c.case_id, c.name, c.type)}
                           xmlns="http://www.w3.org/2000/svg"
                           x="0px"
                           y="0px"
@@ -128,14 +155,17 @@ class CaseComponent extends HTMLElement {
     }
   }
 
-  async addCase(caseId: number, caseName: string) {
+  async addCase(caseId: number, caseName: string, caseType: string) {
     console.log("Case ID hinzugefügt:", caseId);
     this.addedCaseId = caseId;
+    model.caseType = caseType;
+
     this.renderCases(this.cases);
     const caseNameElement = document.getElementById("case-name");
     if (caseNameElement) {
       caseNameElement.textContent = `Case: ${caseName}`;
     }
+
     // API-Aufruf zum Hinzufügen des Cases zum Warenkorb
     await this.updateShoppingCart(caseId);
   }

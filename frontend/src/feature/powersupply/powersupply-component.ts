@@ -1,5 +1,5 @@
 import { html, render } from "lit-html";
-import { loadAllPowerSupplies } from "./powersupply-service"; // Falls du einen Service für die Ladeoperationen hast
+import { loadAllPowerSupplies, loadPowerSuppliesByCaseType } from "./powersupply-service"; // Falls du einen Service für die Ladeoperationen hast
 import { PowerSupply } from "./powersupply";
 import { Model, subscribe } from "../model";
 import { model } from '../model';
@@ -9,17 +9,22 @@ class PowerSupplyComponent extends HTMLElement {
     powerSupplies: PowerSupply[] = [];
 
     async connectedCallback() {
-        subscribe(model => {
-            this.render(model);
-        });
-
-        // Lade alle PowerSupplies und speichere sie
+        // 1. Beim ersten Aufruf: Alles laden (weil noch kein CaseType gewählt)
         this.powerSupplies = await loadAllPowerSupplies();
-
-        // Prüfe, ob bereits ein PowerSupply im Warenkorb liegt
         await this.checkPowerSupplyInCart();
-
         this.renderPowerSupplies(this.powerSupplies);
+    
+        // 2. Danach: Auf Änderungen im Modell reagieren
+        subscribe(async (model: Model) => {
+            if (model.caseType) {
+                this.powerSupplies = await loadPowerSuppliesByCaseType(model.caseType);
+            } else {
+                this.powerSupplies = await loadAllPowerSupplies();
+            }
+    
+            await this.checkPowerSupplyInCart();
+            this.renderPowerSupplies(this.powerSupplies);
+        });
     }
 
     render(model: Model) {
@@ -28,8 +33,14 @@ class PowerSupplyComponent extends HTMLElement {
     }
 
     renderPowerSupplies(powerSupplies: PowerSupply[]) {
-        render(this.tableTemplate(powerSupplies), this);
+    if (!powerSupplies || powerSupplies.length === 0) {
+        this.innerHTML = `<p>Bitte wähle zuerst ein Case aus.</p>`;
+        return;
     }
+
+    render(this.tableTemplate(powerSupplies), this);
+}
+
 
     tableTemplate(powerSupplies: PowerSupply[]) {
         const data = powerSupplies.map(powerSupply =>
