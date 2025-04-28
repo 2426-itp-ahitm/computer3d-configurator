@@ -178,46 +178,57 @@ class RamComponent extends HTMLElement {
       }
       const shoppingCart = await response.json();
   
-      // Prüfe, ob ein RAM ausgewählt wurde
-      if (shoppingCart.ram && shoppingCart.ram.type) {
-        const ramType = shoppingCart.ram.type;
-        let endpoint: string;
+      // Prüfe, ob ein RAM und/oder eine CPU und/oder ein Case-Typ ausgewählt wurde
+      const ramType = shoppingCart.ram?.type;
+      const cpuSocket = shoppingCart.cpu?.socket;
+      const caseType = shoppingCart.case?.type;
   
-        // Falls eine CPU ausgewählt wurde, filtere nach CPU-Socket und RAM-Typ
-        if (shoppingCart.cpu && shoppingCart.cpu.socket) {
-          const cpuSocket = shoppingCart.cpu.socket;
-          console.log("Filtere Motherboards mit CPU-Socket:", cpuSocket, "und RAM-Typ:", ramType);
-          endpoint = `http://localhost:8080/api/motherboards/by-RAM-Type-And-CPU-Socket/${ramType}/${cpuSocket}`;
-        } else {
-          // Falls keine CPU ausgewählt wurde, filtere nur nach RAM-Typ
-          console.log("Nur RAM ausgewählt. Filtere Motherboards nur nach RAM-Typ:", ramType);
-          endpoint = `http://localhost:8080/api/motherboards/by-RAM-Type/${ramType}`;
-        }
+      let endpoint: string;
   
-        const filterResponse = await fetch(endpoint, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (!filterResponse.ok) {
-          throw new Error("Fehler beim Abrufen der gefilterten Motherboards.");
-        }
-        const filteredMotherboards = await filterResponse.json();
-        console.log("Gefilterte Motherboards:", filteredMotherboards);
+      // Alle Komponenten vorhanden? Filtere nach allen
+      if (ramType && cpuSocket && caseType) {
+        console.log("Filtere Motherboards mit RAM-Typ:", ramType, ", CPU-Socket:", cpuSocket, ", Case-Typ:", caseType);
+        endpoint = `http://localhost:8080/api/motherboards/by-RAM-Type-CPU-Socket-Case-Type/${ramType}/${cpuSocket}/${caseType}`;
+      }
+      // Nur RAM und CPU ausgewählt?
+      else if (ramType && cpuSocket) {
+        console.log("Filtere Motherboards mit RAM-Typ:", ramType, "und CPU-Socket:", cpuSocket);
+        endpoint = `http://localhost:8080/api/motherboards/by-RAM-Type-And-CPU-Socket/${ramType}/${cpuSocket}`;
+      }
+      // Nur RAM ausgewählt?
+      else if (ramType) {
+        console.log("Filtere Motherboards mit RAM-Typ:", ramType);
+        endpoint = `http://localhost:8080/api/motherboards/by-RAM-Type/${ramType}`;
+      }
+      // Kein RAM? Zeige alle Motherboards
+      else {
+        console.log("Kein RAM ausgewählt. Zeige alle Motherboards.");
+        endpoint = "http://localhost:8080/api/motherboards";
+      }
   
-        // Übergib die gefilterten Motherboards an das mb-component
-        const mbComponent = document.querySelector("mb-component");
-        if (mbComponent && typeof (mbComponent as any).updateMotherboards === "function") {
-          (mbComponent as any).updateMotherboards(filteredMotherboards);
-        }
-      } else {
-        console.error("Kein RAM ausgewählt. Filterung kann nicht durchgeführt werden.");
+      // API-Aufruf mit dem entsprechenden Filter
+      const filterResponse = await fetch(endpoint, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!filterResponse.ok) {
+        throw new Error("Fehler beim Abrufen der gefilterten Motherboards.");
+      }
+      const filteredMotherboards = await filterResponse.json();
+      console.log("Gefilterte Motherboards:", filteredMotherboards);
+  
+      // Übergib die gefilterten Motherboards an das mb-component
+      const mbComponent = document.querySelector("mb-component");
+      if (mbComponent && typeof (mbComponent as any).updateMotherboards === "function") {
+        (mbComponent as any).updateMotherboards(filteredMotherboards);
       }
     } catch (error) {
       console.error("Fehler beim Filtern der Motherboards:", error);
     }
   }
+  
   
   
 
@@ -254,7 +265,7 @@ class RamComponent extends HTMLElement {
 
   async removeRam(ramId: number) {
     console.log("Entferne RAM ID:", ramId);
-
+  
     // API-Aufruf zum Entfernen des RAMs aus dem Warenkorb
     try {
       const response = await fetch(`http://localhost:8080/api/shoppingcart/remove-component/${model.shoppingCartId}/ram`, {
@@ -263,20 +274,23 @@ class RamComponent extends HTMLElement {
           'Content-Type': 'application/json',
         },
       });
-
+  
       if (!response.ok) {
         throw new Error('Fehler beim Entfernen des RAMs aus dem Warenkorb.');
       }
-
+  
       const data = await response.json();
       console.log('RAM erfolgreich aus dem Warenkorb entfernt:', data);
-
+  
       // RAM-ID zurücksetzen, da kein RAM mehr im Warenkorb ist
       this.addedRamId = null;
-
+  
       // Anzeige nach dem Entfernen neu rendern
       this.renderRAMs(this.rams);
-
+  
+      // Alle Motherboards anzeigen, wenn kein RAM mehr vorhanden ist
+      await this.filterMotherboardsBySelectedComponents();
+  
       // Anzeige des Texts zurücksetzen
       const ramNameElement = document.getElementById("ram-name");
       if (ramNameElement) {
@@ -286,6 +300,7 @@ class RamComponent extends HTMLElement {
       console.error('Fehler beim Entfernen des RAMs aus dem Warenkorb:', error);
     }
   }
+  
 }
 
 customElements.define("ram-component", RamComponent);
