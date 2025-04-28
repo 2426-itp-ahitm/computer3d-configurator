@@ -1,22 +1,24 @@
 import Foundation
 
-struct RAM: Identifiable, Decodable {
-    var id: Int { ram_id }
-    let ram_id: Int
+struct RAM: Codable, Identifiable {
+    let id: Int
     let name: String
-    let price: Double
+    let price: Double?
     let type: String
     let clockSpeed: Int
     let moduleCount: Int
     let gbPerModule: Int
-    let pricePerGb: Int
-    let color: String
+    let pricePerGb: Double?
+    let color: String?
     let firstWordLatency: Int
     let casLatency: Int
     let img: String
 
     enum CodingKeys: String, CodingKey {
-        case ram_id, name, price, type
+        case id = "ram_id"
+        case name
+        case price
+        case type
         case clockSpeed = "clock_speed"
         case moduleCount = "module_count"
         case gbPerModule = "gb_per_module"
