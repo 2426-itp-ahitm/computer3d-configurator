@@ -1,0 +1,103 @@
+CPUs
+    AMD Ryzen 7 7800X3D
+    3D-Modell bei Sketchfab: https://sketchfab.com/3d-models/amd-ryzen-7-7800x3d-209c4aada00e4b1790d8d274bac98779
+    Sketchfab
+
+    AMD Ryzen 5 7600X
+    3D-Modell bei Sketchfab: https://sketchfab.com/3d-models/amd-ryzen-7600x-am5-socket-43471f4be23a4e8198e6391e5da0ccfe
+    Sketchfab
+
+    AMD Ryzen 5 5600X
+    3D-Modell bei CGTrader: https://www.cgtrader.com/3d-models/various/various-models/amd-ryzen-5-5600x-cpu-v1-001
+    CGTrader
+
+    AMD Ryzen 5 7600
+    Kein frei verfügbares 3D-Modell gefunden.
+    GrabCAD
+
+    Intel Core i9-14900K
+    Kein frei verfügbares 3D-Modell gefunden.
+    GrabCAD
+
+    Intel Core i7-14700K
+    Kein frei verfügbares 3D-Modell gefunden.
+    GrabCAD
+
+Mainboards (Motherboards)
+
+    MSI B650 GAMING PLUS WIFI
+    Kein frei verfügbares 3D-Modell gefunden.
+    MSI
+
+    Asus ROG STRIX B650-A GAMING WIFI
+    Kein frei verfügbares 3D-Modell gefunden.
+    @ROG
+
+    MSI B760 GAMING PLUS WIFI
+    Kein frei verfügbares 3D-Modell gefunden.
+    MSI
+
+    MSI PRO Z790-A MAX WIFI
+    Kein frei verfügbares 3D-Modell gefunden.
+    MSI
+
+    MSI B550 GAMING GEN3
+    Kein frei verfügbares 3D-Modell gefunden.
+    MSI
+
+    MSI B450M-A PRO MAX II
+    3D-Modell bei Sketchfab: https://sketchfab.com/3d-models/msi-b450m-pro-m2-max-848f4cfb38d14f0a9830f2bf2bd9bd39
+    Sketchfab
+
+Grafikkarten (GPUs)
+
+Für alle folgenden GPUs wurden keine frei downloadbaren 3D-Modelle gefunden.
+
+    Gigabyte EAGLE OC Rev 2.0
+
+    MSI GAMING TRIO PLUS
+
+    MSI TWIN FAN OC
+
+    XFX THICC III Pro
+
+    Inno3D Gaming OC X3
+
+    Gigabyte MINI ITX OC
+
+    PowerColor Red Devil OC
+
+    MSI GeForce GTX 1060 6GT OCV1
+
+    Gigabyte GAMING
+
+    ASRock Challenger D
+
+    XFX Speedster SWFT 309
+
+    Gigabyte EAGLE
+
+(Generelle Recherche in CAD-Bibliotheken ergab keine spezifischen Modelle.)
+GrabCAD
+Arbeitsspeicher (RAM)
+
+Auch hier wurden keine frei downloadbaren 3D-Modelle gefunden:
+
+    ADATA XPG LANCER RGB ROG CERTIFIED 32 GB
+
+    Kingston FURY Renegade Pro 32 GB
+
+    Mushkin MES4S240HF8G 8 GB
+
+    GeIL EVO V RGB 32 GB
+
+    TEAMGROUP T-Force Vulcan 32 GB
+
+    ADATA XPG GAMMIX D10 8 GB
+
+    TEAMGROUP T-Force Delta RGB 32 GB
+
+    Crucial CT7982449 16 GB
+
+(Keine 3D-Modelle in gängigen CAD-Repositories gefunden.)
+traceparts.com
