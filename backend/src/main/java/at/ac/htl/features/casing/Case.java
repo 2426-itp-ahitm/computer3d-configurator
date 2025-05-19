@@ -20,6 +20,7 @@ public class Case {
     Float external_volume;
     Long internal_35_bays;
     String img;
+    String model;
 
     @OneToMany(mappedBy = "computerCase")
     private List<ShoppingCart> shoppingCarts;
@@ -110,5 +111,13 @@ public class Case {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 }

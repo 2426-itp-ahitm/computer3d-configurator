@@ -10,6 +10,7 @@ public record CaseDto(
         String side_panel,
         Float external_volume,
         Long internal_35_bays,
-        String img
+        String img,
+        String model
 ) {
 }

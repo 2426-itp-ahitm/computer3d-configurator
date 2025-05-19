@@ -5,7 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class InternalHarddriveMapper {
-    public InternalHarddriveDto toResource(InternalHarddrive harddrive){
+    public InternalHarddriveDto toResource(InternalHarddrive harddrive) {
         return new InternalHarddriveDto(
                 harddrive.internalHarddrive_id,
                 harddrive.name,
@@ -16,9 +16,8 @@ public class InternalHarddriveMapper {
                 harddrive.cache,
                 harddrive.formFactor,
                 harddrive.memoryInterface,
-                harddrive.image
-
-
+                harddrive.image,
+                harddrive.model
         );
     }
 }

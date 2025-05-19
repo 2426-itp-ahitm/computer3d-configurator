@@ -10,7 +10,8 @@ public record MotherboardDto(
     Long max_memory,
     Long memory_slots,
     String color,
-    String img
+    String img,
+    String model
 ) {
 
 } 

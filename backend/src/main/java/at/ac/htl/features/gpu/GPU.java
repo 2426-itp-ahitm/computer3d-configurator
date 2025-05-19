@@ -19,6 +19,15 @@ public class GPU {
     String color;
     Long length;
     String img;
+    String model;
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
 
     @OneToMany(mappedBy = "gpu")
     private List<ShoppingCart> shoppingCarts;

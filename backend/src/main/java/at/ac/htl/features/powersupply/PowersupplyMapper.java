@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class PowersupplyMapper {
-    public PowersupplyDto toResource(Powersupply psu){
+    public PowersupplyDto toResource(Powersupply psu) {
         return new PowersupplyDto(
                 psu.powersupply_id,
                 psu.name,
@@ -14,7 +14,8 @@ public class PowersupplyMapper {
                 psu.wattage,
                 psu.modular,
                 psu.color,
-                psu.img
+                psu.img,
+                psu.model
         );
     }
 }

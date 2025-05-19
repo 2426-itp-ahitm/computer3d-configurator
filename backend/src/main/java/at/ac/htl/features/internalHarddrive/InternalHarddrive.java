@@ -20,6 +20,15 @@ public class InternalHarddrive {
     String formFactor;
     String memoryInterface;
     String image;
+    String model;
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
 
     @OneToMany(mappedBy = "internalHarddrive")
     private List<ShoppingCart> shoppingCarts;

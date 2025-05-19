@@ -15,7 +15,8 @@ public class CaseMapper {
                 caseing.side_panel,
                 caseing.external_volume,
                 caseing.internal_35_bays,
-                caseing.img
+                caseing.img,
+                caseing.model
         );
     }
 }

@@ -20,6 +20,7 @@ public class CpuCooler {
     String color;
     Long size;
     String img;
+    String model;
 
     @OneToMany(mappedBy = "cpuCooler")
     private List<ShoppingCart> shoppingCarts;
@@ -110,5 +111,13 @@ public class CpuCooler {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 }

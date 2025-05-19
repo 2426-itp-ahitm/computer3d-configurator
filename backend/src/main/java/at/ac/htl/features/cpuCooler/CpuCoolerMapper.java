@@ -15,7 +15,8 @@ public class CpuCoolerMapper {
                 cpuCooler.max_noise_level,
                 cpuCooler.color,
                 cpuCooler.size,
-                cpuCooler.img
+                cpuCooler.img,
+                cpuCooler.model
         );
     }
 }

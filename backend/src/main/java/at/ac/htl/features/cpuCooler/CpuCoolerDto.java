@@ -10,6 +10,7 @@ public record CpuCoolerDto(
         Float max_noise_level,
         String color,
         Long size,
-        String img
+        String img,
+        String model
 ) {
 }

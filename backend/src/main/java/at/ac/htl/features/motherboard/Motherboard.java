@@ -19,6 +19,15 @@ public class Motherboard {
     Long memory_slots;
     String color;
     String img;
+    String model;
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
 
     @OneToMany(mappedBy = "motherboard")
     private List<ShoppingCart> shoppingCarts;

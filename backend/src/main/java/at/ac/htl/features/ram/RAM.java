@@ -21,6 +21,15 @@ public class RAM {
     Long first_word_latency;
     Long cas_latency;
     String img;
+    String model;
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
 
     @OneToMany(mappedBy = "ram")
     private List<ShoppingCart> shoppingCarts;

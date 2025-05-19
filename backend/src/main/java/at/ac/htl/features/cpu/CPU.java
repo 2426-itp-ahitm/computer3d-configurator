@@ -24,6 +24,7 @@ public class CPU {
     Boolean smt;
     String socket;
     String img;
+    String model;
 
     @OneToMany(mappedBy = "cpu")
     private List<ShoppingCart> shoppingCarts;
@@ -122,6 +123,14 @@ public class CPU {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 }
 
