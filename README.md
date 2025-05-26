@@ -49,6 +49,19 @@ Damit der Konfigurator funktioniert, benötigen wir **detaillierte 3D-Modelle** 
 Bitte bei **Prof. Aberger** oder **r.reisinger1@students.htl-leonding.ac.at (Raphael Reisinger)** melden, falls Fragen zum Projekt oder zur Modellanforderung bestehen.
 
 ---
-Screenshots des aktuellen Projekts:
+Screenshots des aktuellen Projekts (noch nicht fertig!):
+
+Login
+![image](./Screenshots/Sc1.png)
+QRCode anzeigen
+![image](./Screenshots/Sc2.png)
+Components
+![image](./Screenshots/Sc3.png)
+![image](./Screenshots/Sc5.png)
+Warenkorb
+![image](./Screenshots/Sc4.png)
+Filterung
+![image](./Screenshots/Sc6.png)
+
 
 
