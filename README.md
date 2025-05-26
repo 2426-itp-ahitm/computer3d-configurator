@@ -47,3 +47,8 @@ Damit der Konfigurator funktioniert, benötigen wir **detaillierte 3D-Modelle** 
 ## 📩 Kontakt & Rückfragen
 
 Bitte bei **Prof. Aberger** oder **r.reisinger1@students.htl-leonding.ac.at (Raphael Reisinger)** melden, falls Fragen zum Projekt oder zur Modellanforderung bestehen.
+
+---
+Screenshots des aktuellen Projekts:
+
+
