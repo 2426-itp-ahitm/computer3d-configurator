@@ -23,14 +23,12 @@ Damit der Konfigurator funktioniert, benötigen wir **detaillierte 3D-Modelle** 
 - CPU-Kühler
 - RAM-Module
 - Grafikkarten
-- Netzteile
 - Powersupply
 - Gehäuse
-
+- Gehäusekühler
 ### 📐 Anforderungen an die 3D-Modelle
 
 - **Format:** vorzugsweise `.pvz` (Vuforia View-kompatibel), alternativ `.glb` oder `.fbx` für Konvertierung
-- **Performance-freundlich:** keine unnötig hohe Polygonanzahl
 - **Keine Logos/Marken**, wenn möglich (wegen Lizenzierung)
 
 ---
