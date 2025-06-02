@@ -51,6 +51,8 @@ Bitte bei **Prof. Aberger** oder **r.reisinger1@students.htl-leonding.ac.at (Rap
 ---
 Screenshots des aktuellen Projekts (noch nicht fertig!):
 
+### Website
+
 Login
 ![image](./Screenshots/Sc1.png)
 QRCode anzeigen
@@ -63,5 +65,10 @@ Warenkorb
 Filterung
 ![image](./Screenshots/Sc6.png)
 
+### Vuforia
+Vuforia Studio
+![image](./Screenshots/MainboardVuforiaStudio.png)
 
+Vuforia View
+![image](./Screenshots/MainboardVuforiaStudio.png)
 
