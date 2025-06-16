@@ -22,6 +22,10 @@ struct ContentView: View {
                 .tabItem {
                     Label("RAM", systemImage: "rectangle.stack")
                 }
+            InternalHarddriveListView()
+                .tabItem {
+                    Label("Storage", systemImage: "folder")
+                }
         }
     }
 }

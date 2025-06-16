@@ -1,9 +1,3 @@
-//
-//  swiftFrontendApp.swift
-//  swiftFrontend
-//
-//  Created by Julian Murach on 07.04.25.
-//
 
 import SwiftUI
 
@@ -15,3 +9,4 @@ struct swiftFrontendApp: App {
         }
     }
 }
+

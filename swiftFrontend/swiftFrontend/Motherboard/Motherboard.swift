@@ -1,6 +1,6 @@
 import Foundation
 
-struct Motherboard: Identifiable, Decodable {
+struct Motherboard: Identifiable, Codable {
     var id: Int { motherboard_id }
     let motherboard_id: Int
     let name: String

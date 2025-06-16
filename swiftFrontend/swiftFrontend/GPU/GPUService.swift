@@ -1,25 +1,24 @@
 import Foundation
 
-class GPUService: ObservableObject {
-    @Published var gpus: [GPU] = []
+class GPUService {
+    
+    func fetchGPUs(completion: @escaping (Result<[GPU], Error>) -> Void) {
+        guard let url = URL(string: "\(Config.backendBaseURL)/api/gpus") else {
+            completion(.failure(URLError(.badURL)))
+            return
+        }
 
-    private let url = "http://localhost:8080/api/gpus" // Hier deine API-URL einfügen
-
-    func fetchGPUs() {
-        guard let url = URL(string: url) else { return }
-
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 do {
-                    let decodedGPUs = try JSONDecoder().decode([GPU].self, from: data)
-                    DispatchQueue.main.async {
-                        self.gpus = decodedGPUs
-                    }
+                    let gpus = try JSONDecoder().decode([GPU].self, from: data)
+                    completion(.success(gpus))
                 } catch {
-                    print("Fehler beim Dekodieren der GPUs: \(error)")
+                    completion(.failure(error))
                 }
+            } else if let error = error {
+                completion(.failure(error))
             }
-        }
-        task.resume()
+        }.resume()
     }
 }

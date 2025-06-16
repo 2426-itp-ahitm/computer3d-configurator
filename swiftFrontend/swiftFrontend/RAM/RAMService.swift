@@ -3,7 +3,7 @@ import Foundation
 class RAMService {
     
     func fetchRAMs(completion: @escaping (Result<[RAM], Error>) -> Void) {
-        guard let url = URL(string: "http://localhost:8080/api/rams") else {
+        guard let url = URL(string: "\(Config.backendBaseURL)/api/rams") else {
             completion(.failure(URLError(.badURL)))
             return
         }

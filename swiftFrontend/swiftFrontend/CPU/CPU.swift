@@ -1,6 +1,6 @@
 import Foundation
 
-struct CPU: Identifiable, Decodable {
+struct CPU: Identifiable, Codable {
     var id: Int
     var name: String
     var price: Double

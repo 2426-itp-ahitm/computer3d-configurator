@@ -1,23 +1,28 @@
+//
+//  CpuCoolerListView.swift
+//  swiftFrontend
+//
+//  Created by Julian Murach on 16.06.25.
+//
+
+
 import SwiftUI
 
-struct RAMListView: View {
-    @State private var rams: [RAM] = []
+struct CpuCoolerListView: View {
+    @State private var coolers: [CpuCooler] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
-    @State private var selectedRamId: Int?
+    @State private var selectedCoolerId: Int?
 
-    private let ramService = RAMService()
-    private let cartService = ShoppingCartService()
-    private let cartId = 1
+    private let cpuCoolerService = CpuCoolerService()
 
     var body: some View {
         NavigationView {
             content
-                .navigationTitle("RAM Module")
+                .navigationTitle("CPU-Kühler")
         }
         .onAppear {
-            loadRAMs()
-            loadSelectedRAM()
+            loadCoolers()
         }
     }
 
@@ -30,19 +35,18 @@ struct RAMListView: View {
                 Text("Fehler: \(errorMessage)")
                     .foregroundColor(.red)
                 Button("Erneut versuchen") {
-                    loadRAMs()
-                    loadSelectedRAM()
+                    loadCoolers()
                 }
                 .padding()
             }
         } else {
-            List(rams) { ram in
+            List(coolers) { cooler in
                 HStack {
-                    Image(systemName: selectedRamId == ram.id ? "checkmark.circle.fill" : "circle")
+                    Image(systemName: selectedCoolerId == cooler.id ? "checkmark" : "")
                         .foregroundColor(.blue)
                         .frame(width: 20)
 
-                    AsyncImage(url: URL(string: ram.img)) { image in
+                    AsyncImage(url: URL(string: cooler.img)) { image in
                         image.resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 80, height: 80)
@@ -52,42 +56,37 @@ struct RAMListView: View {
                     }
 
                     VStack(alignment: .leading) {
-                        Text(ram.name)
+                        Text(cooler.name)
                             .font(.headline)
-                        Text("\(ram.gbPerModule) GB \(ram.type)")
+                        Text("RPM: \(cooler.min_rpm)-\(cooler.max_rpm), Noise: \(cooler.min_noise_level)-\(cooler.max_noise_level) dB")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
-                        if let price = ram.price {
-                            Text(String(format: "%.2f €", price))
-                                .font(.subheadline)
-                        } else {
-                            Text("Preis unbekannt")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
+                        Text(String(format: "%.2f €", cooler.price))
+                            .font(.subheadline)
                     }
+
                     Spacer()
                 }
                 .padding(.vertical, 8)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    selectedRamId = ram.id
-                    addRamToCart(cartId: cartId, ramId: ram.id)
+                    selectedCoolerId = cooler.id
+                    addCoolerToCart(cartId: 1, coolerId: cooler.id)
                 }
             }
         }
     }
 
-    private func loadRAMs() {
+    private func loadCoolers() {
         isLoading = true
         errorMessage = nil
 
-        ramService.fetchRAMs { result in
+        cpuCoolerService.fetchCpuCoolers { result in
             DispatchQueue.main.async {
                 isLoading = false
                 switch result {
-                case .success(let rams):
-                    self.rams = rams
+                case .success(let data):
+                    self.coolers = data
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }
@@ -95,21 +94,8 @@ struct RAMListView: View {
         }
     }
 
-    private func loadSelectedRAM() {
-        cartService.fetchCart(cartId: cartId) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let cart):
-                    selectedRamId = cart.ram?.id
-                case .failure(let error):
-                    print("Fehler beim Laden des Warenkorbs: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
-
-    private func addRamToCart(cartId: Int, ramId: Int) {
-        let urlString = "\(Config.backendBaseURL)/api/shoppingcart/update-cart/\(cartId)/ram/\(ramId)"
+    private func addCoolerToCart(cartId: Int, coolerId: Int) {
+        let urlString = "\(Config.backendBaseURL)/api/shoppingcart/update-cart/\(cartId)/cpucooler/\(coolerId)"
         guard let url = URL(string: urlString) else {
             print("Ungültige URL")
             return
@@ -120,13 +106,13 @@ struct RAMListView: View {
 
         URLSession.shared.dataTask(with: request) { _, response, error in
             if let error = error {
-                print("Fehler beim Hinzufügen von RAM: \(error)")
+                print("Fehler beim Hinzufügen des Kühlers: \(error)")
             } else if let httpResponse = response as? HTTPURLResponse {
                 print("Statuscode: \(httpResponse.statusCode)")
                 if httpResponse.statusCode == 200 {
-                    print("RAM erfolgreich zum Warenkorb hinzugefügt.")
+                    print("CPU-Kühler erfolgreich zum Warenkorb hinzugefügt.")
                 } else {
-                    print("Fehler beim Hinzufügen von RAM – Statuscode: \(httpResponse.statusCode)")
+                    print("Fehler beim Hinzufügen – Statuscode: \(httpResponse.statusCode)")
                 }
             }
         }.resume()

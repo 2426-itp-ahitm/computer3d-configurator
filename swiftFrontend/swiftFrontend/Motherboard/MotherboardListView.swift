@@ -2,66 +2,127 @@ import SwiftUI
 
 struct MotherboardListView: View {
     @State private var motherboards: [Motherboard] = []
-    @State private var selectedMotherboard: Motherboard? = nil // Hier wird das ausgewählte Motherboard gespeichert
-    private let service = MotherboardService()
+    @State private var isLoading = true
+    @State private var errorMessage: String?
+    @State private var selectedMotherboardId: Int?
+
+    private let motherboardService = MotherboardService()
+    private let cartService = ShoppingCartService()
+    private let cartId = 1
 
     var body: some View {
         NavigationView {
-            List(motherboards) { motherboard in
+            content
+                .navigationTitle("Mainboards")
+        }
+        .onAppear {
+            loadMotherboards()
+            loadSelectedMotherboard()
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        if isLoading {
+            ProgressView()
+        } else if let errorMessage = errorMessage {
+            VStack {
+                Text("Fehler: \(errorMessage)")
+                    .foregroundColor(.red)
+                Button("Erneut versuchen") {
+                    loadMotherboards()
+                    loadSelectedMotherboard()
+                }
+                .padding()
+            }
+        } else {
+            List(motherboards) { mb in
                 HStack {
-                    AsyncImage(url: URL(string: motherboard.img)) { image in
+                    Image(systemName: selectedMotherboardId == mb.id ? "checkmark.circle.fill" : "circle")
+                        .foregroundColor(.blue)
+                        .frame(width: 20)
+
+                    AsyncImage(url: URL(string: mb.img)) { image in
                         image.resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 80, height: 80)
                     } placeholder: {
                         ProgressView()
+                            .frame(width: 80, height: 80)
                     }
-                    .frame(width: 80, height: 80)
-                    .cornerRadius(10)
 
                     VStack(alignment: .leading) {
-                        Text(motherboard.name)
+                        Text(mb.name)
                             .font(.headline)
-                        Text("\(motherboard.price, specifier: "%.2f") €")
+                        Text("\(mb.socket) · \(mb.ramType) · \(mb.formFactor)")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
+                        Text(String(format: "%.2f €", mb.price))
+                            .font(.subheadline)
                     }
-
                     Spacer()
-
-                    // Radio-Button (Picker) neben jedem Motherboard
-                    if selectedMotherboard?.id == motherboard.id {
-                        Image(systemName: "circle.fill") // ausgewählt
-                            .foregroundColor(.blue)
-                            .onTapGesture {
-                                selectedMotherboard = nil // Deaktiviert die Auswahl, falls der Radio-Button erneut angetippt wird
-                            }
-                    } else {
-                        Image(systemName: "circle")
-                            .foregroundColor(.gray)
-                            .onTapGesture {
-                                selectedMotherboard = motherboard // Wählt das Motherboard aus
-                            }
-                    }
                 }
-            }
-            .navigationTitle("Motherboards")
-            .onAppear {
-                service.fetchMotherboards { result in
-                    switch result {
-                    case .success(let fetchedMotherboards):
-                        DispatchQueue.main.async {
-                            self.motherboards = fetchedMotherboards
-                        }
-                    case .failure(let error):
-                        print("Error fetching motherboards: \(error)")
-                    }
+                .padding(.vertical, 8)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    selectedMotherboardId = mb.id
+                    addMotherboardToCart(cartId: cartId, motherboardId: mb.id)
                 }
             }
         }
     }
-}
 
-struct MotherboardListView_Previews: PreviewProvider {
-    static var previews: some View {
-        MotherboardListView()
+    private func loadMotherboards() {
+        isLoading = true
+        errorMessage = nil
+
+        motherboardService.fetchMotherboards { result in
+            DispatchQueue.main.async {
+                isLoading = false
+                switch result {
+                case .success(let motherboards):
+                    self.motherboards = motherboards
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+
+    private func loadSelectedMotherboard() {
+        cartService.fetchCart(cartId: cartId) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let cart):
+                    selectedMotherboardId = cart.motherboard?.id
+                case .failure(let error):
+                    print("Fehler beim Laden des Warenkorbs: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
+    private func addMotherboardToCart(cartId: Int, motherboardId: Int) {
+        let urlString = "\(Config.backendBaseURL)/api/shoppingcart/update-cart/\(cartId)/motherboard/\(motherboardId)"
+        guard let url = URL(string: urlString) else {
+            print("Ungültige URL")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+
+        URLSession.shared.dataTask(with: request) { _, response, error in
+            if let error = error {
+                print("Fehler beim Hinzufügen des Mainboards: \(error)")
+            } else if let httpResponse = response as? HTTPURLResponse {
+                print("Statuscode: \(httpResponse.statusCode)")
+                if httpResponse.statusCode == 200 {
+                    print("Mainboard erfolgreich zum Warenkorb hinzugefügt.")
+                } else {
+                    print("Fehler beim Hinzufügen des Mainboards – Statuscode: \(httpResponse.statusCode)")
+                }
+            }
+        }.resume()
     }
 }
