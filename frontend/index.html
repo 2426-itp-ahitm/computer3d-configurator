@@ -2,63 +2,35 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Computer3DConfigurator</title>
-    <link rel="stylesheet" href="./src/CSS/style.css">
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Computer3DConfigurator</title>
+  <link rel="stylesheet" href="./src/CSS/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 </head>
 
 <script defer>
-//     document.addEventListener("DOMContentLoaded", function() {
-//     const menuCheckbox = document.getElementById("active");
-//     const contentBoxes = document.querySelectorAll("#cpuAllBox, #mbAllBox, #gpuAllBox, #ramAllBox, #internalHardDriveAllBox, #caseAllBox, #powerSupplyAllBox, #cpuCoolerAllBox");
+  document.addEventListener("DOMContentLoaded", function () {
+      const targetURL = "https://www.youtube.com/"; // Hier deine feste URL
 
-//     menuCheckbox.addEventListener("change", function() {
-//         contentBoxes.forEach(box => {
-//             if (menuCheckbox.checked) {
-//                 box.classList.add("menu-active");
-//             } else {
-//                 box.classList.remove("menu-active");
-//             }
-//         });
-//     });
-// });
-
-let qrcode;
-
-function generateQRCode() {
-  const input = document.getElementById("textInput").value;
-
-  // Vorherigen QR-Code löschen
-  if (qrcode) {
-    document.getElementById("qrcode").innerHTML = "";
-  }
-
-  // Neuen QR-Code generieren
-  qrcode = new QRCode(document.getElementById("qrcode"), {
-    text: input,
-    width: 200,
-    height: 200
-  });
-}
+      // QR-Code generieren
+      new QRCode(document.getElementById("qrcode"), {
+        text: targetURL,
+        width: 200,
+        height: 200
+      });
+    });
 </script>
 
 <body>
 
-        <!-- Eingabefeld für Text oder URL -->
-    <input type="text" id="textInput" placeholder="https://deine-url.de" size="40">
 
-    <!-- Button zum Erzeugen -->
-    <button onclick="generateQRCode()">QR-Code erzeugen</button>
+  <div id="qrcode"></div>
 
-    <!-- Container für QR-Code -->
-    <div id="qrcode"></div>
+  <shopping-cart-component id="shoppingCart"></shopping-cart-component>
 
-    <shopping-cart-component id="shoppingCart"></shopping-cart-component>
-
-    <shopping-cart-id-selector id="shoppingCartSelector"></shopping-cart-id-selector>
+  <shopping-cart-id-selector id="shoppingCartSelector"></shopping-cart-id-selector>
 
 
 
