@@ -1,20 +1,15 @@
-//
-//  CpuCoolerListView.swift
-//  swiftFrontend
-//
-//  Created by Julian Murach on 16.06.25.
-//
-
-
 import SwiftUI
 
 struct CpuCoolerListView: View {
+    @EnvironmentObject var cartVM: ShoppingCartViewModel
     @State private var coolers: [CpuCooler] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
     @State private var selectedCoolerId: Int?
 
     private let cpuCoolerService = CpuCoolerService()
+    private let cartService = ShoppingCartService()
+    private let cartId = 1
 
     var body: some View {
         NavigationView {
@@ -23,6 +18,7 @@ struct CpuCoolerListView: View {
         }
         .onAppear {
             loadCoolers()
+            loadSelectedCooler()
         }
     }
 
@@ -36,13 +32,14 @@ struct CpuCoolerListView: View {
                     .foregroundColor(.red)
                 Button("Erneut versuchen") {
                     loadCoolers()
+                    loadSelectedCooler()
                 }
                 .padding()
             }
         } else {
             List(coolers) { cooler in
                 HStack {
-                    Image(systemName: selectedCoolerId == cooler.id ? "checkmark" : "")
+                    Image(systemName: selectedCoolerId == cooler.id ? "checkmark.circle.fill" : "circle")
                         .foregroundColor(.blue)
                         .frame(width: 20)
 
@@ -70,8 +67,12 @@ struct CpuCoolerListView: View {
                 .padding(.vertical, 8)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    selectedCoolerId = cooler.id
-                    addCoolerToCart(cartId: 1, coolerId: cooler.id)
+                    if selectedCoolerId == cooler.id {
+                        removeCoolerFromCart(cartId: cartId)
+                    } else {
+                        selectedCoolerId = cooler.id
+                        addCoolerToCart(cartId: cartId, coolerId: cooler.id)
+                    }
                 }
             }
         }
@@ -94,6 +95,19 @@ struct CpuCoolerListView: View {
         }
     }
 
+    private func loadSelectedCooler() {
+        cartService.fetchCart(cartId: cartId) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let cart):
+                    selectedCoolerId = cart.cpuCooler?.id
+                case .failure(let error):
+                    print("Fehler beim Laden des Warenkorbs: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
     private func addCoolerToCart(cartId: Int, coolerId: Int) {
         let urlString = "\(Config.backendBaseURL)/api/shoppingcart/update-cart/\(cartId)/cpucooler/\(coolerId)"
         guard let url = URL(string: urlString) else {
@@ -111,8 +125,39 @@ struct CpuCoolerListView: View {
                 print("Statuscode: \(httpResponse.statusCode)")
                 if httpResponse.statusCode == 200 {
                     print("CPU-Kühler erfolgreich zum Warenkorb hinzugefügt.")
+                    DispatchQueue.main.async {
+                        cartVM.fetchCart()
+                    }
                 } else {
                     print("Fehler beim Hinzufügen – Statuscode: \(httpResponse.statusCode)")
+                }
+            }
+        }.resume()
+    }
+
+    private func removeCoolerFromCart(cartId: Int) {
+        let urlString = "\(Config.backendBaseURL)/api/shoppingcart/remove-component/\(cartId)/cpucooler"
+        guard let url = URL(string: urlString) else {
+            print("Ungültige URL")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+
+        URLSession.shared.dataTask(with: request) { _, response, error in
+            if let error = error {
+                print("Fehler beim Entfernen des Kühlers: \(error)")
+            } else if let httpResponse = response as? HTTPURLResponse {
+                print("Statuscode: \(httpResponse.statusCode)")
+                if httpResponse.statusCode == 200 {
+                    print("CPU-Kühler erfolgreich entfernt.")
+                    DispatchQueue.main.async {
+                        selectedCoolerId = nil
+                        cartVM.fetchCart()
+                    }
+                } else {
+                    print("Fehler beim Entfernen – Statuscode: \(httpResponse.statusCode)")
                 }
             }
         }.resume()

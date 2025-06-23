@@ -9,18 +9,17 @@ enum Component: String, CaseIterable {
     case powerSupply = "Power Supply"
     case cpuCooler = "CPU Cooler"
     case casing = "Casing"
-    // → Hier kannst du einfach erweitern: ssd, mainboard, etc.
 
     var destinationView: some View {
         switch self {
         case .cpu:
             return AnyView(CPUListView())
-        case .gpu:
-            return AnyView(GPUListView())
-        case .ram:
-            return AnyView(RAMListView())
         case .motherboard:
             return AnyView(MotherboardListView())
+        case .ram:
+            return AnyView(RAMListView())
+        case .gpu:
+            return AnyView(GPUListView())
         case .internalHarddrive:
             return AnyView(InternalHarddriveListView())
         case .powerSupply:

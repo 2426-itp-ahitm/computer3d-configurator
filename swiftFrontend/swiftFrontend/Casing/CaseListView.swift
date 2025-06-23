@@ -1,20 +1,15 @@
-//
-//  CaseListView.swift
-//  swiftFrontend
-//
-//  Created by Julian Murach on 16.06.25.
-//
-
-
 import SwiftUI
 
 struct CaseListView: View {
+    @EnvironmentObject var cartVM: ShoppingCartViewModel
     @State private var cases: [Case] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
     @State private var selectedCaseId: Int?
 
     private let caseService = CaseService()
+    private let cartService = ShoppingCartService()
+    private let cartId = 1
 
     var body: some View {
         NavigationView {
@@ -23,6 +18,7 @@ struct CaseListView: View {
         }
         .onAppear {
             loadCases()
+            loadSelectedCase()
         }
     }
 
@@ -36,13 +32,14 @@ struct CaseListView: View {
                     .foregroundColor(.red)
                 Button("Erneut versuchen") {
                     loadCases()
+                    loadSelectedCase()
                 }
                 .padding()
             }
         } else {
             List(cases) { caseModel in
                 HStack {
-                    Image(systemName: selectedCaseId == caseModel.id ? "checkmark" : "")
+                    Image(systemName: selectedCaseId == caseModel.id ? "checkmark.circle.fill" : "circle")
                         .foregroundColor(.blue)
                         .frame(width: 20)
 
@@ -70,8 +67,12 @@ struct CaseListView: View {
                 .padding(.vertical, 8)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    selectedCaseId = caseModel.id
-                    addCaseToCart(cartId: 1, caseId: caseModel.id)
+                    if selectedCaseId == caseModel.id {
+                        removeCaseFromCart(cartId: cartId)
+                    } else {
+                        selectedCaseId = caseModel.id
+                        addCaseToCart(cartId: cartId, caseId: caseModel.id)
+                    }
                 }
             }
         }
@@ -94,6 +95,19 @@ struct CaseListView: View {
         }
     }
 
+    private func loadSelectedCase() {
+        cartService.fetchCart(cartId: cartId) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let cart):
+                    selectedCaseId = cart.cases?.id
+                case .failure(let error):
+                    print("Fehler beim Laden des Warenkorbs: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
     private func addCaseToCart(cartId: Int, caseId: Int) {
         let urlString = "\(Config.backendBaseURL)/api/shoppingcart/update-cart/\(cartId)/case/\(caseId)"
         guard let url = URL(string: urlString) else {
@@ -111,8 +125,39 @@ struct CaseListView: View {
                 print("Statuscode: \(httpResponse.statusCode)")
                 if httpResponse.statusCode == 200 {
                     print("Gehäuse erfolgreich zum Warenkorb hinzugefügt.")
+                    DispatchQueue.main.async {
+                        cartVM.fetchCart()
+                    }
                 } else {
                     print("Fehler beim Hinzufügen – Statuscode: \(httpResponse.statusCode)")
+                }
+            }
+        }.resume()
+    }
+
+    private func removeCaseFromCart(cartId: Int) {
+        let urlString = "\(Config.backendBaseURL)/api/shoppingcart/remove-component/\(cartId)/case"
+        guard let url = URL(string: urlString) else {
+            print("Ungültige URL")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+
+        URLSession.shared.dataTask(with: request) { _, response, error in
+            if let error = error {
+                print("Fehler beim Entfernen des Gehäuses: \(error)")
+            } else if let httpResponse = response as? HTTPURLResponse {
+                print("Statuscode: \(httpResponse.statusCode)")
+                if httpResponse.statusCode == 200 {
+                    print("Gehäuse erfolgreich entfernt.")
+                    DispatchQueue.main.async {
+                        selectedCaseId = nil
+                        cartVM.fetchCart()
+                    }
+                } else {
+                    print("Fehler beim Entfernen – Statuscode: \(httpResponse.statusCode)")
                 }
             }
         }.resume()

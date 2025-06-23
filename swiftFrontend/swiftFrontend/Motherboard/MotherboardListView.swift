@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct MotherboardListView: View {
+    @EnvironmentObject var cartVM: ShoppingCartViewModel
     @State private var motherboards: [Motherboard] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
@@ -65,8 +66,14 @@ struct MotherboardListView: View {
                 .padding(.vertical, 8)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    selectedMotherboardId = mb.id
-                    addMotherboardToCart(cartId: cartId, motherboardId: mb.id)
+                    if selectedMotherboardId == mb.id {
+                        // Bereits ausgewählt → entfernen
+                        removeMotherboardFromCart(cartId: cartId)
+                    } else {
+                        // Neue Auswahl → hinzufügen
+                        selectedMotherboardId = mb.id
+                        addMotherboardToCart(cartId: cartId, motherboardId: mb.id)
+                    }
                 }
             }
         }
@@ -119,8 +126,39 @@ struct MotherboardListView: View {
                 print("Statuscode: \(httpResponse.statusCode)")
                 if httpResponse.statusCode == 200 {
                     print("Mainboard erfolgreich zum Warenkorb hinzugefügt.")
+                    DispatchQueue.main.async {
+                        cartVM.fetchCart()
+                    }
                 } else {
                     print("Fehler beim Hinzufügen des Mainboards – Statuscode: \(httpResponse.statusCode)")
+                }
+            }
+        }.resume()
+    }
+    
+    private func removeMotherboardFromCart(cartId: Int) {
+        let urlString = "\(Config.backendBaseURL)/api/shoppingcart/remove-component/\(cartId)/motherboard"
+        guard let url = URL(string: urlString) else {
+            print("Ungültige URL")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+
+        URLSession.shared.dataTask(with: request) { _, response, error in
+            if let error = error {
+                print("Fehler beim Entfernen von Motherboard: \(error)")
+            } else if let httpResponse = response as? HTTPURLResponse {
+                print("Statuscode: \(httpResponse.statusCode)")
+                if httpResponse.statusCode == 200 {
+                    print("Motherboard erfolgreich entfernt.")
+                    DispatchQueue.main.async {
+                        selectedMotherboardId = nil
+                        cartVM.fetchCart()
+                    }
+                } else {
+                    print("Fehler beim Entfernen von Motherboard – Statuscode: \(httpResponse.statusCode)")
                 }
             }
         }.resume()

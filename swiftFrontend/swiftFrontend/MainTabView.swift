@@ -14,15 +14,16 @@ struct MainTabView: View {
                 .tabItem {
                     Label("Warenkorb", systemImage: "cart")
                 }
-                .badge(cartVM.componentCount) // 🟢 Hier wird die Badge angezeigt
+                .badge(cartVM.componentCount)
 
             ProfileView()
                 .tabItem {
                     Label("Profil", systemImage: "person.crop.circle")
                 }
         }
+        .environmentObject(cartVM)
         .onAppear {
-            cartVM.fetchCart() // lädt bei App-Start
+            cartVM.fetchCart()
         }
     }
 }

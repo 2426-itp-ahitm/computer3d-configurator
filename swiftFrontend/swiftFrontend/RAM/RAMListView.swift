@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct RAMListView: View {
+    @EnvironmentObject var cartVM: ShoppingCartViewModel
     @State private var rams: [RAM] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
@@ -71,8 +72,14 @@ struct RAMListView: View {
                 .padding(.vertical, 8)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    selectedRamId = ram.id
-                    addRamToCart(cartId: cartId, ramId: ram.id)
+                    if selectedRamId == ram.id {
+                        // Bereits ausgewählt → entfernen
+                        removeRamFromCart(cartId: cartId)
+                    } else {
+                        // Neue Auswahl → hinzufügen
+                        selectedRamId = ram.id
+                        addRamToCart(cartId: cartId, ramId: ram.id)
+                    }
                 }
             }
         }
@@ -125,8 +132,39 @@ struct RAMListView: View {
                 print("Statuscode: \(httpResponse.statusCode)")
                 if httpResponse.statusCode == 200 {
                     print("RAM erfolgreich zum Warenkorb hinzugefügt.")
+                    DispatchQueue.main.async {
+                        cartVM.fetchCart()
+                    }
                 } else {
                     print("Fehler beim Hinzufügen von RAM – Statuscode: \(httpResponse.statusCode)")
+                }
+            }
+        }.resume()
+    }
+
+    private func removeRamFromCart(cartId: Int) {
+        let urlString = "\(Config.backendBaseURL)/api/shoppingcart/remove-component/\(cartId)/ram"
+        guard let url = URL(string: urlString) else {
+            print("Ungültige URL")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+
+        URLSession.shared.dataTask(with: request) { _, response, error in
+            if let error = error {
+                print("Fehler beim Entfernen von RAM: \(error)")
+            } else if let httpResponse = response as? HTTPURLResponse {
+                print("Statuscode: \(httpResponse.statusCode)")
+                if httpResponse.statusCode == 200 {
+                    print("RAM erfolgreich entfernt.")
+                    DispatchQueue.main.async {
+                        selectedRamId = nil
+                        cartVM.fetchCart()
+                    }
+                } else {
+                    print("Fehler beim Entfernen von RAM – Statuscode: \(httpResponse.statusCode)")
                 }
             }
         }.resume()

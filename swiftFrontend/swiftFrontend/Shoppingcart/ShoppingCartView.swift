@@ -38,14 +38,15 @@ struct ShoppingCartView: View {
                                     MotherboardRowView(motherboard: motherboard)
                                 }
                             }
-                            if let gpu = cart.gpu {
-                                Section(header: Text("GPU")) {
-                                    GPURowView(gpu: gpu)
-                                }
-                            }
+                            
                             if let ram = cart.ram {
                                 Section(header: Text("RAM")) {
                                     RAMRowView(ram: ram)
+                                }
+                            }
+                            if let gpu = cart.gpu {
+                                Section(header: Text("GPU")) {
+                                    GPURowView(gpu: gpu)
                                 }
                             }
                             if let internalHarddrive = cart.internalHarddrive {
@@ -53,14 +54,14 @@ struct ShoppingCartView: View {
                                     InternalHarddriveRowView(drive: internalHarddrive)
                                 }
                             }
-                            if let cpuCooler = cart.cpuCooler {
-                                Section(header: Text("CPU Cooler")) {
-                                    CpuCoolerRowView(cooler: cpuCooler)
-                                }
-                            }
                             if let powersupply = cart.powersupply {
                                 Section(header: Text("Powersupply")) {
                                     PowerSupplyRowView(powersupply: powersupply)
+                                }
+                            }
+                            if let cpuCooler = cart.cpuCooler {
+                                Section(header: Text("CPU Cooler")) {
+                                    CpuCoolerRowView(cooler: cpuCooler)
                                 }
                             }
                             if let casing = cart.cases {

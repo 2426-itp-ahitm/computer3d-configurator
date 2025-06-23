@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct GPUListView: View {
+    @EnvironmentObject var cartVM: ShoppingCartViewModel
     @State private var gpus: [GPU] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
@@ -126,6 +127,9 @@ struct GPUListView: View {
                 print("Statuscode: \(httpResponse.statusCode)")
                 if httpResponse.statusCode == 200 {
                     print("GPU erfolgreich zum Warenkorb hinzugefügt.")
+                    DispatchQueue.main.async {
+                        cartVM.fetchCart()
+                    }
                 } else {
                     print("Fehler beim Hinzufügen der GPU – Statuscode: \(httpResponse.statusCode)")
                 }
@@ -152,6 +156,7 @@ struct GPUListView: View {
                     print("GPU erfolgreich entfernt.")
                     DispatchQueue.main.async {
                         selectedGpuId = nil
+                        cartVM.fetchCart()
                     }
                 } else {
                     print("Fehler beim Entfernen – Statuscode: \(httpResponse.statusCode)")
