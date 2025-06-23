@@ -1,58 +1,31 @@
 import SwiftUI
+
 struct CPUListView: View {
     @EnvironmentObject var cartVM: ShoppingCartViewModel
     @State private var cpus: [CPU] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
     @State private var selectedCpuId: Int?
-    
-    @State private var selectedMotherboardId: Int? = nil
-    @State private var motherboards: [Motherboard] = []
-    @State private var selectedMotherboardSocket: String? = nil
-    
+    @State private var motherboardSocket: String?
+
     private let cpuService = CPUService()
     private let cartService = ShoppingCartService()
-    private let motherboardService = MotherboardService() // Muss implementiert werden
-    
     private let cartId = 1
-    
+
     var body: some View {
         NavigationView {
-            VStack {
-                motherboardPicker
-                
-                content
-            }
-            .navigationTitle("CPUs")
+            content
+                .navigationTitle("CPUs")
         }
         .onAppear {
-            loadMotherboards()
             loadSelectedCPU()
+        }
+        .onChange(of: cartVM.cart?.motherboard?.socket) { newSocket in
+            motherboardSocket = newSocket
             loadCPUs()
         }
-        .onChange(of: selectedMotherboardId) { newValue in
-            if let motherboardId = newValue,
-               let motherboard = motherboards.first(where: { $0.id == motherboardId }) {
-                selectedMotherboardSocket = motherboard.socket
-                loadCPUs(socket: motherboard.socket)
-            } else {
-                selectedMotherboardSocket = nil
-                loadCPUs()
-            }
-        }
     }
-    
-    private var motherboardPicker: some View {
-        Picker("Motherboard auswählen", selection: $selectedMotherboardId) {
-            Text("Alle Motherboards").tag(Int?.none)
-            ForEach(motherboards) { mb in
-                Text(mb.name).tag(Int?(mb.id))
-            }
-        }
-        .pickerStyle(MenuPickerStyle())
-        .padding()
-    }
-    
+
     @ViewBuilder
     private var content: some View {
         if isLoading {
@@ -62,7 +35,7 @@ struct CPUListView: View {
                 Text("Fehler: \(errorMessage)")
                     .foregroundColor(.red)
                 Button("Erneut versuchen") {
-                    loadCPUs(socket: selectedMotherboardSocket)
+                    loadCPUs()
                 }
                 .padding()
             }
@@ -72,7 +45,7 @@ struct CPUListView: View {
                     Image(systemName: selectedCpuId == cpu.id ? "checkmark.circle.fill" : "circle")
                         .foregroundColor(.blue)
                         .frame(width: 20)
-                    
+
                     AsyncImage(url: URL(string: cpu.img)) { image in
                         image.resizable()
                             .aspectRatio(contentMode: .fit)
@@ -81,7 +54,7 @@ struct CPUListView: View {
                         ProgressView()
                             .frame(width: 80, height: 80)
                     }
-                    
+
                     VStack(alignment: .leading) {
                         Text(cpu.name)
                             .font(.headline)
@@ -97,33 +70,24 @@ struct CPUListView: View {
                 .contentShape(Rectangle())
                 .onTapGesture {
                     if selectedCpuId == cpu.id {
+                        // Bereits ausgewählt → entfernen
                         removeCpuFromCart(cartId: cartId)
                     } else {
+                        // Neue Auswahl → hinzufügen
                         selectedCpuId = cpu.id
                         addCpuToCart(cartId: cartId, cpuId: cpu.id)
                     }
                 }
+
             }
         }
     }
-    
-    private func loadCPUs(socket: String? = nil) {
+
+    private func loadCPUs() {
         isLoading = true
         errorMessage = nil
-        
-        if let socket = socket {
-            cpuService.fetchCPUsByMotherboardSocket(socket) { result in
-                DispatchQueue.main.async {
-                    isLoading = false
-                    switch result {
-                    case .success(let cpus):
-                        self.cpus = cpus
-                    case .failure(let error):
-                        self.errorMessage = error.localizedDescription
-                    }
-                }
-            }
-        } else {
+
+        let fetch: () -> Void = {
             cpuService.fetchCPUs { result in
                 DispatchQueue.main.async {
                     isLoading = false
@@ -136,24 +100,23 @@ struct CPUListView: View {
                 }
             }
         }
-    }
-    
-    private func loadMotherboards() {
-        motherboardService.fetchMotherboards { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let motherboards):
-                    self.motherboards = motherboards
-                case .failure(let error):
-                    print("Fehler beim Laden der Motherboards: \(error.localizedDescription)")
+
+        if let socket = motherboardSocket {
+            cpuService.fetchCPUsBySocket(socket: socket) { result in
+                DispatchQueue.main.async {
+                    isLoading = false
+                    switch result {
+                    case .success(let cpus):
+                        self.cpus = cpus
+                    case .failure(let error):
+                        self.errorMessage = error.localizedDescription
+                    }
                 }
             }
+        } else {
+            fetch()
         }
     }
-    
-    // Die restlichen Funktionen (loadSelectedCPU, addCpuToCart, removeCpuFromCart) bleiben gleich.
-
-
 
     private func loadSelectedCPU() {
         cartService.fetchCart(cartId: cartId) { result in
@@ -161,6 +124,8 @@ struct CPUListView: View {
                 switch result {
                 case .success(let cart):
                     selectedCpuId = cart.cpu?.id
+                    motherboardSocket = cart.motherboard?.socket
+                    loadCPUs()
                 case .failure(let error):
                     print("Fehler beim Laden des Warenkorbs: \(error.localizedDescription)")
                 }

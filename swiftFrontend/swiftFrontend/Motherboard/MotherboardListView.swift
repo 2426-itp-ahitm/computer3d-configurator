@@ -6,6 +6,7 @@ struct MotherboardListView: View {
     @State private var isLoading = true
     @State private var errorMessage: String?
     @State private var selectedMotherboardId: Int?
+    @State private var cpuSocket: String?
 
     private let motherboardService = MotherboardService()
     private let cartService = ShoppingCartService()
@@ -17,8 +18,11 @@ struct MotherboardListView: View {
                 .navigationTitle("Mainboards")
         }
         .onAppear {
-            loadMotherboards()
             loadSelectedMotherboard()
+        }
+        .onChange(of: cartVM.cart?.cpu?.socket) { newSocket in
+            cpuSocket = newSocket
+            loadMotherboards()
         }
     }
 
@@ -32,18 +36,17 @@ struct MotherboardListView: View {
                     .foregroundColor(.red)
                 Button("Erneut versuchen") {
                     loadMotherboards()
-                    loadSelectedMotherboard()
                 }
                 .padding()
             }
         } else {
-            List(motherboards) { mb in
+            List(motherboards) { motherboard in
                 HStack {
-                    Image(systemName: selectedMotherboardId == mb.id ? "checkmark.circle.fill" : "circle")
+                    Image(systemName: selectedMotherboardId == motherboard.id ? "checkmark.circle.fill" : "circle")
                         .foregroundColor(.blue)
                         .frame(width: 20)
 
-                    AsyncImage(url: URL(string: mb.img)) { image in
+                    AsyncImage(url: URL(string: motherboard.img)) { image in
                         image.resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 80, height: 80)
@@ -53,12 +56,12 @@ struct MotherboardListView: View {
                     }
 
                     VStack(alignment: .leading) {
-                        Text(mb.name)
+                        Text(motherboard.name)
                             .font(.headline)
-                        Text("\(mb.socket) · \(mb.ramType) · \(mb.formFactor)")
+                        Text("\(motherboard.formFactor) • \(motherboard.ramType) • \(motherboard.color)")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
-                        Text(String(format: "%.2f €", mb.price))
+                        Text(String(format: "%.2f €", motherboard.price))
                             .font(.subheadline)
                     }
                     Spacer()
@@ -66,13 +69,13 @@ struct MotherboardListView: View {
                 .padding(.vertical, 8)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    if selectedMotherboardId == mb.id {
+                    if selectedMotherboardId == motherboard.id {
                         // Bereits ausgewählt → entfernen
                         removeMotherboardFromCart(cartId: cartId)
                     } else {
                         // Neue Auswahl → hinzufügen
-                        selectedMotherboardId = mb.id
-                        addMotherboardToCart(cartId: cartId, motherboardId: mb.id)
+                        selectedMotherboardId = motherboard.id
+                        addMotherboardToCart(cartId: cartId, motherboardId: motherboard.id)
                     }
                 }
             }
@@ -83,14 +86,28 @@ struct MotherboardListView: View {
         isLoading = true
         errorMessage = nil
 
-        motherboardService.fetchMotherboards { result in
-            DispatchQueue.main.async {
-                isLoading = false
-                switch result {
-                case .success(let motherboards):
-                    self.motherboards = motherboards
-                case .failure(let error):
-                    self.errorMessage = error.localizedDescription
+        if let socket = cpuSocket {
+            motherboardService.fetchMotherboardsBySocket(socket: socket) { result in
+                DispatchQueue.main.async {
+                    isLoading = false
+                    switch result {
+                    case .success(let motherboards):
+                        self.motherboards = motherboards
+                    case .failure(let error):
+                        self.errorMessage = error.localizedDescription
+                    }
+                }
+            }
+        } else {
+            motherboardService.fetchMotherboards { result in
+                DispatchQueue.main.async {
+                    isLoading = false
+                    switch result {
+                    case .success(let motherboards):
+                        self.motherboards = motherboards
+                    case .failure(let error):
+                        self.errorMessage = error.localizedDescription
+                    }
                 }
             }
         }
@@ -102,6 +119,8 @@ struct MotherboardListView: View {
                 switch result {
                 case .success(let cart):
                     selectedMotherboardId = cart.motherboard?.id
+                    cpuSocket = cart.cpu?.socket
+                    loadMotherboards()
                 case .failure(let error):
                     print("Fehler beim Laden des Warenkorbs: \(error.localizedDescription)")
                 }
