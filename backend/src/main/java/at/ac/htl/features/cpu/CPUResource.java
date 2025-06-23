@@ -11,34 +11,33 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/cpus")
 @Produces(MediaType.APPLICATION_JSON)
 public class CPUResource {
-    @Inject CPURepository cpuRepository;
-    @Inject CPUMapper cpuMapper;
-    @Inject MotherboardRepository motherboardRepository;
+    @Inject
+    CPURepository cpuRepository;
+    @Inject
+    CPUMapper cpuMapper;
+    @Inject
+    MotherboardRepository motherboardRepository;
 
     @GET
     public List<CPUDto> allCPUs() {
         var cpus = cpuRepository.findAll()
-            .stream()
-            .map(cpuMapper::toResource)
-            .toList();
+                .stream()
+                .map(cpuMapper::toResource)
+                .toList();
         return cpus;
     }
 
-    @GET
-    @Path("/by-motherboard/{motherboardId}")
-    public List<CPUDto> getCPUsByMotherboard(@PathParam("motherboardId") Long motherboardId) {
-        var motherboard = motherboardRepository.findById(motherboardId);
-        if (motherboard == null) {
-            throw new WebApplicationException("Motherboard not found", 404);
-        }
-
-        var cpus = cpuRepository.findBySocket(motherboard.getSocket());
-
-        return cpus.stream()
-                .map(cpuMapper::toResource)
-                .toList();
-    }
-
+    // @GET
+    // @Path("/by-motherboard/{motherboardId}")
+    // public List<CPUDto> getCPUsByMotherboard(@PathParam("motherboardId") Long motherboardId) {
+    //     return cpuRepository.findBySocket(
+    //             motherboardRepository.findByIdOptional(motherboardId)
+    //                     .orElseThrow()
+    //                     .getSocket())
+    //             .stream()
+    //             .map(cpuMapper::toResource)
+    //             .toList();
+    // }
 
     @GET
     @Path("/by-motherboard-socket/{motherboardSocket}")
@@ -47,10 +46,9 @@ public class CPUResource {
         var cpus = cpuRepository.findBySocket(motherboardSocket);
 
         return cpus.stream()
-            .map(cpuMapper::toResource)
-            .toList();
+                .map(cpuMapper::toResource)
+                .toList();
     }
-
 
     @GET
     @Path("/{cpuId}")
