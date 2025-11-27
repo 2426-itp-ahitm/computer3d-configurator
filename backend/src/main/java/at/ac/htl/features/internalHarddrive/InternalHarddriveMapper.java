@@ -1,6 +1,5 @@
 package at.ac.htl.features.internalHarddrive;
 
-import at.ac.htl.features.powersupply.PowersupplyDto;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -16,7 +15,7 @@ public class InternalHarddriveMapper {
                 harddrive.cache,
                 harddrive.formFactor,
                 harddrive.memoryInterface,
-                harddrive.image,
+                harddrive.img,
                 harddrive.model
         );
     }

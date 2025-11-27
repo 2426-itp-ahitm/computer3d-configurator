@@ -10,7 +10,7 @@ public record InternalHarddriveDto(
         Long cache,
         String formFactor,
         String memoryInterface,
-        String image,
+        String img,
         String model
 ) {
 }

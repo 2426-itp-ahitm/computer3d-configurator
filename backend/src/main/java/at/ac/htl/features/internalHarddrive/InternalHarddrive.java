@@ -19,7 +19,7 @@ public class InternalHarddrive {
     Long cache;
     String formFactor;
     String memoryInterface;
-    String image;
+    String img;
     String model;
 
     public String getModel() {
@@ -113,11 +113,11 @@ public class InternalHarddrive {
         this.memoryInterface = memoryInterface;
     }
 
-    public String getImage() {
-        return image;
+    public String getImg() {
+        return img;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImg(String image) {
+        this.img = image;
     }
 }
