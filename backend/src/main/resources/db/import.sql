@@ -66,7 +66,7 @@ VALUES
     (6, 'SilverStone SX500-G', 119.99, 'MicroATX', 'gold', 500, true, 'Black', 'https://www.silverstonetek.com/upload/images/products/sx500-g/sx500-g-34right-top.jpg', NULL);
 
 INSERT INTO
-    public.Internal_Harddrive (internalHarddrive_id, name, price, capacity, pricePerGb, type, cache, formFactor, memoryInterface, image, model)
+    public.Internal_Harddrive (internalHarddrive_id, name, price, capacity, pricePerGb, type, cache, formFactor, memoryInterface, img, model)
 VALUES
     (1, 'Samsung 980 Pro', 169.99, 2000, 0.085, 'SSD', 2048, 'M.2-2280', 'M.2 PCIe 4.0 X4', 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTlqWVQZ0Gbux0qrCLmdCML6_AAQiFyRulFvItbDsfCTmVC6eTJJDKp2ZoLJ42WFX0o_i_anpi9U1T9mTWWWzUO_g1VAHmBC8wpIRaUzsGhQ01RZXvuTwatJ88', NULL),
     (2, 'Kingston NV2', 60.99, 1000, 0.061, 'SSD', NULL, 'M.2-2280', 'M.2 PCIe 4.0 X4', 'https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MP_142006815?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402', NULL),
