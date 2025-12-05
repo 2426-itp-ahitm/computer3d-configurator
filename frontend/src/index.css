@@ -6,3 +6,9 @@ html, body, #root {
   @apply overflow-hidden h-full;
 }
 
+@media (max-width: 768px) {
+  html, body, #root {
+    @apply overflow-auto;
+  }
+}
+

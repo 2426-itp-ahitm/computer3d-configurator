@@ -5,7 +5,7 @@ export default function About() {
   const logoBlue = '#009fe3';
   const logoBlueShadow = '#0073b9';
 
-  const cardBaseStyle = "p-6 rounded-xl border-2 shadow-sm transition-all duration-300 transform h-full"; // Anpassung des Stils
+  const cardBaseStyle = "p-6 rounded-xl border-2 shadow-sm transition-all duration-300 transform h-full";
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-gray-50 via-white to-white text-gray-900 flex flex-col items-center p-4 sm:p-8 pt-16">
