@@ -227,6 +227,4 @@ public class ShoppingCartResource {
         cartRepository.persist(cart);
         return Response.ok(cartMapper.toDto(cart)).build();
     }
-
-
 }
