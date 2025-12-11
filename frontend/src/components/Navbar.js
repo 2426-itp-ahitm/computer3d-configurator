@@ -9,7 +9,7 @@ export default function Navbar() {
 
     const getLinkClass = ({ isActive }) =>
         isActive
-            ? `${linkBaseClass} bg-logoBlueShadow text-white shadow-md shadow-logoBlue/50`
+            ? `${linkBaseClass} bg-logoBlueShadow text-white shadow-md`
             : `${linkBaseClass} text-gray-300 hover:text-white hover:bg-gray-800`;
 
     return (

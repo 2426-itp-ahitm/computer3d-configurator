@@ -98,7 +98,7 @@ function HardwareConfig({
                         <button
                             onClick={handlePreviousStep}
                             className={`
-                                px-6 py-2 text-md font-bold rounded-full transform transition duration-300 flex items-center
+                                px-3 py-1 text-sm font-bold rounded-full transform transition duration-300 flex items-center
                                 bg-gray-200 text-gray-700 hover:bg-gray-300 hover:scale-[1.03]
                             `}
                         >
@@ -110,7 +110,7 @@ function HardwareConfig({
                             onClick={handleNextStep}
                             disabled={!selectedItem}
                             className={`
-                                px-8 py-2 text-md font-bold rounded-full transform transition duration-300 flex items-center
+                                px-3 py-1 text-sm font-bold rounded-full transform transition duration-300 flex items-center
                                 ${selectedItem
                                     ? 'bg-blue-600 text-white hover:bg-blue-700 hover:scale-[1.03]'
                                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
