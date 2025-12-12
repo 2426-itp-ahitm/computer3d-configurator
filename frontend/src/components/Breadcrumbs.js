@@ -34,14 +34,14 @@ export default function Breadcrumbs() {
                                 ${index > currentIndex ? "bg-gray-200 text-gray-600" : ""}
                             `}
                         >
-                            {isCompleted && <Check size={16} />}
+                            {isCompleted}
 
                             <span>{step.label}</span>
                         </Link>
 
                         {/* NEU: Das Trennzeichen wird nur auf großen Bildschirmen angezeigt */}
                         {index < CONFIG_STEPS.length - 1 && (
-                            <ArrowRight className="hidden md:block text-gray-900 ml-2" size={24} />
+                            <ArrowRight className="hidden md:block text-gray-900 ml-5" size={24} />
                         )}
 
                     </div>

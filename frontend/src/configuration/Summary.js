@@ -8,7 +8,7 @@ export function Summary() {
         { label: "Mainboard", path: "/motherboard-config", ssKey: "selectedComponent_Motherboard" },
         { label: "RAM", path: "/ram-config", ssKey: "selectedComponent_RAM" },
         { label: "Speicher", path: "/storage-config", ssKey: "selectedComponent_SSDHDD" },
-        { label: "GPU", path: "/gpu-config", ssKey: "selectedComponent_GPU" }, // Annahme: GPU-Schlüssel
+        { label: "GPU", path: "/gpu-config", ssKey: "selectedComponent_GPU" }, 
         { label: "Kühlung", path: "/cooling-config", ssKey: "selectedComponent_Cooler" },
         { label: "Netzteil (PSU)", path: "/psu-config", ssKey: "selectedComponent_PowerSupply" },
         { label: "Gehäuse", path: "/case-config", ssKey: "selectedComponent_Case" },
@@ -27,7 +27,9 @@ export function Summary() {
             <div className="max-w-6xl w-full">
                 <Breadcrumbs />
                 <div className="mb-10 p-4 bg-white rounded-xl flex justify-between items-center border border-gray-100">
-
+                    <div className="flex items-center">
+                        <h1 className="text-2xl font-bold">Zusammenfassung deiner Konfiguration</h1>
+                    </div>
                 </div>
             </div>
         </div>
