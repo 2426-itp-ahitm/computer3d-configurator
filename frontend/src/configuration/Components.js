@@ -5,7 +5,7 @@ export function CaseConfig() {
     return (
         <HardwareConfig
             Icon={LayoutList}
-            title="1"
+            title="Case"
             endpoint="/api/cases"
             nextPath="/cpu-config"
             prevPath="/"
@@ -21,7 +21,7 @@ export function CPUConfig() {
     return (
         <HardwareConfig
             Icon={Cpu}
-            title="Wähle deine Zentraleinheit (CPU)"
+            title="CPU"
             endpoint="/api/cpus"
             nextPath="/motherboard-config"
             prevPath="/case-config"
@@ -38,7 +38,7 @@ export function MotherboardConfig() {
     return (
         <HardwareConfig
             Icon={LayoutList}
-            title="Wähle deine Hauptplatine (Mainboard)"
+            title="Mainboard"
             endpoint="/api/motherboards"
             nextPath="/gpu-config"
             prevPath="/cpu-config"
@@ -55,7 +55,7 @@ export function GPUConfig() {
     return (
         <HardwareConfig
             Icon={HardDrive}
-            title="Wähle deine Grafikkarte (GPU)"
+            title="GPU"
             endpoint="/api/gpus"
             nextPath="/ram-config"
             prevPath="/motherboard-config"
@@ -72,7 +72,7 @@ export function RAMConfig() {
     return (
         <HardwareConfig
             Icon={MemoryStick}
-            title="Wähle deinen Arbeitsspeicher (RAM)"
+            title="RAM"
             endpoint="/api/rams"
             nextPath="/cooling-config"
             prevPath="/gpu-config"
@@ -90,7 +90,7 @@ export function CoolingConfig() {
     return (
         <HardwareConfig
             Icon={Snowflake}
-            title="Wähle deine Kühlung"
+            title="Cooler"
             endpoint="/api/cpu-cooler"
             nextPath="/psu-config"
             prevPath="/ram-config"
@@ -107,7 +107,7 @@ export function PSUConfig() {
     return (
         <HardwareConfig
             Icon={Power}
-            title="Wähle dein Netzteil (PSU)"
+            title="PSU"
             endpoint="/api/powersupply"
             nextPath="/storage-config"
             prevPath="/cooling-config"
@@ -124,7 +124,7 @@ export function StorageConfig() {
     return (
         <HardwareConfig
             Icon={Disc}
-            title="Wähle deinen Speicher"
+            title="Storage"
             endpoint="/api/internalharddrive"
             nextPath="/summary"
             prevPath="/psu-config"
