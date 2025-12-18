@@ -25,19 +25,16 @@ function HardwareConfig({
 
     const [selectedItem, setSelectedItem] = useState(null);
 
-    // **NEU:** Schlüssel für sessionStorage basierend auf dem Komponententitel
     const sessionStorageKey = `selectedComponent_${title.replace(/\s/g, '')}`;
 
-    // Funktion zum Laden der gespeicherten Auswahl aus dem sessionStorage
     const loadSelectionFromSessionStorage = () => {
         const storedItem = sessionStorage.getItem(sessionStorageKey);
         if (storedItem) {
             try {
-                // Den JSON-String parsen
                 setSelectedItem(JSON.parse(storedItem));
             } catch (e) {
                 console.error("Fehler beim Parsen des sessionStorage-Elements:", e);
-                sessionStorage.removeItem(sessionStorageKey); // Ungültigen Eintrag löschen
+                sessionStorage.removeItem(sessionStorageKey);
             }
         }
     };
