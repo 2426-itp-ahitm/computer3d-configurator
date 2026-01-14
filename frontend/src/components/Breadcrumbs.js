@@ -1,53 +1,125 @@
 import { Link, useLocation } from "react-router-dom";
 import { CONFIG_STEPS } from "./steps";
-import { Check } from "lucide-react";
-import { ArrowRight } from "lucide-react";
+
+function ssKeyFromStepLabel(label) {
+  const map = {
+    "Gehäuse": "Case",
+    "CPU": "CPU",
+    "Mainboard": "Mainboard",
+    "GPU": "GPU",
+    "RAM": "RAM",
+    "Kühlung": "Cooler",
+    "Netzteil": "PSU",
+    "Speicher": "Storage",
+    "Übersicht": null,
+  };
+  return map[label] ? `selectedComponent_${map[label]}` : null;
+}
+
+function getSelectedForStep(step) {
+  const key = ssKeyFromStepLabel(step.label);
+  if (!key) return null;
+  const raw = sessionStorage.getItem(key);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
 
 export default function Breadcrumbs() {
-    const location = useLocation();
-    const currentIndex = CONFIG_STEPS.findIndex(
-        step => step.path === location.pathname
-    );
+  const location = useLocation();
+  const currentIndex = CONFIG_STEPS.findIndex(step => step.path === location.pathname);
 
-    return (
-        // *** NEU: Responsiver Container ***
-        <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center text-sm mb-8 w-full bg-gray-100 px-4 py-2 rounded-xl">
+  return (
+    <div className="w-full mb-6">
+      <div className="flex justify-between gap-3">
+        {CONFIG_STEPS.map((step, index) => {
+          const isCompleted = index < currentIndex;
+          const isActive = index === currentIndex;
 
-            {CONFIG_STEPS.map((step, index) => {
-                const isCompleted = index < currentIndex;
-                const isActive = index === currentIndex;
+          const selected = getSelectedForStep(step);
+          const imgSrc = selected?.img || "https://placehold.co/96x60/FFFFFF/CCCCCC?text=";
+          const name = selected?.name || null;
 
-                // *** NEU: Responsives Element-Div ***
-                return (
-                    <div key={step.path} className="flex items-center w-full md:w-auto mb-1 md:mb-0">
+          return (
+            <div
+              key={step.path}
+              className="
+                flex-1
+                min-w-0
+                flex flex-col items-center
+                gap-2
+                rounded-xl
+                border-2 border-black
+                bg-white
+                px-2 py-2
+              "
+            >
+              <Link
+                to={step.path}
+                className={`
+                  w-full
+                  h-10
+                  rounded-lg
+                  flex items-center justify-center
+                  text-sm font-semibold
+                  border border-black
+                  transition
+                  ${isActive
+                    ? "bg-blue-600 text-white"
+                    : isCompleted
+                      ? "bg-blue-100 text-blue-800"
+                      : "bg-white text-gray-600"
+                  }
+                `}
+              >
+                <span className="truncate px-1">{step.label}</span>
+              </Link>
 
-                        <Link
-                            to={step.path}
-                            className={`
-                                // NEU: Link füllt auf Mobil die Breite aus
-                                px-3 py-1 rounded-full w-full md:w-auto text-left md:text-center
-                                transition cursor-pointer select-none
-                                flex items-center space-x-1 
-                                
-                                ${isActive ? "bg-[#0073b9] text-white font-bold" : ""}
-                                ${isCompleted ? "bg-blue-100 text-blue-800" : ""}
-                                ${index > currentIndex ? "bg-gray-200 text-gray-600" : ""}
-                            `}
-                        >
-                            {isCompleted}
+              <div className="w-full flex items-center justify-center">
+                <div className="relative group w-[96px] h-[60px]">
+                  {selected ? (
+                    <>
+                      <img
+                        src={imgSrc}
+                        alt={name || step.label}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = "https://placehold.co/96x60/FFFFFF/CCCCCC?text=";
+                        }}
+                        className="
+                          w-full h-full object-contain
+                          rounded-lg
+                          border border-black
+                          bg-white
+                          p-1
+                          transition-transform duration-200
+                          group-hover:scale-[1.5]
+                          group-hover:z-20
+                        "
+                      />
 
-                            <span>{step.label}</span>
-                        </Link>
-
-                        {/* NEU: Das Trennzeichen wird nur auf großen Bildschirmen angezeigt */}
-                        {index < CONFIG_STEPS.length - 1 && (
-                            <ArrowRight className="hidden md:block text-gray-900 ml-5" size={24} />
-                        )}
-
-                    </div>
-                );
-            })}
-
-        </div>
-    );
+                      <div className="
+                        absolute left-1/2 -translate-x-1/2 top-full mt-2
+                        opacity-0 group-hover:opacity-100 transition-opacity
+                        pointer-events-none z-30
+                      ">
+                        <div className="bg-black text-white text-xs font-semibold px-2 py-1 rounded-md whitespace-nowrap">
+                          {name}
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="w-full h-full rounded-lg border border-dashed border-black bg-white" />
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
