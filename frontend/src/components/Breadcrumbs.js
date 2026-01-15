@@ -52,7 +52,7 @@ export default function Breadcrumbs() {
                 flex flex-col items-center
                 gap-2
                 rounded-xl
-                border-2 border-black
+                border-2 
                 bg-whitex
                 px-2 py-2
               "
@@ -65,7 +65,7 @@ export default function Breadcrumbs() {
                   rounded-lg
                   flex items-center justify-center
                   text-sm font-semibold
-                  border border-black
+                  border 
                   transition
                   ${isActive
                     ? "bg-blue-600 text-white"
@@ -92,7 +92,7 @@ export default function Breadcrumbs() {
                         className="
                           w-full h-full object-contain
                           rounded-lg
-                          border border-black
+                          border 
                           bg-white
                           p-1
                           transition-transform duration-200
