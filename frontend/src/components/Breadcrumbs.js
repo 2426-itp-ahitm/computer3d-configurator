@@ -33,7 +33,7 @@ export default function Breadcrumbs() {
   const currentIndex = CONFIG_STEPS.findIndex(step => step.path === location.pathname);
 
   return (
-    <div className="w-full mb-6">
+    <div className="w-full mb-20">
       <div className="flex justify-between gap-3">
         {CONFIG_STEPS.map((step, index) => {
           const isCompleted = index < currentIndex;
@@ -53,7 +53,7 @@ export default function Breadcrumbs() {
                 gap-2
                 rounded-xl
                 border-2 border-black
-                bg-white
+                bg-whitex
                 px-2 py-2
               "
             >
