@@ -1,11 +1,10 @@
 export const CONFIG_STEPS = [
-    { path: "/case-config", label: "Gehäuse" },
-    { path: "/cpu-config", label: "CPU" },
-    { path: "/motherboard-config", label: "Mainboard" },
-    { path: "/gpu-config", label: "GPU" },
-    { path: "/ram-config", label: "RAM" },
-    { path: "/cooling-config", label: "Kühlung" },
-    { path: "/psu-config", label: "Netzteil" },
-    { path: "/storage-config", label: "Speicher" },
-    { path: "/summary", label: "Übersicht" }
+  { label: "Gehäuse", path: "/case-config" },
+  { label: "CPU", path: "/cpu-config" },
+  { label: "Mainboard", path: "/motherboard-config" },
+  { label: "GPU", path: "/gpu-config" },
+  { label: "RAM", path: "/ram-config" },
+  { label: "Kühlung", path: "/cooling-config" },
+  { label: "Netzteil", path: "/psu-config" },
+  { label: "Speicher", path: "/storage-config" },
 ];
