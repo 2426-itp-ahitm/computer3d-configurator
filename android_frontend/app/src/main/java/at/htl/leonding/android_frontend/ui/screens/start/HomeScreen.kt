@@ -58,15 +58,16 @@ fun HomeScreen(
         else tiles.filter { it.title.contains(query, ignoreCase = true) }
     }
 
-    val backgroundGradient = Brush.verticalGradient(
+    val backgroundGradient = Brush.linearGradient(
         colorStops = arrayOf(
-            0.0f to Color.White,
-            0.15f to Color(0xFF5DAEF6),
-            1.0f to Color(0xFF1B8FE8)
+            //0.0f to Color.White,
+            0.0f to Color(0xFF282828),
+            1.0f to Color(0xFF090000)
         )
     )
 
-
+// 0.15f to Color(0xFF5DAEF6),
+//            1.0f to Color(0xFF1B8FE8)
 
     Column(
         modifier = Modifier
@@ -164,7 +165,7 @@ private fun SpotifyLikeTile(
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
             color = Color.White,
             modifier = Modifier

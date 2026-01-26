@@ -24,6 +24,8 @@ fun CpuListRoute(
 
     CpuListScreen(
         state = state,
-        onReload = { vm.reload() }
+        onReload = { vm.reload() },
+        onSelectCpu = {vm.selectCpu(it)},
+        onAddToCart = { vm.addSelectedCpuToCart(shoppingCartId = 1) }
     )
 }
