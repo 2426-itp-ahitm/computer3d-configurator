@@ -11,7 +11,8 @@ import kotlinx.coroutines.launch
 data class CpuListState(
     val loading: Boolean = false,
     val items: List<CpuDto> = emptyList(),
-    val error: String? = null
+    val error: String? = null,
+    val selectedCpuId: Long? = null
 )
 
 class CpuViewModel(
@@ -21,21 +22,16 @@ class CpuViewModel(
     private val _state = MutableStateFlow(CpuListState(loading = true))
     val state: StateFlow<CpuListState> = _state
 
-    init {
-        load() // ✅ WICHTIG
-    }
+    init { load() }
 
     fun load() {
         viewModelScope.launch {
             try {
                 _state.value = CpuListState(loading = true)
                 val cpus = repo.getCpus()
-                _state.value = CpuListState(
-                    loading = false,
-                    items = cpus
-                )
+                _state.value = _state.value.copy(loading = false, items = cpus, error = null)
             } catch (t: Throwable) {
-                _state.value = CpuListState(
+                _state.value = _state.value.copy(
                     loading = false,
                     error = t.message ?: "Error"
                 )
@@ -43,23 +39,25 @@ class CpuViewModel(
         }
     }
 
-    fun reload() {
-        viewModelScope.launch {
-            _state.value = _state.value.copy(loading = true, error = null)
+    fun reload() = load()
 
-            runCatching { repo.getCpus() }
-                .onSuccess { items ->
-                    _state.value = _state.value.copy(
-                        loading = false,
-                        items = items
-                    )
-                }
-                .onFailure { e ->
-                    _state.value = _state.value.copy(
-                        loading = false,
-                        error = e.message ?: "Error"
-                    )
-                }
+    fun selectCpu(id: Long) {
+        _state.value = _state.value.copy(selectedCpuId = id)
+    }
+
+    // TODO: shoppingCartId irgendwo herbekommen (z.B. aus SharedPreferences / DataStore / Navigation-Arg)
+    fun addSelectedCpuToCart(shoppingCartId: Long) {
+        val cpuId = _state.value.selectedCpuId ?: return
+        viewModelScope.launch {
+            runCatching {
+                repo.updateCart(
+                    shoppingCartId = shoppingCartId,
+                    component = "cpu",
+                    componentId = cpuId
+                )
+            }.onFailure { e ->
+                _state.value = _state.value.copy(error = e.message ?: "Error")
+            }
         }
     }
 }

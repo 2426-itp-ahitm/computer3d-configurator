@@ -2,6 +2,7 @@ package at.htl.leonding.android_frontend.di
 
 import at.htl.leonding.android_frontend.data.api.PcApi
 import at.htl.leonding.android_frontend.data.repo.PcRepository
+import at.htl.leonding.android_frontend.data.repo.PcRepositoryImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -30,5 +31,5 @@ object ServiceLocator {
 
     val api: PcApi = retrofit.create(PcApi::class.java)
 
-    val repository: PcRepository = PcRepository(api)
+    val repository: PcRepository = PcRepositoryImpl(api)
 }
