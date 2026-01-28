@@ -20,7 +20,6 @@ function HardwareConfig({
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  // nur für Storage→Summary
   const [showSummaryPopup, setShowSummaryPopup] = useState(false);
   const isLastStepToSummary = nextPath === "/summary";
 
@@ -70,6 +69,9 @@ function HardwareConfig({
     setSelectedItem(item);
     sessionStorage.setItem(sessionStorageKey, JSON.stringify(item));
 
+    // <<< NEU: Navbar sofort updaten lassen
+    window.dispatchEvent(new Event("selection-changed"));
+
     if (isLastStepToSummary) {
       setShowSummaryPopup(true);
     }
@@ -102,22 +104,12 @@ function HardwareConfig({
           </div>
         )}
 
-
-
         {!isLoading && !error && items.length > 0 && (
           <div className="w-full overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             <div className="flex w-max min-w-full gap-6 snap-x snap-mandatory">
-
-              {/* Sticky ausgewählte Komponente */}
               {selectedItem && (
                 <div className="sticky left-0 z-20 flex-shrink-0 w-64">
-                  <div
-                    className="
-              bg-white p-5 rounded-lg border-2 border-blue-600
-              flex flex-col items-center text-center
-              shadow-md
-            "
-                  >
+                  <div className="bg-white p-5 rounded-lg border-2 border-blue-600 flex flex-col items-center text-center shadow-md">
                     <img
                       src={selectedItem.img || "https://placehold.co/150x150/EEEEEE/AAAAAA?text=No+Image"}
                       alt={selectedItem.name}
@@ -152,26 +144,18 @@ function HardwareConfig({
                 </div>
               )}
 
-              {/* Scrollbare Liste */}
               <div className="flex gap-6">
                 {items
-                  .filter((item) =>
-                    selectedItem ? item[itemIdKey] !== selectedItem[itemIdKey] : true
-                  )
-                  .map((item, index) => (
+                  .filter((it) => (selectedItem ? it[itemIdKey] !== selectedItem[itemIdKey] : true))
+                  .map((it, index) => (
                     <div
-                      key={item[itemIdKey] || `${item.name}-${index}`}
-                      onClick={() => handleItemSelect(item)}
-                      className="
-                bg-white p-5 rounded-lg border-2 transition duration-200 cursor-pointer
-                flex-shrink-0 w-64 snap-start
-                hover:border-blue-500 flex flex-col items-center text-center
-                border-gray-200
-              "
+                      key={it[itemIdKey] || `${it.name}-${index}`}
+                      onClick={() => handleItemSelect(it)}
+                      className="bg-white p-5 rounded-lg border-2 transition duration-200 cursor-pointer flex-shrink-0 w-64 snap-start hover:border-blue-500 flex flex-col items-center text-center border-gray-200"
                     >
                       <img
-                        src={item.img || "https://placehold.co/150x150/EEEEEE/AAAAAA?text=No+Image"}
-                        alt={item.name}
+                        src={it.img || "https://placehold.co/150x150/EEEEEE/AAAAAA?text=No+Image"}
+                        alt={it.name}
                         onError={(e) => {
                           e.currentTarget.onerror = null;
                           e.currentTarget.src = "https://placehold.co/150x150/EEEEEE/AAAAAA?text=No+Image";
@@ -180,7 +164,7 @@ function HardwareConfig({
                       />
 
                       <h3 className="font-extrabold text-xl text-gray-900 mb-1 leading-tight">
-                        {item.name}
+                        {it.name}
                       </h3>
 
                       <div className="text-sm text-gray-500 mt-1 mb-3">
@@ -188,7 +172,7 @@ function HardwareConfig({
                           <p key={i}>
                             {field.label}:{" "}
                             <span className="font-medium text-gray-700">
-                              {item[field.key] || "N/A"}
+                              {it[field.key] || "N/A"}
                             </span>
                           </p>
                         ))}
@@ -202,21 +186,17 @@ function HardwareConfig({
           </div>
         )}
 
-
-
         {!isLoading && !error && items.length === 0 && (
           <div className="w-full bg-yellow-100 p-8 rounded-xl text-yellow-800">
-            <p className="text-lg font-medium">Keine Komponenten gefunden. Die API lieferte eine leere Liste.</p>
+            <p className="text-lg font-medium">
+              Keine Komponenten gefunden. Die API lieferte eine leere Liste.
+            </p>
           </div>
         )}
 
-        {/* Popup nur nach Storage-Auswahl */}
         {showSummaryPopup && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div
-              className="absolute inset-0 bg-black/40"
-              onClick={() => setShowSummaryPopup(false)}
-            />
+            <div className="absolute inset-0 bg-black/40" onClick={() => setShowSummaryPopup(false)} />
             <div className="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-xl border p-6">
               <div className="flex items-center gap-3 mb-2">
                 <ItemIcon size={24} />

@@ -1,4 +1,3 @@
-// Breadcrumbs.js — hellblau, sobald für diesen Step eine Auswahl existiert
 import { Link, useLocation } from "react-router-dom";
 import { CONFIG_STEPS } from "./steps";
 
@@ -65,10 +64,6 @@ export default function Breadcrumbs() {
           const selected = getSelectedForStep(step);
           const isSelected = !!selected;
 
-          // Farb-Logik:
-          // active  -> blau
-          // selected -> hellblau (egal ob davor/danach)
-          // sonst normal / disabled
           const linkClasses = `
             w-full h-10 rounded-lg flex items-center justify-center
             text-sm font-semibold border transition
@@ -99,24 +94,45 @@ export default function Breadcrumbs() {
               )}
 
               <div className="w-full flex items-center justify-center">
+                {/* relative + group bleibt, Tooltip kommt als sibling zum img */}
                 <div className="relative group w-[96px] h-[60px]">
                   {selected ? (
-                    <img
-                      src={selected.img}
-                      alt={selected.name || step.label}
-                      onError={(e) => {
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src =
-                          "https://placehold.co/96x60/FFFFFF/CCCCCC?text=";
-                      }}
-                      className="
-                        w-full h-full object-contain
-                        rounded-lg border bg-white p-1
-                        transition-transform duration-200
-                        group-hover:scale-[1.5]
-                        group-hover:z-20
-                      "
-                    />
+                    <>
+                      <img
+                        src={selected.img}
+                        alt={selected.name || step.label}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src =
+                            "https://placehold.co/96x60/FFFFFF/CCCCCC?text=";
+                        }}
+                        className="
+                          w-full h-full object-contain
+                          rounded-lg border bg-white p-1
+                          transition-transform duration-200
+                          group-hover:scale-[1.5]
+                          group-hover:z-20
+                        "
+                      />
+
+                      {/* Tooltip (Name) */}
+                      {selected.name && (
+                        <div
+                          className="
+                            pointer-events-none
+                            absolute left-1/2 -translate-x-1/2
+                            top-full mt-2
+                            opacity-0 group-hover:opacity-100
+                            transition-opacity duration-150
+                            z-30
+                          "
+                        >
+                          <div className="max-w-[220px] whitespace-nowrap overflow-hidden text-ellipsis text-xs bg-gray-900 text-white px-3 py-2 rounded-lg shadow-lg">
+                            {selected.name}
+                          </div>
+                        </div>
+                      )}
+                    </>
                   ) : (
                     <div className="w-full h-full rounded-lg border border-dashed border-black bg-white" />
                   )}
