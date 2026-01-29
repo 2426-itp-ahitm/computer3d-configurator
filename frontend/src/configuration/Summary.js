@@ -14,11 +14,11 @@ function readSelected(key) {
 function PrintOnlyComponents({ items }) {
   return (
     <div className="print-only hidden print:block">
-      <div className="w-full max-w-[820px] mx-auto p-8 grid grid-cols-1 gap-4">
+      <div className="print-root w-full mx-auto p-8 grid grid-cols-1 gap-4">
         {items.map((it) => (
           <div
             key={it.key}
-            className="border border-gray-300 rounded-2xl p-4 flex items-center gap-4"
+            className="print-card border border-gray-300 rounded-2xl p-4 flex items-center gap-4"
           >
             <div className="w-24 h-20 rounded-xl border bg-white flex items-center justify-center overflow-hidden">
               <img
@@ -106,15 +106,36 @@ export function Summary() {
 
   return (
     <>
-      {/* PRINT CSS */}
       <style>{`
         @media print {
-          /* ALLES außer Print-View ausblenden */
+          /* Nur Print-View anzeigen */
           .no-print { display: none !important; }
           .print-only { display: block !important; }
 
           /* Navbar sicher ausblenden */
           nav { display: none !important; }
+
+          /* Druck-Setup */
+          @page {
+            size: A4;
+            margin: 14mm;
+          }
+          .print-root {
+            max-width: 180mm; /* innerhalb A4 (210mm - margins) */
+            padding: 0 !important;
+            margin: 0 auto !important;
+          }
+
+          /* WICHTIG: Karten nicht splitten -> wenn kein Platz mehr, nächste Seite */
+          .print-card {
+            break-inside: avoid;
+            page-break-inside: avoid;
+          }
+
+          /* Falls Browser "flex" beim Drucken splitten will */
+          .print-card * {
+            break-inside: avoid;
+          }
 
           body { background: white !important; }
         }
