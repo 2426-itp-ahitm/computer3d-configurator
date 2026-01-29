@@ -63,6 +63,8 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.moshi.kotlin)
 
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+
     // images (Coil Compose)
     implementation(libs.coil.compose)
 
