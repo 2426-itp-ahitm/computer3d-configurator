@@ -17,7 +17,6 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
         working-directory: backend
-      - name: Build and push docker image
-        run: |
-          docker build .
-          docker image tag julian-quarkus ghcr.io/julianmurach/julian-quarkus:latest
+      - name: Build compose images
+        run: docker compose -f postgres.yaml -f keycloak.yaml build
+        working-directory: "docker compose/compose"
