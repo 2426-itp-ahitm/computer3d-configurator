@@ -19,4 +19,4 @@ jobs:
         working-directory: backend
       - name: Build compose images
         run: docker compose -f postgres.yaml -f keycloak.yaml build
-        working-directory: "docker compose/compose"
+        working-directory: "docker-compose/compose"
