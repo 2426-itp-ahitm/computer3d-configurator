@@ -1,3 +1,4 @@
+// FILE: ui/screens/cpu/CpuViewModel.kt
 package at.htl.leonding.android_frontend.ui.screens.cpu
 
 import androidx.lifecycle.ViewModel
@@ -15,9 +16,7 @@ data class CpuListState(
     val selectedCpuId: Long? = null
 )
 
-class CpuViewModel(
-    private val repo: PcRepository
-) : ViewModel() {
+class CpuViewModel(private val repo: PcRepository) : ViewModel() {
 
     private val _state = MutableStateFlow(CpuListState(loading = true))
     val state: StateFlow<CpuListState> = _state
@@ -27,14 +26,11 @@ class CpuViewModel(
     fun load() {
         viewModelScope.launch {
             try {
-                _state.value = CpuListState(loading = true)
+                _state.value = _state.value.copy(loading = true, error = null)
                 val cpus = repo.getCpus()
-                _state.value = _state.value.copy(loading = false, items = cpus, error = null)
+                _state.value = _state.value.copy(loading = false, items = cpus)
             } catch (t: Throwable) {
-                _state.value = _state.value.copy(
-                    loading = false,
-                    error = t.message ?: "Error"
-                )
+                _state.value = _state.value.copy(loading = false, error = t.message ?: "Error")
             }
         }
     }
@@ -45,16 +41,11 @@ class CpuViewModel(
         _state.value = _state.value.copy(selectedCpuId = id)
     }
 
-    // TODO: shoppingCartId irgendwo herbekommen (z.B. aus SharedPreferences / DataStore / Navigation-Arg)
-    fun addSelectedCpuToCart(shoppingCartId: Long) {
+    fun addSelectedCpuToCart() {
         val cpuId = _state.value.selectedCpuId ?: return
         viewModelScope.launch {
             runCatching {
-                repo.updateCart(
-                    shoppingCartId = shoppingCartId,
-                    component = "cpu",
-                    componentId = cpuId
-                )
+                repo.updateCart(1L, "cpu", cpuId)
             }.onFailure { e ->
                 _state.value = _state.value.copy(error = e.message ?: "Error")
             }

@@ -1,3 +1,4 @@
+// FILE: ui/screens/cart/CartViewModel.kt
 package at.htl.leonding.android_frontend.ui.screens.cart
 
 import androidx.lifecycle.ViewModel
@@ -23,28 +24,21 @@ class CartViewModel(
     private val _state = MutableStateFlow(CartState(loading = true))
     val state: StateFlow<CartState> = _state
 
-    init { loadOrCreateCart() }
+    init {
+        loadCart()
+    }
 
-    fun loadOrCreateCart() {
+    fun loadCart() {
         viewModelScope.launch {
             _state.value = CartState(loading = true)
 
             runCatching {
-                val existingId = cartStore.getCartId()
-                if (existingId != null) {
-                    repo.getCart(existingId)
-                } else {
-                    val newCart = repo.createCart()
-                    cartStore.setCartId(newCart.id)
-                    newCart
-                }
-            }.onSuccess { cart ->
-                _state.value = CartState(loading = false, cart = cart)
-            }.onFailure { e ->
-                _state.value = CartState(loading = false, error = e.message ?: "Error")
+                repo.getCart(1L)
+            }.onSuccess {
+                _state.value = CartState(loading = false, cart = it)
+            }.onFailure {
+                _state.value = CartState(loading = false, error = it.message)
             }
         }
     }
-
-    fun getCurrentCartIdOrNull(): Long? = _state.value.cart?.id
 }

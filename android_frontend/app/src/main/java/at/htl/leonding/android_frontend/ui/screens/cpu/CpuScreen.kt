@@ -1,3 +1,4 @@
+// FILE: ui/screens/cpu/CpuScreen.kt
 package at.htl.leonding.android_frontend.ui.screens.cpu
 
 import androidx.compose.runtime.Composable
@@ -8,7 +9,8 @@ import at.htl.leonding.android_frontend.ui.screens.cart.CartViewModel
 @Composable
 fun CpuScreen(
     cpuVm: CpuViewModel,
-    cartVm: CartViewModel
+    cartVm: CartViewModel,
+    onNavigateToCart: () -> Unit
 ) {
     val cpuState by cpuVm.state.collectAsState()
     val cartState by cartVm.state.collectAsState()
@@ -20,9 +22,8 @@ fun CpuScreen(
         onReload = { cpuVm.reload() },
         onSelectCpu = { cpuVm.selectCpu(it) },
         onAddToCart = {
-            if (cartId != null) {
-                cpuVm.addSelectedCpuToCart(cartId)
-            }
+            cpuVm.addSelectedCpuToCart()
+            onNavigateToCart()
         }
     )
 }

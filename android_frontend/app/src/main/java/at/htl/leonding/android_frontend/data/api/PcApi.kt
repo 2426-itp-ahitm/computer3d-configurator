@@ -12,8 +12,8 @@ interface PcApi {
     @GET("shoppingcart/get-by-id/{id}")
     suspend fun getCart(@Path("id") id: Long): ShoppingCartDto
 
-    @POST("shoppingcart/createShoppingCart")
-    suspend fun createCart(@Body body: Map<String, Any?> = emptyMap()): ShoppingCartDto
+    //@POST("shoppingcart/createShoppingCart")
+    //suspend fun createCart(@Body body: Map<String, Any?> = emptyMap()): ShoppingCartDto
 
     @PUT("shoppingcart/update-cart/{shoppingCartId}/{component}/{idComponent}")
     suspend fun updateCart(

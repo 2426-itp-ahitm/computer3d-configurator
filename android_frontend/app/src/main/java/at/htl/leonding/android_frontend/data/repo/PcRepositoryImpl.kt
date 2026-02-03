@@ -10,7 +10,7 @@ class PcRepositoryImpl(private val api: PcApi) : PcRepository {
 
     override suspend fun getCart(id: Long): ShoppingCartDto = api.getCart(id)
 
-    override suspend fun createCart(): ShoppingCartDto = api.createCart()
+    //override suspend fun createCart(): ShoppingCartDto = api.createCart()
 
     override suspend fun updateCart(shoppingCartId: Long, component: String, componentId: Long) {
         val res = api.updateCart(shoppingCartId, component, componentId)

@@ -1,11 +1,10 @@
+// FILE: ui/navigation/AppNavGraph.kt
 package at.htl.leonding.android_frontend.ui.navigation
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -14,7 +13,8 @@ import at.htl.leonding.android_frontend.data.local.CartStore
 import at.htl.leonding.android_frontend.di.ServiceLocator
 import at.htl.leonding.android_frontend.ui.screens.cart.CartScreen
 import at.htl.leonding.android_frontend.ui.screens.cart.CartViewModel
-import at.htl.leonding.android_frontend.ui.screens.cpu.CpuListRoute
+import at.htl.leonding.android_frontend.ui.screens.cpu.CpuScreen
+import at.htl.leonding.android_frontend.ui.screens.cpu.CpuViewModel
 import at.htl.leonding.android_frontend.ui.screens.profile.ProfileScreen
 import at.htl.leonding.android_frontend.ui.screens.start.HomeScreen
 
@@ -29,18 +29,22 @@ fun AppNavGraph(
         modifier = modifier
     ) {
         composable(Route.HOME) {
-            HomeScreen(
-                onCategoryClick = { category ->
-                    navController.navigate(category)
-                }
-            )
+            HomeScreen(onCategoryClick = { category -> navController.navigate(category) })
         }
 
         composable(Route.CPU) {
-            CpuListRoute()
+            val context = LocalContext.current
+
+            val cpuVm: CpuViewModel = viewModel(factory = CpuViewModelFactory(ServiceLocator.repository))
+            val cartVm: CartViewModel = viewModel(factory = CartViewModelFactory(ServiceLocator.repository, CartStore(context)))
+
+            CpuScreen(
+                cpuVm = cpuVm,
+                cartVm = cartVm,
+                onNavigateToCart = { navController.navigate(Route.CART) } // uses your edited navigate call idea
+            )
         }
 
-        // Platzhalter für jetzt
         composable(Route.GPU) { Text("GPU – coming soon") }
         composable(Route.RAM) { Text("RAM – coming soon") }
         composable(Route.MOTHERBOARD) { Text("Motherboard – coming soon") }
@@ -51,32 +55,10 @@ fun AppNavGraph(
 
         composable(Route.CART) {
             val context = LocalContext.current
-
-            val cartVm: CartViewModel = viewModel(
-                factory = CartViewModelFactory(
-                    repo = ServiceLocator.repository,
-                    cartStore = CartStore(context)
-                )
-            )
-
+            val cartVm: CartViewModel = viewModel(factory = CartViewModelFactory(ServiceLocator.repository, CartStore(context)))
             CartScreen(vm = cartVm)
         }
 
-        composable(Route.PROFILE) {
-            ProfileScreen()
-        }
-    }
-}
-
-private class CartViewModelFactory(
-    private val repo: at.htl.leonding.android_frontend.data.repo.PcRepository,
-    private val cartStore: CartStore
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CartViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return CartViewModel(repo, cartStore) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+        composable(Route.PROFILE) { ProfileScreen() }
     }
 }

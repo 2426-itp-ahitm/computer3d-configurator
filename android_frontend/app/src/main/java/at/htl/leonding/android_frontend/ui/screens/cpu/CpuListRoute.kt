@@ -26,6 +26,6 @@ fun CpuListRoute(
         state = state,
         onReload = { vm.reload() },
         onSelectCpu = {vm.selectCpu(it)},
-        onAddToCart = { vm.addSelectedCpuToCart(shoppingCartId = 1) }
+        onAddToCart = { vm.addSelectedCpuToCart() }
     )
 }
