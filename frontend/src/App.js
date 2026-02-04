@@ -1,13 +1,19 @@
+// src/App.js
+// Problem: Navbar ist nicht mehr "in" Router/Routes gerendert wie vorher (Link/Location aktive Styles).
+// Fix: Navbar wieder inside Router-Tree rendern und nur auf /login ausblenden.
+
 import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate,
   useLocation,
   useNavigate,
 } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import About from "./pages/About";
 
@@ -49,7 +55,6 @@ function hasSelection(key) {
 function firstAllowedPath() {
   for (const step of FLOW) {
     if (!hasSelection(step.requiresKey)) {
-      // wenn Voraussetzung fehlt, ist der vorherige Step der "erste auswählbare"
       const idx = FLOW.findIndex((s) => s.path === step.path);
       return idx <= 0 ? "/case-config" : FLOW[idx - 1].path;
     }
@@ -57,42 +62,80 @@ function firstAllowedPath() {
   return "/summary";
 }
 
+function isAuthed() {
+  return sessionStorage.getItem("isAuthed") === "true";
+}
+
 function RouteGuard({ children }) {
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const current = FLOW.find((s) => s.path === location.pathname);
+    const path = location.pathname;
+
+    // /login bleibt frei
+    if (path === "/login") return;
+
+    // wenn nicht eingeloggt -> /login
+    if (!isAuthed()) {
+      navigate("/login", { replace: true });
+      return;
+    }
+
+    // Flow-Guard nur für Config-Routen
+    const current = FLOW.find((s) => s.path === path);
     if (!current) return;
 
-    // wenn current prerequisites nicht erfüllt -> redirect auf ersten sinnvollen Step
     if (!hasSelection(current.requiresKey)) {
       const target = firstAllowedPath();
-      if (target !== location.pathname) navigate(target, { replace: true });
+      if (target !== path) navigate(target, { replace: true });
     }
   }, [location.pathname, navigate]);
 
   return children;
 }
 
+function Layout({ children }) {
+  const location = useLocation();
+  const hideNavbar = location.pathname === "/login";
+
+  return (
+    <>
+      {!hideNavbar && <Navbar />}
+      {children}
+    </>
+  );
+}
+
 function AppRoutes() {
   return (
     <RouteGuard>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+      <Layout>
+        <Routes>
+          {/* Root nur als Redirect */}
+          <Route path="/" element={<Navigate to="/home" replace />} />
 
-        <Route path="/case-config" element={<CaseConfig />} />
-        <Route path="/cpu-config" element={<CPUConfig />} />
-        <Route path="/motherboard-config" element={<MotherboardConfig />} />
-        <Route path="/gpu-config" element={<GPUConfig />} />
-        <Route path="/ram-config" element={<RAMConfig />} />
-        <Route path="/cooling-config" element={<CoolingConfig />} />
-        <Route path="/psu-config" element={<PSUConfig />} />
-        <Route path="/storage-config" element={<StorageConfig />} />
-        <Route path="/summary" element={<Summary />} />
-      </Routes>
+          {/* Login ohne Navbar */}
+          <Route path="/login" element={<Login />} />
+
+          {/* Normale Seiten */}
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+
+          <Route path="/case-config" element={<CaseConfig />} />
+          <Route path="/cpu-config" element={<CPUConfig />} />
+          <Route path="/motherboard-config" element={<MotherboardConfig />} />
+          <Route path="/gpu-config" element={<GPUConfig />} />
+          <Route path="/ram-config" element={<RAMConfig />} />
+          <Route path="/cooling-config" element={<CoolingConfig />} />
+          <Route path="/psu-config" element={<PSUConfig />} />
+          <Route path="/storage-config" element={<StorageConfig />} />
+          <Route path="/summary" element={<Summary />} />
+
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/home" replace />} />
+        </Routes>
+      </Layout>
     </RouteGuard>
   );
 }
