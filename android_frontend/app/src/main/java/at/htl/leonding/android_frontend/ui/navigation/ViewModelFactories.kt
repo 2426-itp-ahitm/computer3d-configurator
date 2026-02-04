@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import at.htl.leonding.android_frontend.data.local.CartStore
 import at.htl.leonding.android_frontend.data.repo.PcRepository
 import at.htl.leonding.android_frontend.ui.screens.cart.CartViewModel
-import at.htl.leonding.android_frontend.ui.screens.cpu.CpuViewModel
+import at.htl.leonding.android_frontend.ui.screens.components.cpu.CpuViewModel
 
 class CpuViewModelFactory(
     private val repo: PcRepository
