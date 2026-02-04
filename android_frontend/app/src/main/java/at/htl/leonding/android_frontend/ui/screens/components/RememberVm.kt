@@ -1,22 +1,25 @@
 package at.htl.leonding.android_frontend.ui.screens.components
-// FILE: ui/screens/components/RememberVm.kt
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import at.htl.leonding.android_frontend.data.repo.PcRepository
 
 @Composable
 fun rememberComponentVm(
-    loadItems: suspend () -> List<ComponentListItem>,
-    updateSelection: suspend (cartId: Long, selectedId: Long) -> Unit
+    repo: PcRepository,
+    type: String,
+    cartId: Long // Hier neu hinzufügen
 ): ComponentListViewModel {
-    val factory = remember(loadItems, updateSelection) {
+    // cartId muss auch in den 'remember' Key, damit bei einer
+    // anderen CartId (falls möglich) das VM neu erstellt wird.
+    val factory = remember(repo, type, cartId) {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 @Suppress("UNCHECKED_CAST")
-                return ComponentListViewModel(loadItems, updateSelection) as T
+                return ComponentListViewModel(repo, type, cartId) as T
             }
         }
     }

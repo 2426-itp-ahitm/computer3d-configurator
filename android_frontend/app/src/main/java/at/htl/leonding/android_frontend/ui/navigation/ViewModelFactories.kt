@@ -6,17 +6,23 @@ import androidx.lifecycle.ViewModelProvider
 import at.htl.leonding.android_frontend.data.local.CartStore
 import at.htl.leonding.android_frontend.data.repo.PcRepository
 import at.htl.leonding.android_frontend.ui.screens.cart.CartViewModel
-import at.htl.leonding.android_frontend.ui.screens.components.cpu.CpuViewModel
+import at.htl.leonding.android_frontend.ui.screens.components.ComponentListViewModel
 
-class CpuViewModelFactory(
-    private val repo: PcRepository
+
+// FILE: ui/navigation/ViewModelFactories.kt (Ergänzung)
+
+class ComponentListViewModelFactory(
+    private val repo: PcRepository,
+    private val componentType: String,
+    private val cartId: Long // NEU
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CpuViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(ComponentListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return CpuViewModel(repo) as T
+            // Hier wird die cartId ans ViewModel übergeben
+            return ComponentListViewModel(repo, componentType, cartId) as T
         }
-        throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 

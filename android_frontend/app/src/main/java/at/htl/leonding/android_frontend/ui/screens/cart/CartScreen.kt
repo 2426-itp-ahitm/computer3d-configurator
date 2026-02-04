@@ -51,31 +51,69 @@ fun CartScreen(vm: CartViewModel) {
 private fun CartContent(cart: ShoppingCartDto) {
     val rows = mutableListOf<CartRowModel>()
 
-    cart.cpu?.let { cpu ->
-        rows += CartRowModel(
-            title = cpu.name,
-            subtitle = buildCpuSubtitle(cpu),
-            imageUrl = cpu.img,
-            price = cpu.price
-        )
+    // CPU
+    cart.cpu?.let {
+        rows += CartRowModel(it.name, buildCpuSubtitle(it), it.img, it.price)
+    }
+    // GPU
+    cart.gpu?.let {
+        rows += CartRowModel(it.name, "${it.chipset} • ${it.memory}GB", it.img, it.price)
+    }
+    // RAM
+    cart.ram?.let {
+        rows += CartRowModel(it.name, "${it.moduleCount}x ${it.gbPerModule}GB • ${it.type}", it.img, it.price)
+    }
+    // Motherboard
+    cart.motherboard?.let {
+        rows += CartRowModel(it.name, "${it.socket} • ${it.formFactor}", it.img, it.price)
+    }
+    // Storage
+    cart.storage?.let {
+        rows += CartRowModel(it.name, "${it.capacity}GB • ${it.type}", it.img, it.price)
+    }
+    // PSU
+    cart.psu?.let {
+        rows += CartRowModel(it.name, "${it.wattage}W • ${it.efficiency}", it.img, it.price)
+    }
+    // Cooler
+    cart.cooler?.let {
+        rows += CartRowModel(it.name, "Luftkühler", it.img, it.price)
     }
 
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        item { Text("Warenkorb #${cart.id}", style = MaterialTheme.typography.titleLarge) }
-        item { Text("Gesamtpreis: ${formatEuro(cart.totalPrice)}", style = MaterialTheme.typography.titleMedium) }
+        item {
+            Text("Konfiguration #${cart.id}", style = MaterialTheme.typography.headlineSmall)
+        }
 
         if (rows.isEmpty()) {
-            item { Text("Noch keine Komponenten ausgewählt.") }
+            item {
+                Card(modifier = Modifier.fillMaxWidth()) {
+                    Text("Dein Warenkorb ist noch leer.", modifier = Modifier.padding(16.dp))
+                }
+            }
         } else {
             items(rows) { row -> CartRow(row) }
+        }
+
+        item {
+            Divider(Modifier.padding(vertical = 8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Gesamtbetrag", style = MaterialTheme.typography.titleLarge)
+                Text(formatEuro(cart.totalPrice), style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.primary)
+            }
         }
     }
 }
 
-private data class CartRowModel(
+
+
+data class CartRowModel(
     val title: String,
     val subtitle: String,
     val imageUrl: String?,
@@ -109,7 +147,7 @@ private fun CartRow(row: CartRowModel) {
     }
 }
 
-private fun buildCpuSubtitle(cpu: CpuDto): String {
+fun buildCpuSubtitle(cpu: CpuDto): String {
     val base = cpu.coreClock
     val boost = cpu.boostClock
     return when {

@@ -1,19 +1,15 @@
-// FILE: src/main/java/at/htl/leonding/android_frontend/ui/screens/start/HomeScreen.kt
 package at.htl.leonding.android_frontend.ui.screens.start
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.Icon
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
@@ -27,6 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import at.htl.leonding.android_frontend.ui.screens.components.ComponentListItem
+import at.htl.leonding.android_frontend.ui.screens.components.ComponentPickRow
 
 data class ComponentTile(
     val title: String,
@@ -37,7 +35,11 @@ data class ComponentTile(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onCategoryClick: (String) -> Unit
+    onCategoryClick: (String) -> Unit,
+    // Diese Liste müsste von deinem ViewModel kommen (alle verfügbaren Komponenten)
+    allComponents: List<ComponentListItem> = emptyList(),
+    selectedId: Long? = null,
+    onComponentSelect: (Long) -> Unit = {}
 ) {
     val tiles = listOf(
         ComponentTile("CPU", "cpu", Color(0xFFE53935)),
@@ -51,23 +53,14 @@ fun HomeScreen(
     )
 
     var query by rememberSaveable { mutableStateOf("") }
-
-    // später: echtes Suchen. Für jetzt: UI + optionaler Filter.
-    val filteredTiles = remember(query) {
-        if (query.isBlank()) tiles
-        else tiles.filter { it.title.contains(query, ignoreCase = true) }
-    }
+    val isSearching = query.isNotBlank()
 
     val backgroundGradient = Brush.linearGradient(
         colorStops = arrayOf(
-            //0.0f to Color.White,
             0.0f to Color(0xFF282828),
             1.0f to Color(0xFF090000)
         )
     )
-
-// 0.15f to Color(0xFF5DAEF6),
-//            1.0f to Color(0xFF1B8FE8)
 
     Column(
         modifier = Modifier
@@ -75,75 +68,76 @@ fun HomeScreen(
             .background(backgroundGradient)
             .padding(horizontal = 32.dp)
     ) {
-        Spacer(modifier = Modifier.weight(1f))
-
-
-        Text(
-            text = "Komponenten",
-            style = MaterialTheme.typography.headlineLarge.copy(
-                fontSize = 36.sp
-            ),
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            color = Color.White
-        )
-
-        Spacer(Modifier.height(36.dp))
+        if (!isSearching) {
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "Komponenten",
+                style = MaterialTheme.typography.headlineLarge.copy(fontSize = 36.sp),
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                color = Color.White
+            )
+            Spacer(Modifier.height(36.dp))
+        } else {
+            Spacer(Modifier.height(56.dp))
+        }
 
         OutlinedTextField(
             value = query,
             onValueChange = { query = it },
             singleLine = true,
-            placeholder = {
-                Text(
-                    text = "Search components",
-                    color = Color(0xFF9E9E9E)
-                )
-            },
-            leadingIcon = {
-                Icon(
-                    Icons.Filled.Search,
-                    contentDescription = "Search",
-                    tint = Color(0xFF9E9E9E)
-                )
-            },
+            placeholder = { Text(text = "Search components", color = Color(0xFF9E9E9E)) },
+            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color(0xFF9E9E9E)) },
             shape = RoundedCornerShape(8.dp),
             textStyle = MaterialTheme.typography.bodyLarge,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
                 focusedTextColor = Color.Black,
                 unfocusedTextColor = Color.Black,
                 cursorColor = Color.Black
             ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp) // 🔑 etwas höher
+            modifier = Modifier.fillMaxWidth().height(52.dp)
         )
 
         Spacer(Modifier.height(36.dp))
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(filteredTiles) { tile ->
-                SpotifyLikeTile(
-                    title = tile.title,
-                    color = tile.color,
-                    onClick = { onCategoryClick(tile.route) }
-                )
+        if (!isSearching) {
+            // Normale Ansicht: Kacheln
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(tiles) { tile ->
+                    SpotifyLikeTile(
+                        title = tile.title,
+                        color = tile.color,
+                        onClick = { onCategoryClick(tile.route) }
+                    )
+                }
+            }
+            Spacer(Modifier.height(72.dp))
+        } else {
+            // Such-Ansicht: Liste mit Radio-Buttons
+            val filteredComponents =
+                allComponents.filter { it.title.contains(query, ignoreCase = true) }
+
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(filteredComponents) { item ->
+                    ComponentPickRow(
+                        item = item,
+                        selected = item.id == selectedId,
+                        onClick = { onComponentSelect(item.id) }
+                    )
+                }
             }
         }
-
-        Spacer(Modifier.height(72.dp))
-
-
     }
 }
 
@@ -153,12 +147,10 @@ private fun SpotifyLikeTile(
     color: Color,
     onClick: () -> Unit
 ) {
-    val shape = RoundedCornerShape(12.dp)
-
     Box(
         modifier = Modifier
             .aspectRatio(1.8f)
-            .clip(shape)
+            .clip(RoundedCornerShape(12.dp))
             .background(color)
             .clickable(onClick = onClick)
             .padding(12.dp)
@@ -168,12 +160,8 @@ private fun SpotifyLikeTile(
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(end = 56.dp)
+            modifier = Modifier.align(Alignment.TopStart).padding(end = 56.dp)
         )
-
-        // Platzhalter für Artwork unten rechts
         Box(
             modifier = Modifier
                 .size(56.dp)

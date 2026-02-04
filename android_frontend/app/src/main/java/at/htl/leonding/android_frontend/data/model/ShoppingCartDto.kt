@@ -4,18 +4,14 @@ package at.htl.leonding.android_frontend.data.model
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = true)
 data class ShoppingCartDto(
-    val id: Long,
-    val cpu: CpuDto? = null,
-    val motherboard: Any? = null,
-    val gpu: Any? = null,
-    val ram: Any? = null,
-    @Json(name = "cases") val case: Any? = null,
-    val powersupply: Any? = null,
-    val internalHardddrive: Any? = null,
-    val cpuCooler: Any? = null,
-    val totalPrice: Double? = null,
-    val createdAt: String? = null,
-    val updatedAt: String? = null
+    @Json(name = "id") val id: Long,
+    @Json(name = "totalPrice") val totalPrice: Double,
+    @Json(name = "cpu") val cpu: CpuDto?,
+    @Json(name = "gpu") val gpu: GpuDto?,
+    @Json(name = "ram") val ram: RamDto?,
+    @Json(name = "motherboard") val motherboard: MotherboardDto?,
+    @Json(name = "internalHarddrive") val storage: HarddriveDto?,
+    @Json(name = "powersupply") val psu: PowerSupplyDto?,
+    @Json(name = "cpuCooler") val cooler: CpuCoolerDto?
 )

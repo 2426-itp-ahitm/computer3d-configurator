@@ -1,4 +1,4 @@
-package at.htl.leonding.android_frontend.ui.screens.components.cpu
+package at.htl.leonding.android_frontend.ui.screens.components.mapper
 
 // FILE: ui/screens/cpu/CpuMappers.kt
 

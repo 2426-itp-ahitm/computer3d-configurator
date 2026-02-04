@@ -9,18 +9,25 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 private val Context.dataStore by preferencesDataStore(name = "app_prefs")
-
 class CartStore(private val context: Context) {
     private val CART_ID = longPreferencesKey("cart_id")
 
-    suspend fun getCartId(): Long? =
-        context.dataStore.data.map { it[CART_ID] }.first()
+    suspend fun getCartId(): Long? {
+        return context.dataStore.data
+            .map { preferences ->
+                preferences[CART_ID]
+            }.first()
+    }
 
     suspend fun setCartId(id: Long) {
-        context.dataStore.edit { it[CART_ID] = id }
+        context.dataStore.edit { preferences ->
+            preferences[CART_ID] = id
+        }
     }
 
     suspend fun clearCartId() {
-        context.dataStore.edit { it.remove(CART_ID) }
+        context.dataStore.edit { preferences ->
+            preferences.remove(CART_ID)
+        }
     }
 }

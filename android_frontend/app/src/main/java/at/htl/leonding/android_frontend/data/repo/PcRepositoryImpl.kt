@@ -6,7 +6,13 @@ import at.htl.leonding.android_frontend.data.model.ShoppingCartDto
 
 class PcRepositoryImpl(private val api: PcApi) : PcRepository {
 
-    override suspend fun getCpus(): List<CpuDto> = api.getCpus()
+    override suspend fun getCpus() = api.getCpus()
+    override suspend fun getGpus() = api.getGpus()
+    override suspend fun getHarddrives() = api.getHarddrives()
+    override suspend fun getPowerSupplies() = api.getPowerSupplies()
+    override suspend fun getCpuCoolers() = api.getCpuCoolers()
+    override suspend fun getMotherboards() = api.getMotherboards()
+    override suspend fun getRams() = api.getRams()
 
     override suspend fun getCart(id: Long): ShoppingCartDto = api.getCart(id)
 
