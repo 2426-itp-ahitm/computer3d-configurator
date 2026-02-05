@@ -16,6 +16,7 @@ fun CpuDto.toListItem(): ComponentListItem {
         id = cpuId,
         title = name,
         subtitle = subtitle,
-        imageUrl = img
+        imageUrl = img,
+        type = "cpu"
     )
 }

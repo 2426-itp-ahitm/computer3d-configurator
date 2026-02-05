@@ -8,5 +8,6 @@ fun HarddriveDto.toListItem() = ComponentListItem(
     id = this.id,
     title = this.name,
     subtitle = "${this.capacity} GB • ${this.type} • ${this.formFactor} • ${this.model ?: ""}",
-    imageUrl = this.img
+    imageUrl = this.img,
+    type = "storage"
 )

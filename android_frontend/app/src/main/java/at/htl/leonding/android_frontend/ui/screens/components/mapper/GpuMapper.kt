@@ -7,5 +7,6 @@ fun GpuDto.toListItem() = ComponentListItem(
     id = this.id,
     title = this.name,
     subtitle = "${this.chipset} • ${this.memory} GB GDDR6 • ${this.boostClock} MHz Boost",
-    imageUrl = this.img
+    imageUrl = this.img,
+    type = "gpu"
 )

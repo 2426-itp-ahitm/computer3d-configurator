@@ -7,5 +7,6 @@ fun PowerSupplyDto.toListItem() = ComponentListItem(
     id = this.id,
     title = this.name,
     subtitle = "${this.wattage}W • ${this.efficiency ?: "Standard"} • Modular: ${if (this.modular == "true") "Ja" else "Nein"}",
-    imageUrl = this.img
+    imageUrl = this.img,
+    type = "psu"
 )

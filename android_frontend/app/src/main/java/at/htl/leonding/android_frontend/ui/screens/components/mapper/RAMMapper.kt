@@ -7,5 +7,6 @@ fun RamDto.toListItem() = ComponentListItem(
     id = this.id,
     title = this.name,
     subtitle = "${this.moduleCount}x ${this.gbPerModule} GB • ${this.type}-${this.clockSpeed}}",
-    imageUrl = this.img
+    imageUrl = this.img,
+    type = "ram"
 )

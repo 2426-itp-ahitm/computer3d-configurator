@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 
 data class ShoppingCartDto(
     @Json(name = "id") val id: Long,
-    @Json(name = "totalPrice") val totalPrice: Double,
+    @Json(name = "totalPrice") val totalPrice: Double? = 0.0,
     @Json(name = "cpu") val cpu: CpuDto?,
     @Json(name = "gpu") val gpu: GpuDto?,
     @Json(name = "ram") val ram: RamDto?,
@@ -14,4 +14,9 @@ data class ShoppingCartDto(
     @Json(name = "internalHarddrive") val storage: HarddriveDto?,
     @Json(name = "powersupply") val psu: PowerSupplyDto?,
     @Json(name = "cpuCooler") val cooler: CpuCoolerDto?
-)
+) {
+    fun getItemCount(): Int {
+        return listOf(cpu, gpu, ram, motherboard, storage, psu, cooler)
+            .count { it != null }
+    }
+}

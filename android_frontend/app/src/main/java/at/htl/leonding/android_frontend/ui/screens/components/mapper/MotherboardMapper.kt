@@ -7,5 +7,6 @@ fun MotherboardDto.toListItem() = ComponentListItem(
     id = this.id,
     title = this.name,
     subtitle = "${this.socket} • ${this.formFactor} • ${this.ramType}",
-    imageUrl = this.img
+    imageUrl = this.img,
+    type = "motherboard"
 )

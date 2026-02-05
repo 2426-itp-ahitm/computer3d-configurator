@@ -8,20 +8,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import at.htl.leonding.android_frontend.data.repo.PcRepository
 import at.htl.leonding.android_frontend.ui.navigation.ComponentListViewModelFactory
 
-
-// FILE: ui/screens/components/ComponentsRoute.kt
 @Composable
 fun ComponentsRoute(
     type: String,
     repo: PcRepository,
     cartId: Long = 1L,
-    onNavigateToCart: () -> Unit
+    onNavigateToCart: () -> Unit,
+    onProductSelected: () -> Unit
 ) {
     val factory = remember(type, repo, cartId) {
         ComponentListViewModelFactory(repo, type, cartId)
     }
 
-    // Explizite Typangabe hilft der IDE:
     val vm: ComponentListViewModel = viewModel(factory = factory)
     val state by vm.state.collectAsState()
 
@@ -29,6 +27,10 @@ fun ComponentsRoute(
         title = vm.title,
         state = state,
         onReload = { vm.reload() },
-        onSelect = { vm.selectAndSave(it) }
+        onSelect = { id ->
+            vm.selectAndSave(id) {
+                onProductSelected()
+            }
+        }
     )
 }

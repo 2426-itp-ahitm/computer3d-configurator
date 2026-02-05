@@ -69,16 +69,17 @@ class ComponentListViewModel(
 
     fun reload() = load()
 
-    fun selectAndSave(id: Long) {
+    fun selectAndSave(id: Long, onSaved: () -> Unit) {
         _state.value = _state.value.copy(selectedId = id)
 
         viewModelScope.launch {
             try {
                 repo.updateCart(cartId, componentType, id)
+
+                onSaved()
             } catch (t: Throwable) {
                 _state.value = _state.value.copy(error = "Speichern fehlgeschlagen")
             }
         }
     }
-
 }
