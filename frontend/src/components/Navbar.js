@@ -1,10 +1,33 @@
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { logout as keycloakLogout } from "../auth/keycloak";
+import { User } from "lucide-react";
+
+function readJwtPayload(token) {
+  try {
+    const base64 = token.split(".")[1];
+    if (!base64) return null;
+    const normalized = base64.replace(/-/g, "+").replace(/_/g, "/");
+    const json = decodeURIComponent(
+      atob(normalized)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return JSON.parse(json);
+  } catch {
+    return null;
+  }
+}
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [summaryReady, setSummaryReady] = useState(false);
+  const [username, setUsername] = useState("User");
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+
   const navigate = useNavigate();
+  const userMenuRef = useRef(null);
 
   const linkBaseClass =
     "px-4 py-2 text-sm font-medium rounded-lg transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-logoBlue focus:ring-offset-2 focus:ring-offset-gray-900";
@@ -24,16 +47,40 @@ export default function Navbar() {
     }
   };
 
-  const [summaryReady, setSummaryReady] = useState(readSummaryReady());
-
   useEffect(() => {
+    setSummaryReady(readSummaryReady());
     const onSelectionChanged = () => setSummaryReady(readSummaryReady());
     window.addEventListener("selection-changed", onSelectionChanged);
     return () => window.removeEventListener("selection-changed", onSelectionChanged);
   }, []);
 
-  function logout() {
+  useEffect(() => {
+    const token = localStorage.getItem("keycloakToken");
+    const payload = token ? readJwtPayload(token) : null;
+
+    const name =
+      payload?.preferred_username ||
+      payload?.username ||
+      payload?.name ||
+      payload?.email ||
+      null;
+
+    if (name) setUsername(String(name));
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setUserMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  async function logout() {
     sessionStorage.clear();
+    await keycloakLogout();
     navigate("/login", { replace: true });
   }
 
@@ -87,13 +134,31 @@ export default function Navbar() {
           </NavLink>
         </li>
 
-        <li>
+        <li className="relative" ref={userMenuRef}>
           <button
-            onClick={logout}
-            className={`${linkBaseClass} text-red-400 hover:text-white hover:bg-red-600`}
+            type="button"
+            onClick={() => setUserMenuOpen((prev) => !prev)}
+            className="p-2 rounded-full text-gray-300 hover:text-white hover:bg-gray-800 transition focus:outline-none focus:ring-2 focus:ring-logoBlue"
+            aria-label="User menu"
           >
-            Abmelden
+            <User size={20} />
           </button>
+
+          {userMenuOpen && (
+            <div className="absolute right-0 top-full mt-2 w-56 bg-white text-gray-900 rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
+              <div className="px-4 py-3 border-b bg-gray-50">
+                <div className="text-xs text-gray-500">Angemeldet als</div>
+                <div className="text-sm font-bold truncate">{username}</div>
+              </div>
+
+              <button
+                onClick={logout}
+                className="w-full text-left px-4 py-3 text-sm font-semibold text-red-600 hover:bg-red-50 transition"
+              >
+                Abmelden
+              </button>
+            </div>
+          )}
         </li>
       </ul>
 

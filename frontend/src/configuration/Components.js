@@ -8,7 +8,7 @@ export function CaseConfig() {
     <HardwareConfig
       Icon={LayoutList}
       title="Case"
-      endpoint="/api/cases"
+      endpoint="/cases"
       nextPath="/cpu-config"
       prevPath="/"
       itemIdKey="case_id"
@@ -23,7 +23,7 @@ export function CPUConfig() {
     <HardwareConfig
       Icon={Cpu}
       title="CPU"
-      endpoint="/api/cpus"
+      endpoint="/cpus"
       nextPath="/motherboard-config"
       prevPath="/case-config"
       itemIdKey="cpu_id"
@@ -41,7 +41,7 @@ export function MotherboardConfig() {
     <HardwareConfig
       Icon={LayoutList}
       title="Mainboard"
-      endpoint="/api/motherboards"
+      endpoint="/motherboards"
       nextPath="/gpu-config"
       prevPath="/cpu-config"
       itemIdKey="motherboard_id"
@@ -59,7 +59,7 @@ export function GPUConfig() {
     <HardwareConfig
       Icon={HardDrive}
       title="GPU"
-      endpoint="/api/gpus"
+      endpoint="/gpus"
       nextPath="/ram-config"
       prevPath="/motherboard-config"
       itemIdKey="gpu_id"
@@ -77,7 +77,7 @@ export function RAMConfig() {
     <HardwareConfig
       Icon={MemoryStick}
       title="RAM"
-      endpoint="/api/rams"
+      endpoint="/rams"
       nextPath="/cooling-config"
       prevPath="/gpu-config"
       itemIdKey="ram_id"
@@ -96,7 +96,7 @@ export function CoolingConfig() {
     <HardwareConfig
       Icon={Snowflake}
       title="Cooler"
-      endpoint="/api/cpu-cooler"
+      endpoint="/cpu-cooler"
       nextPath="/psu-config"
       prevPath="/ram-config"
       itemIdKey="cpu_cooler_id"
@@ -114,7 +114,7 @@ export function PSUConfig() {
     <HardwareConfig
       Icon={Power}
       title="PSU"
-      endpoint="/api/powersupply"
+      endpoint="/powersupply"
       nextPath="/storage-config"
       prevPath="/cooling-config"
       itemIdKey="powersupply_id"
@@ -132,7 +132,7 @@ export function StorageConfig() {
     <HardwareConfig
       Icon={Disc}
       title="Storage"
-      endpoint="/api/internalharddrive"
+      endpoint="/internalharddrive"
       nextPath="/summary"
       prevPath="/psu-config"
       itemIdKey="internalHarddrive_id"

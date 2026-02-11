@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Breadcrumbs from "../components/Breadcrumbs";
+import logoImage from "../images/Logo_Fertig.png";
 
 function readSelected(key) {
   const raw = sessionStorage.getItem(key);
@@ -14,41 +15,55 @@ function readSelected(key) {
 function PrintOnlyComponents({ items }) {
   return (
     <div className="print-only hidden print:block">
-      <div className="print-root w-full mx-auto p-8 grid grid-cols-1 gap-4">
-        {items.map((it) => (
-          <div
-            key={it.key}
-            className="print-card border border-gray-300 rounded-2xl p-4 flex items-center gap-4"
-          >
-            <div className="w-24 h-20 rounded-xl border bg-white flex items-center justify-center overflow-hidden">
-              <img
-                src={it.img || "https://placehold.co/96x60/FFFFFF/CCCCCC?text="}
-                alt={it.name}
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src =
-                    "https://placehold.co/96x60/FFFFFF/CCCCCC?text=";
-                }}
-                className="w-full h-full object-contain p-1"
-              />
-            </div>
+      <div className="print-root w-full mx-auto">
+        <header className="print-header flex justify-center">
+          <img
+            src={logoImage}
+            alt="Computer3DConfigurator"
+            className="h-16 w-auto object-contain"
+            loading="eager"
+            decoding="sync"
+          />
+        </header>
 
-            <div className="min-w-0">
-              <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-                {it.label}
-              </div>
-              <div className="text-lg font-bold text-gray-900 truncate">
-                {it.name}
+        <div className="print-grid grid grid-cols-1 gap-4">
+          {items.map((it, index) => (
+            <div
+              key={it.key}
+              className={`print-card border border-gray-300 rounded-2xl p-4 flex items-center gap-4 ${
+                index === 6 ? "force-page-break" : ""
+              }`}
+            >
+              <div className="w-24 h-20 rounded-xl border bg-white flex items-center justify-center overflow-hidden">
+                <img
+                  src={it.img || "https://placehold.co/96x60/FFFFFF/CCCCCC?text="}
+                  alt={it.name}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src =
+                      "https://placehold.co/96x60/FFFFFF/CCCCCC?text=";
+                  }}
+                  className="w-full h-full object-contain p-1"
+                />
               </div>
 
-              {it.details?.length > 0 && (
-                <div className="mt-1 text-sm text-gray-700">
-                  {it.details.join(" • ")}
+              <div className="min-w-0">
+                <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  {it.label}
                 </div>
-              )}
+                <div className="text-lg font-bold text-gray-900 truncate">
+                  {it.name}
+                </div>
+
+                {it.details?.length > 0 && (
+                  <div className="mt-1 text-sm text-gray-700">
+                    {it.details.join(" • ")}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -104,44 +119,99 @@ export function Summary() {
 
   const canPrint = selectionsForPrint.length > 0;
 
+  const titleRef = useRef(document.title);
+  useEffect(() => {
+    const before = () => {
+      titleRef.current = document.title;
+      document.title = "Computer3DConfigurator";
+    };
+    const after = () => {
+      document.title = titleRef.current || "Computer3DConfigurator";
+    };
+
+    window.addEventListener("beforeprint", before);
+    window.addEventListener("afterprint", after);
+    return () => {
+      window.removeEventListener("beforeprint", before);
+      window.removeEventListener("afterprint", after);
+    };
+  }, []);
+
   return (
     <>
       <style>{`
         @media print {
-          /* Nur Print-View anzeigen */
           .no-print { display: none !important; }
           .print-only { display: block !important; }
-
-          /* Navbar sicher ausblenden */
           nav { display: none !important; }
 
-          /* Druck-Setup */
           @page {
             size: A4;
             margin: 14mm;
           }
+
+          html, body {
+            height: auto !important;
+            overflow: visible !important;
+            background: white !important;
+          }
+
+          .print-only,
           .print-root {
-            max-width: 180mm; /* innerhalb A4 (210mm - margins) */
-            padding: 0 !important;
+            height: auto !important;
+            max-height: none !important;
+            overflow: visible !important;
+          }
+
+          .print-header {
+            position: static !important;
+            height: auto !important;
+            margin: 0 0 12mm 0 !important;
+            background: transparent !important;
+            z-index: auto !important;
+          }
+
+          .print-root {
+            max-width: 180mm;
             margin: 0 auto !important;
+            padding-top: 0 !important;
           }
 
-          /* WICHTIG: Karten nicht splitten -> wenn kein Platz mehr, nächste Seite */
+          .print-grid {
+            display: block !important;
+          }
+
           .print-card {
-            break-inside: avoid;
-            page-break-inside: avoid;
+            display: flex !important;
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid-page !important;
+            -webkit-column-break-inside: avoid !important;
+            margin-bottom: 12px !important;
           }
 
-          /* Falls Browser "flex" beim Drucken splitten will */
-          .print-card * {
-            break-inside: avoid;
+          .print-card.force-page-break {
+            page-break-before: always !important;
+            break-before: page !important;
           }
-
-          body { background: white !important; }
         }
       `}</style>
 
-      {/* SCREEN */}
+      <img
+        src={logoImage}
+        alt=""
+        aria-hidden="true"
+        style={{
+          position: "fixed",
+          left: -9999,
+          top: -9999,
+          width: 1,
+          height: 1,
+          opacity: 0,
+          pointerEvents: "none",
+        }}
+      />
+
       <div className="no-print min-h-[calc(100vh-64px)] bg-gray-50 text-gray-900 flex flex-col items-center p-6 pt-8">
         <div className="max-w-6xl w-full">
           <Breadcrumbs />

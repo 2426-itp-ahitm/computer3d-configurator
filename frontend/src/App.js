@@ -1,7 +1,3 @@
-// src/App.js
-// Problem: Navbar ist nicht mehr "in" Router/Routes gerendert wie vorher (Link/Location aktive Styles).
-// Fix: Navbar wieder inside Router-Tree rendern und nur auf /login ausblenden.
-
 import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -63,7 +59,8 @@ function firstAllowedPath() {
 }
 
 function isAuthed() {
-  return sessionStorage.getItem("isAuthed") === "true";
+  const token = localStorage.getItem("keycloakToken");
+  return !!token && token !== "null" && token !== "undefined" && token !== "";
 }
 
 function RouteGuard({ children }) {
@@ -73,16 +70,18 @@ function RouteGuard({ children }) {
   useEffect(() => {
     const path = location.pathname;
 
-    // /login bleibt frei
+    if (path === "/login" && isAuthed()) {
+      navigate("/home", { replace: true });
+      return;
+    }
+
     if (path === "/login") return;
 
-    // wenn nicht eingeloggt -> /login
     if (!isAuthed()) {
       navigate("/login", { replace: true });
       return;
     }
 
-    // Flow-Guard nur für Config-Routen
     const current = FLOW.find((s) => s.path === path);
     if (!current) return;
 
@@ -112,13 +111,9 @@ function AppRoutes() {
     <RouteGuard>
       <Layout>
         <Routes>
-          {/* Root nur als Redirect */}
           <Route path="/" element={<Navigate to="/home" replace />} />
-
-          {/* Login ohne Navbar */}
           <Route path="/login" element={<Login />} />
 
-          {/* Normale Seiten */}
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
 
@@ -132,7 +127,6 @@ function AppRoutes() {
           <Route path="/storage-config" element={<StorageConfig />} />
           <Route path="/summary" element={<Summary />} />
 
-          {/* Fallback */}
           <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </Layout>

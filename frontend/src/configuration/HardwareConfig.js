@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, XCircle, Check, Loader } from "lucide-react";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { API_URL, clearTokens } from "../auth/keycloak";
 
 function HardwareConfig({
   Icon,
@@ -20,7 +21,6 @@ function HardwareConfig({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
-
   const [showSummaryPopup, setShowSummaryPopup] = useState(false);
 
   const sessionStorageKey = `selectedComponent_${title.replace(/\s/g, "")}`;
@@ -31,9 +31,11 @@ function HardwareConfig({
 
   const imageWrap = "w-full h-[160px] flex items-center justify-center mb-4";
   const imageCls = "max-h-[160px] w-full object-contain rounded-md";
-  const titleCls = "font-extrabold text-xl text-gray-900 mb-1 leading-tight line-clamp-2";
+  const titleCls =
+    "font-extrabold text-xl text-gray-900 mb-1 leading-tight line-clamp-2";
 
-  const fallbackImg = "https://placehold.co/150x150/EEEEEE/AAAAAA?text=No+Image";
+  const fallbackImg =
+    "https://placehold.co/150x150/EEEEEE/AAAAAA?text=No+Image";
 
   const normalizeTitleToKey = (t) => String(t).replace(/\s/g, "");
 
@@ -61,21 +63,56 @@ function HardwareConfig({
     }
   };
 
+  const logoutAndRedirect = () => {
+    clearTokens();
+    sessionStorage.clear();
+    navigate("/login", { replace: true });
+  };
+
   const fetchData = async () => {
     setIsLoading(true);
     setError(null);
 
+    const token = localStorage.getItem("keycloakToken");
+    if (!token || token === "null" || token === "undefined") {
+      setIsLoading(false);
+      setError("Kein Token vorhanden");
+      logoutAndRedirect();
+      return;
+    }
+
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
-        const response = await fetch(`http://localhost:8080${endpoint}`);
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        const data = await response.json();
+        const res = await fetch(`${API_URL}${endpoint}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        });
+
+        if (res.status === 401 || res.status === 403) {
+          logoutAndRedirect();
+          return;
+        }
+
+        const ct = res.headers.get("content-type") || "";
+        if (!res.ok) {
+          const body = ct.includes("application/json")
+            ? JSON.stringify(await res.json())
+            : await res.text();
+          throw new Error(`Server error: ${res.status} ${body}`);
+        }
+
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error("Ungültige Daten: Erwartet Array");
+
         setItems(data);
         setIsLoading(false);
         return;
-      } catch {
+      } catch (err) {
         if (attempt === 2) {
-          setError(`Konnte Daten von ${endpoint} nach mehreren Versuchen nicht laden.`);
+          setError(err?.message || `Konnte Daten von ${endpoint} nicht laden.`);
           setIsLoading(false);
           return;
         }
@@ -91,9 +128,7 @@ function HardwareConfig({
 
   useEffect(() => {
     const onSelectionChanged = () => {
-      if (areAllRequiredSelected()) {
-        setShowSummaryPopup(true);
-      }
+      if (areAllRequiredSelected()) setShowSummaryPopup(true);
     };
 
     window.addEventListener("selection-changed", onSelectionChanged);
@@ -104,10 +139,7 @@ function HardwareConfig({
     setSelectedItem(item);
     sessionStorage.setItem(sessionStorageKey, JSON.stringify(item));
     window.dispatchEvent(new Event("selection-changed"));
-
-    if (nextPath === "/summary") {
-      setShowSummaryPopup(true);
-    }
+    if (nextPath === "/summary") setShowSummaryPopup(true);
   };
 
   const ItemIcon = Icon;
@@ -179,7 +211,9 @@ function HardwareConfig({
 
               <div className="flex gap-6">
                 {items
-                  .filter((it) => (selectedItem ? it[itemIdKey] !== selectedItem[itemIdKey] : true))
+                  .filter((it) =>
+                    selectedItem ? it[itemIdKey] !== selectedItem[itemIdKey] : true
+                  )
                   .map((it, index) => (
                     <div
                       key={it[itemIdKey] || `${it.name}-${index}`}
@@ -221,19 +255,26 @@ function HardwareConfig({
 
         {!isLoading && !error && items.length === 0 && (
           <div className="w-full bg-yellow-100 p-8 rounded-xl text-yellow-800">
-            <p className="text-lg font-medium">Keine Komponenten gefunden. Die API lieferte eine leere Liste.</p>
+            <p className="text-lg font-medium">
+              Keine Komponenten gefunden. Die API lieferte eine leere Liste.
+            </p>
           </div>
         )}
 
         {showSummaryPopup && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="absolute inset-0 bg-black/40" onClick={() => setShowSummaryPopup(false)} />
+            <div
+              className="absolute inset-0 bg-black/40"
+              onClick={() => setShowSummaryPopup(false)}
+            />
             <div className="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-xl border p-6">
               <div className="flex items-center gap-3 mb-2">
                 <ItemIcon size={24} />
                 <h2 className="text-xl font-bold">{title} ausgewählt</h2>
               </div>
-              <p className="text-sm text-gray-600 mb-5">Zur Übersicht wechseln oder weiter vergleichen?</p>
+              <p className="text-sm text-gray-600 mb-5">
+                Zur Übersicht wechseln oder weiter vergleichen?
+              </p>
 
               <div className="flex justify-end gap-3">
                 <button
