@@ -4,11 +4,13 @@ import java.util.List;
 
 import at.ac.htl.features.motherboard.MotherboardDto;
 import at.ac.htl.features.motherboard.MotherboardRepository;
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/cpus")
+@Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 public class CPUResource {
     @Inject

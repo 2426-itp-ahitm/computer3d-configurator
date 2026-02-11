@@ -5,6 +5,7 @@ import at.ac.htl.features.motherboard.MotherboardDto;
 import at.ac.htl.features.motherboard.MotherboardMapper;
 import at.ac.htl.features.motherboard.MotherboardRepository;
 import at.ac.htl.features.powersupply.PowersupplyRepository;
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
 @Path("/cases")
+@Authenticated
 public class CaseResource {
     @Inject CaseMapper caseMapper;
     @Inject CaseRepository caseRepository;
