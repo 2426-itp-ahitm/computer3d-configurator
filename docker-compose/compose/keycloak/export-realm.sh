@@ -1,10 +1,27 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# export-realm.sh
 
 
-#/opt/keycloak/bin/kc.sh export --db postgres --db-url-host postgres --db-url-database jdbc:postgresql://postgres/keycloak --db-username keycloak --db-password keycloak --realm demo --dir /opt/keycloak/export
+docker compose up -d keycloak
 
-/opt/keycloak/bin/kc.sh export --db postgres --db-url jdbc:postgresql://postgres/keycloak \
-    --db-username keycloak --db-password keycloak \
-    --realm demo --dir /opt/keycloak/export --users same_file \
-    --features-disabled=admin-api,admin2 
-     
+# jetzt konfigurieren
+
+docker exec -it keycloak bash
+
+/opt/keycloak/bin/kc.sh export \
+  --db postgres \
+  --db-url jdbc:postgresql://postgres:5432/keycloak \
+  --db-username keycloak \
+  --db-password keycloak \
+  --realm PcConfigurator \
+  --dir /opt/keycloak/export \
+  --users same_file
+
+ls /opt/keycloak/export # checken
+
+exit
+
+docker cp keycloak:/opt/keycloak/export ./export
+
+docker compose down
+
