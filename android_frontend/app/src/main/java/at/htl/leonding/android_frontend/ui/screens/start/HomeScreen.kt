@@ -57,7 +57,7 @@ fun HomeScreen(
 
     val backgroundGradient = Brush.linearGradient(
         colorStops = arrayOf(
-            0.0f to Color(0xFF282828),
+            0.0f to Color(0xFF3A3A3A),
             1.0f to Color(0xFF090000)
         )
     )
