@@ -29,13 +29,16 @@ interface PcRepository {
         componentId: Long
     )
 
+
     suspend fun getAllComponents(): List<ComponentListItem> {
-        // Alle Requests parallel oder nacheinander starten
         val cpus = getCpus().map { it.toListItem().copy(type = "cpu") }
         val gpus = getGpus().map { it.toListItem().copy(type = "gpu") }
         val rams = getRams().map { it.toListItem().copy(type = "ram") }
-        // ... füge hier alle anderen Typen (Motherboard, PSU, etc.) hinzu
+        val motherboards = getMotherboards().map { it.toListItem().copy(type = "motherboard") }
+        val storages = getHarddrives().map { it.toListItem().copy(type = "storage") }
+        val psus = getPowerSupplies().map { it.toListItem().copy(type = "psu") }
+        val coolers = getCpuCoolers().map { it.toListItem().copy(type = "cooler") }
 
-        return cpus + gpus + rams // + ...
+        return cpus + gpus + rams + motherboards + storages + psus + coolers
     }
 }

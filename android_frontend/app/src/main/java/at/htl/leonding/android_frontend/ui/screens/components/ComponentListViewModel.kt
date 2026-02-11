@@ -4,7 +4,7 @@ package at.htl.leonding.android_frontend.ui.screens.components
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.htl.leonding.android_frontend.data.repo.PcRepository
-import at.htl.leonding.android_frontend.ui.screens.components.mapper.* // Wichtig: Alle Mapper importieren
+import at.htl.leonding.android_frontend.ui.screens.components.mapper.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -25,6 +25,7 @@ class ComponentListViewModel(
         "motherboard" -> "Mainboards"
         "storage" -> "Festplatten"
         "psu" -> "Netzteile"
+        "cooler" -> "CPU-Kühler"
         else -> componentType.uppercase()
     }
 
@@ -42,6 +43,7 @@ class ComponentListViewModel(
                     "motherboard" -> repo.getMotherboards().map { it.toListItem() }
                     "storage" -> repo.getHarddrives().map { it.toListItem() }
                     "psu" -> repo.getPowerSupplies().map { it.toListItem() }
+                    "cooler" -> repo.getCpuCoolers().map { it.toListItem() }
                     else -> emptyList()
                 }
 
@@ -53,6 +55,7 @@ class ComponentListViewModel(
                     "motherboard" -> currentCart.motherboard?.id
                     "storage" -> currentCart.storage?.id
                     "psu" -> currentCart.psu?.id
+                    "cooler" -> currentCart.cooler?.id
                     else -> null
                 }
 
@@ -75,7 +78,6 @@ class ComponentListViewModel(
         viewModelScope.launch {
             try {
                 repo.updateCart(cartId, componentType, id)
-
                 onSaved()
             } catch (t: Throwable) {
                 _state.value = _state.value.copy(error = "Speichern fehlgeschlagen")

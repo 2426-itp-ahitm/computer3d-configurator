@@ -73,7 +73,11 @@ fun CartScreen(vm: CartViewModel) {
                         },
                         enabled = enabled,
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(14.dp)
+                        shape = RoundedCornerShape(14.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFE73333),      // Hintergrund
+                            contentColor = Color.White               // Textfarbe
+                        )
                     ) {
                         Text("PDF herunterladen")
                     }

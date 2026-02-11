@@ -59,11 +59,16 @@ data class CpuCoolerDto(
     @Json(name = "cpu_cooler_id") val id: Long,
     @Json(name = "name") val name: String,
     @Json(name = "price") val price: Double,
+    @Json(name = "min_rpm") val minRpm: Int?,
     @Json(name = "max_rpm") val maxRpm: Int?,
-    @Json(name = "max_noise_level") val maxNoise: Double?,
+    @Json(name = "min_noise_level") val minNoiseLevel: Double?,
+    @Json(name = "max_noise_level") val maxNoiseLevel: Double?,
+    @Json(name = "color") val color: String?,
+    @Json(name = "size") val size: Int?,
     @Json(name = "img") val img: String?,
     @Json(name = "model") val model: String?
 )
+
 
 data class MotherboardDto(
     @Json(name = "motherboard_id") val id: Long,
@@ -86,6 +91,21 @@ data class RamDto(
     @Json(name = "module_count") val moduleCount: Int,
     @Json(name = "gb_per_module") val gbPerModule: Int,
     @Json(name = "cas_latency") val casLatency: Int?,
+    @Json(name = "img") val img: String?,
+    @Json(name = "model") val model: String?
+)
+
+
+data class CaseDto(
+    @Json(name = "case_id") val id: Long,
+    @Json(name = "name") val name: String,
+    @Json(name = "price") val price: Double,
+    @Json(name = "type") val type: String,
+    @Json(name = "color") val color: String?,
+    @Json(name = "psu") val psu: String?,
+    @Json(name = "side_panel") val sidePanel: String?,
+    @Json(name = "external_volume") val externalVolume: Double?,
+    @Json(name = "internal_35_bays") val internal35Bays: Int?,
     @Json(name = "img") val img: String?,
     @Json(name = "model") val model: String?
 )
