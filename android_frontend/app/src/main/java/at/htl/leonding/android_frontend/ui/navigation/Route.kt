@@ -1,10 +1,19 @@
+// FILE: ui/navigation/Route.kt
+package at.htl.leonding.android_frontend.ui.navigation
+
 object Route {
-    // Bottom tabs
     const val HOME = "home"
     const val CART = "cart"
     const val PROFILE = "profile"
 
-    // Component screens
+    // 1 generische Komponentenseite
+    const val COMPONENTS = "components"
+    const val COMPONENTS_TYPE = "components/{type}"
+
+    fun components(type: String) = "components/$type"
+}
+
+object ComponentType {
     const val CPU = "cpu"
     const val GPU = "gpu"
     const val RAM = "ram"
