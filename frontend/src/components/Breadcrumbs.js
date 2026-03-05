@@ -1,3 +1,5 @@
+// Breadcrumbs.js
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { CONFIG_STEPS } from "./steps";
 
@@ -10,17 +12,6 @@ const STEP_TO_SSKEY = {
   "/cooling-config": "selectedComponent_Cooler",
   "/psu-config": "selectedComponent_PSU",
   "/storage-config": "selectedComponent_Storage",
-};
-
-const GATE_BY_STEP = {
-  "/case-config": null,
-  "/cpu-config": "selectedComponent_Case",
-  "/motherboard-config": "selectedComponent_CPU",
-  "/gpu-config": "selectedComponent_Mainboard",
-  "/ram-config": "selectedComponent_GPU",
-  "/cooling-config": "selectedComponent_RAM",
-  "/psu-config": "selectedComponent_Cooler",
-  "/storage-config": "selectedComponent_PSU",
 };
 
 function hasSelection(key) {
@@ -46,20 +37,45 @@ function getSelectedForStep(step) {
   }
 }
 
+// NEW: Alle vorherigen Steps müssen ausgewählt sein (nicht nur der direkt davor)
+function canAccessStepByPrereqs(stepPath) {
+  const idx = CONFIG_STEPS.findIndex((s) => s.path === stepPath);
+  if (idx <= 0) return true; // erster Step immer ok
+
+  for (let i = 0; i < idx; i++) {
+    const prevPath = CONFIG_STEPS[i]?.path;
+    const key = STEP_TO_SSKEY[prevPath];
+    if (!key || !hasSelection(key)) return false;
+  }
+  return true;
+}
+
 export default function Breadcrumbs() {
   const location = useLocation();
+
+  // Re-render wenn sessionStorage selections geändert wurden
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const onSelectionChanged = () => setTick((t) => t + 1);
+    window.addEventListener("selection-changed", onSelectionChanged);
+    return () => window.removeEventListener("selection-changed", onSelectionChanged);
+  }, []);
+
   const currentIndex = CONFIG_STEPS.findIndex(
     (step) => step.path === location.pathname
   );
 
   return (
-    <div className="w-full mb-20">
+    <div className="w-full mb-20" key={tick}>
       <div className="flex justify-between gap-3">
         {CONFIG_STEPS.map((step, index) => {
           const isActive = index === currentIndex;
+          const isCurrentPath = step.path === location.pathname;
 
-          const gateKey = GATE_BY_STEP[step.path];
-          const canClick = hasSelection(gateKey) || index <= currentIndex;
+          const prereqsOk = canAccessStepByPrereqs(step.path);
+
+          // Nur klickbar wenn Prereqs erfüllt ODER es ist die aktuelle Seite
+          const canClick = prereqsOk || isCurrentPath;
 
           const selected = getSelectedForStep(step);
           const isSelected = !!selected;
@@ -70,19 +86,22 @@ export default function Breadcrumbs() {
             ${
               isActive
                 ? "bg-blue-600 text-white"
+                : !prereqsOk
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                 : isSelected
                 ? "bg-blue-100 text-blue-800"
-                : canClick
-                ? "bg-white text-gray-600 hover:bg-gray-50"
-                : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-white text-gray-600 hover:bg-gray-50"
             }
           `;
 
+          // Optional: Ganze Card leicht ausgrauen, wenn gesperrt
+          const cardClasses = `
+            flex-1 min-w-0 flex flex-col items-center gap-2 rounded-xl border-2 px-2 py-2
+            ${!prereqsOk && !isCurrentPath ? "opacity-60" : ""}
+          `;
+
           return (
-            <div
-              key={step.path}
-              className="flex-1 min-w-0 flex flex-col items-center gap-2 rounded-xl border-2 px-2 py-2"
-            >
+            <div key={step.path} className={cardClasses}>
               {canClick ? (
                 <Link to={step.path} className={linkClasses}>
                   <span className="truncate px-1">{step.label}</span>
@@ -94,7 +113,6 @@ export default function Breadcrumbs() {
               )}
 
               <div className="w-full flex items-center justify-center">
-                {/* relative + group bleibt, Tooltip kommt als sibling zum img */}
                 <div className="relative group w-[96px] h-[60px]">
                   {selected ? (
                     <>
@@ -115,7 +133,6 @@ export default function Breadcrumbs() {
                         "
                       />
 
-                      {/* Tooltip (Name) */}
                       {selected.name && (
                         <div
                           className="
