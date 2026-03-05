@@ -1,7 +1,17 @@
+// Components.js
 import HardwareConfig from "./HardwareConfig";
-import { LayoutList, Cpu, HardDrive, MemoryStick, Snowflake, Power, Disc } from "lucide-react";
+import {
+  LayoutList,
+  Cpu,
+  HardDrive,
+  MemoryStick,
+  Snowflake,
+  Power,
+  Disc,
+} from "lucide-react";
 
 const REQUIRED = ["Case", "CPU", "Mainboard", "GPU", "RAM", "Cooler", "PSU", "Storage"];
+const enc = (v) => encodeURIComponent(String(v));
 
 export function CaseConfig() {
   return (
@@ -24,6 +34,10 @@ export function CPUConfig() {
       Icon={Cpu}
       title="CPU"
       endpoint="/cpus"
+      endpointResolver={({ selectedMb }) => {
+        const socket = selectedMb?.socket;
+        return socket ? `/cpus/by-motherboard-socket/${enc(socket)}` : "/cpus";
+      }}
       nextPath="/motherboard-config"
       prevPath="/case-config"
       itemIdKey="cpu_id"
@@ -42,6 +56,35 @@ export function MotherboardConfig() {
       Icon={LayoutList}
       title="Mainboard"
       endpoint="/motherboards"
+      endpointResolver={({ selectedCase, selectedCpu, selectedRam }) => {
+        const cpuSocket = selectedCpu?.socket;
+        const caseType = selectedCase?.type;
+
+        // Insufficient data to verify: RAM-Type Feldname in RAMDto
+        const ramType = selectedRam?.socket; // ggf. selectedRam?.type / selectedRam?.ram_type
+
+        if (ramType && cpuSocket && caseType) {
+          return `/motherboards/by-RAM-Type-CPU-Socket-Case-Type/${enc(ramType)}/${enc(
+            cpuSocket
+          )}/${enc(caseType)}`;
+        }
+        if (ramType && cpuSocket) {
+          return `/motherboards/by-RAM-Type-And-CPU-Socket/${enc(ramType)}/${enc(cpuSocket)}`;
+        }
+        if (ramType && caseType) {
+          return `/motherboards/by-RAM-Type-Case-Type/${enc(ramType)}/${enc(caseType)}`;
+        }
+        if (cpuSocket && caseType) {
+          return `/motherboards/by-CPU-Socket-Case-Type/${enc(cpuSocket)}/${enc(caseType)}`;
+        }
+        if (ramType) {
+          return `/motherboards/by-RAM-Type/${enc(ramType)}`;
+        }
+        if (cpuSocket) {
+          return `/motherboards/by-cpu-socket/${enc(cpuSocket)}`;
+        }
+        return "/motherboards";
+      }}
       nextPath="/gpu-config"
       prevPath="/cpu-config"
       itemIdKey="motherboard_id"
@@ -78,6 +121,11 @@ export function RAMConfig() {
       Icon={MemoryStick}
       title="RAM"
       endpoint="/rams"
+      endpointResolver={({ selectedMb }) => {
+        // Insufficient data to verify: Feldname für RAM-Type am MotherboardDto
+        const mbRamType = selectedMb?.ram_type; // ggf. selectedMb?.ram / selectedMb?.memory_type
+        return mbRamType ? `/rams/by-Motherboard-Type/${enc(mbRamType)}` : "/rams";
+      }}
       nextPath="/cooling-config"
       prevPath="/gpu-config"
       itemIdKey="ram_id"
@@ -115,6 +163,10 @@ export function PSUConfig() {
       Icon={Power}
       title="PSU"
       endpoint="/powersupply"
+      endpointResolver={({ selectedCase }) => {
+        const caseType = selectedCase?.type;
+        return caseType ? `/powersupply/by-CaseType/${enc(caseType)}/` : "/powersupply";
+      }}
       nextPath="/storage-config"
       prevPath="/cooling-config"
       itemIdKey="powersupply_id"

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+// HardwareConfig.js
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, XCircle, Check, Loader } from "lucide-react";
 import Breadcrumbs from "../components/Breadcrumbs";
@@ -8,7 +9,8 @@ function HardwareConfig({
   Icon,
   title,
   subtitle,
-  endpoint,
+  endpoint, // fallback endpoint
+  endpointResolver, // (ctx) => endpoint string
   nextPath,
   prevPath,
   itemIdKey,
@@ -52,6 +54,31 @@ function HardwareConfig({
     });
   };
 
+  const readSelected = useCallback((componentTitle) => {
+    const key = `selectedComponent_${normalizeTitleToKey(componentTitle)}`;
+    const raw = sessionStorage.getItem(key);
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const ctx = useMemo(() => {
+    const selectedCase = readSelected("Case");
+    const selectedCpu = readSelected("CPU");
+    const selectedMb = readSelected("Mainboard");
+    const selectedRam = readSelected("RAM");
+    const selectedPsu = readSelected("PSU");
+    return { selectedCase, selectedCpu, selectedMb, selectedRam, selectedPsu };
+  }, [readSelected]);
+
+  const resolvedEndpoint = useMemo(() => {
+    const ep = endpointResolver ? endpointResolver(ctx) : endpoint;
+    return ep || endpoint;
+  }, [endpointResolver, endpoint, ctx]);
+
   const loadSelectionFromSessionStorage = () => {
     const storedItem = sessionStorage.getItem(sessionStorageKey);
     if (storedItem) {
@@ -60,6 +87,8 @@ function HardwareConfig({
       } catch {
         sessionStorage.removeItem(sessionStorageKey);
       }
+    } else {
+      setSelectedItem(null);
     }
   };
 
@@ -69,77 +98,109 @@ function HardwareConfig({
     navigate("/login", { replace: true });
   };
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    setError(null);
+  const fetchData = useCallback(
+    async (ep) => {
+      setIsLoading(true);
+      setError(null);
 
-    const token = localStorage.getItem("keycloakToken");
-    if (!token || token === "null" || token === "undefined") {
-      setIsLoading(false);
-      setError("Kein Token vorhanden");
-      logoutAndRedirect();
-      return;
-    }
-
-    for (let attempt = 0; attempt < 3; attempt++) {
-      try {
-        const res = await fetch(`${API_URL}${endpoint}`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-          },
-        });
-
-        if (res.status === 401 || res.status === 403) {
-          logoutAndRedirect();
-          return;
-        }
-
-        const ct = res.headers.get("content-type") || "";
-        if (!res.ok) {
-          const body = ct.includes("application/json")
-            ? JSON.stringify(await res.json())
-            : await res.text();
-          throw new Error(`Server error: ${res.status} ${body}`);
-        }
-
-        const data = await res.json();
-        if (!Array.isArray(data)) throw new Error("Ungültige Daten: Erwartet Array");
-
-        setItems(data);
+      const token = localStorage.getItem("keycloakToken");
+      if (!token || token === "null" || token === "undefined") {
         setIsLoading(false);
+        setError("Kein Token vorhanden");
+        logoutAndRedirect();
         return;
-      } catch (err) {
-        if (attempt === 2) {
-          setError(err?.message || `Konnte Daten von ${endpoint} nicht laden.`);
+      }
+
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          const res = await fetch(`${API_URL}${ep}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          });
+
+          if (res.status === 401 || res.status === 403) {
+            logoutAndRedirect();
+            return;
+          }
+
+          const ct = res.headers.get("content-type") || "";
+          if (!res.ok) {
+            const body = ct.includes("application/json")
+              ? JSON.stringify(await res.json())
+              : await res.text();
+            throw new Error(`Server error: ${res.status} ${body}`);
+          }
+
+          const data = await res.json();
+          if (!Array.isArray(data)) throw new Error("Ungültige Daten: Erwartet Array");
+
+          setItems(data);
+
+          // Wenn aktuell ausgewähltes Item nicht mehr in der kompatiblen Liste ist -> entfernen
+          const stored = sessionStorage.getItem(sessionStorageKey);
+          if (stored) {
+            try {
+              const parsed = JSON.parse(stored);
+              const stillExists = data.some((x) => x?.[itemIdKey] === parsed?.[itemIdKey]);
+              if (!stillExists) {
+                sessionStorage.removeItem(sessionStorageKey);
+                setSelectedItem(null);
+                window.dispatchEvent(new Event("selection-changed"));
+              }
+            } catch {
+              sessionStorage.removeItem(sessionStorageKey);
+              setSelectedItem(null);
+              window.dispatchEvent(new Event("selection-changed"));
+            }
+          }
+
           setIsLoading(false);
           return;
+        } catch (err) {
+          if (attempt === 2) {
+            setError(err?.message || `Konnte Daten von ${ep} nicht laden.`);
+            setIsLoading(false);
+            return;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 1000 * Math.pow(2, attempt)));
         }
-        await new Promise((resolve) => setTimeout(resolve, 1000 * Math.pow(2, attempt)));
       }
-    }
-  };
+    },
+    [itemIdKey, navigate, sessionStorageKey]
+  );
 
   useEffect(() => {
     loadSelectionFromSessionStorage();
-    fetchData();
-  }, [endpoint]);
+    fetchData(resolvedEndpoint);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resolvedEndpoint]);
 
+  // Re-fetch & Selection reload wenn eine andere Komponente gewählt/entfernt wird
   useEffect(() => {
     const onSelectionChanged = () => {
+      loadSelectionFromSessionStorage();
       if (areAllRequiredSelected()) setShowSummaryPopup(true);
+      fetchData(resolvedEndpoint);
     };
 
     window.addEventListener("selection-changed", onSelectionChanged);
     return () => window.removeEventListener("selection-changed", onSelectionChanged);
-  }, [requiredSessionKeys.join("|")]);
+  }, [resolvedEndpoint, requiredSessionKeys.join("|"), fetchData]);
 
   const handleItemSelect = (item) => {
     setSelectedItem(item);
     sessionStorage.setItem(sessionStorageKey, JSON.stringify(item));
     window.dispatchEvent(new Event("selection-changed"));
     if (nextPath === "/summary") setShowSummaryPopup(true);
+  };
+
+  const handleRemoveSelection = () => {
+    sessionStorage.removeItem(sessionStorageKey);
+    setSelectedItem(null);
+    window.dispatchEvent(new Event("selection-changed"));
   };
 
   const ItemIcon = Icon;
@@ -161,7 +222,7 @@ function HardwareConfig({
             <XCircle size={32} className="mb-2" />
             <p className="text-lg font-medium">Fehler beim Laden: {error}</p>
             <button
-              onClick={fetchData}
+              onClick={() => fetchData(resolvedEndpoint)}
               className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
             >
               Erneut versuchen
@@ -200,10 +261,18 @@ function HardwareConfig({
                       ))}
                     </div>
 
-                    <div className="mt-auto pt-3 w-full h-10">
+                    <div className="mt-auto pt-3 w-full flex flex-col gap-2">
                       <div className="py-1 px-3 bg-green-500 text-white font-bold rounded-full text-sm flex items-center justify-center">
                         <Check size={16} className="mr-1" /> Ausgewählt
                       </div>
+
+                      <button
+                        onClick={handleRemoveSelection}
+                        className="flex items-center justify-center gap-1 text-sm px-3 py-1 border border-red-400 text-red-600 rounded-md hover:bg-red-50 transition"
+                      >
+                        <XCircle size={16} />
+                        Entfernen
+                      </button>
                     </div>
                   </div>
                 </div>
