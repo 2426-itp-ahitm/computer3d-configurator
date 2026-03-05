@@ -1,5 +1,7 @@
 package at.htl.leonding.android_frontend.di
 
+import at.htl.leonding.android_frontend.auth.BearerInterceptor
+import at.htl.leonding.android_frontend.auth.TokenStore
 import at.htl.leonding.android_frontend.data.api.PcApi
 import at.htl.leonding.android_frontend.data.repo.PcRepository
 import at.htl.leonding.android_frontend.data.repo.PcRepositoryImpl
@@ -15,13 +17,15 @@ object ServiceLocator {
 
     // TODO: Setze deine echte Backend-Base-URL (Quarkus).
     // Beispiel: "http://10.0.2.2:8080/" für Emulator->localhost.
-    private const val BASE_URL = "http://10.0.2.2:8080/api/"
+    private const val BASE_URL = "http://localhost:8080/api/"
 
     private val moshi: Moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
 
-    private val okHttp: OkHttpClient = OkHttpClient.Builder().build()
+    private val okHttp: OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(BearerInterceptor { TokenStore.accessToken })
+        .build()
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)

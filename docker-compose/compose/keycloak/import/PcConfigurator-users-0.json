@@ -14,8 +14,8 @@
       "id" : "4b61ef52-469b-4a38-8823-73c94b3379b4",
       "type" : "password",
       "userLabel" : "My password",
-      "createdDate" : 1770809621368,
-      "secretData" : "{\"value\":\"jJTG2gG73oOsoRQt5GF3aBA84CFW9OJ4uwiVBAxQsiw=\",\"salt\":\"2EDJ/TBvebGKNpXeFfjqcg==\",\"additionalParameters\":{}}",
+      "createdDate" : 1772698932553,
+      "secretData" : "{\"value\":\"WoVmjvmJ00xlawUZtvHe3DYb8ajDqRx0xjHVzfZQx38=\",\"salt\":\"syMj5a2o5lUEoGpqW9VYiA==\",\"additionalParameters\":{}}",
       "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
     } ],
     "disableableCredentialTypes" : [ ],
