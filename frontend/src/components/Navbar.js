@@ -93,7 +93,7 @@ export default function Navbar() {
       <div className="flex-shrink-0">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-wider">
           <span className="text-logoBlue">Computer</span>
-          <span className="text-white">3DConfigurator</span>
+          <span className="text-white">Configurator</span>
         </h1>
       </div>
 

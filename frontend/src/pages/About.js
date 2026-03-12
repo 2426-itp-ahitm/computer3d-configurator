@@ -16,7 +16,7 @@ export default function About() {
           <span style={{ color: logoBlueShadow }}>Konfigurator</span>
         </h1>
         <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
-          Mit unserem Konfigurator kannst du deinen individuellen PC Schritt für Schritt zusammenstellen, seine Komponenten auf Kompatibilität prüfen und das fertige Setup in einer 3D-Ansicht betrachten – bevor du etwas kaufst.
+          Mit unserem Konfigurator kannst du deinen individuellen PC Schritt für Schritt zusammenstellen, seine Komponenten auf Kompatibilität prüfen und die fertige Konfiguration als PDF exportieren und ausdrucken.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
@@ -29,7 +29,7 @@ export default function About() {
               Ziel & Motivation
             </h2>
             <p className="text-gray-700 text-lg">
-              Der Konfigurator soll den PC-Bau für alle zugänglich machen. Fehlkäufe werden vermieden, die Kaufentscheidung wird erleichtert und die visuelle Harmonie der Komponenten sichtbar gemacht – alles in einer interaktiven und verständlichen Umgebung.
+              Der Konfigurator soll den PC-Bau für alle zugänglich machen. Fehlkäufe werden vermieden und die Kaufentscheidung wird erleichtert, indem alle Komponenten strukturiert zusammengestellt und übersichtlich dokumentiert werden.
             </p>
           </div>
 
@@ -55,7 +55,7 @@ export default function About() {
               </li>
               <li className="flex items-start">
                 <span className="mr-3 mt-1 text-2xl font-extrabold text-blue-600">•</span>
-                3D-Visualisierung der finalen PC-Konfiguration für eine realistische Vorschau.
+                Export der finalen PC-Konfiguration als PDF zum Speichern oder Drucken.
               </li>
             </ul>
           </div>
@@ -65,10 +65,10 @@ export default function About() {
           >
             <h2 className="text-2xl font-bold mb-4 text-gray-800 flex items-center">
               <Zap className="w-8 h-8 mr-3 text-blue-600" />
-              3D-Modelle & AR
+              Export & Dokumentation
             </h2>
             <p className="text-gray-700 text-lg">
-              Um die Konfiguration in 3D oder AR (Erweiterte Realität) darzustellen, werden detaillierte Modelle der Komponenten benötigt. Dies ermöglicht eine realistische Vorschau des fertigen PCs und erleichtert die Entscheidung. Der Fokus liegt auf visueller Präsentation und einem räumlichen Eindruck.
+              Nach Abschluss der Konfiguration kann die vollständige Zusammenstellung der Komponenten als PDF exportiert werden. Dadurch lässt sich das System speichern, weitergeben oder ausdrucken, um eine klare Übersicht über alle ausgewählten Teile zu behalten.
             </p>
           </div>
         </div>

@@ -7,20 +7,12 @@ export default function Home() {
     <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-gray-50 via-white to-white text-gray-900 flex items-center justify-center p-4 sm:p-8">
       <div className="max-w-4xl mx-auto text-center">
 
-        <div className="mb-6 sm:mb-8">
-          <img
-            src={logoImage}
-            alt="Computer3DConfigurator Logo"
-            className="w-32 sm:w-40 md:w-48 h-auto mx-auto mix-blend-multiply"
-          />
-        </div>
-
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-snug sm:leading-tight md:leading-tight text-gray-900">
-          Dein <span className="text-logoBlue">Traum-PC</span>, visualisiert in <span className="text-logoBlue">3D</span>.
+          Dein <span className="text-logoBlue">Traum-PC</span>, konfiguriert und als <span className="text-logoBlue">PDF</span> exportiert.
         </h1>
 
         <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto">
-          Willkommen beim <strong>Computer3DConfigurator</strong>! Entdecke, wie du Gaming- und Workstation-Systeme in Echtzeit zusammenstellen kannst, jedes Detail in 3D anschaust und deine Komponenten im Blick behältst. Vom Case bis zum Speicher – <strong>gestalte dein perfektes System.</strong>
+          Willkommen beim <strong>ComputerConfigurator</strong>! Stelle Gaming- und Workstation-Systeme Schritt für Schritt zusammen und behalte alle ausgewählten Komponenten im Überblick. Vom Gehäuse bis zum Speicher – konfiguriere dein perfektes System und <strong>exportiere die vollständige Zusammenstellung als PDF </strong>zum Speichern oder Drucken.
         </p>
 
         <Link
