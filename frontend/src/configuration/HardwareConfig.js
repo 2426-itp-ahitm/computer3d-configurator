@@ -325,7 +325,7 @@ function HardwareConfig({
         {!isLoading && !error && items.length === 0 && (
           <div className="w-full bg-yellow-100 p-8 rounded-xl text-yellow-800">
             <p className="text-lg font-medium">
-              Keine Komponenten gefunden. Die API lieferte eine leere Liste.
+              Keine passenden Komponenten gefunden. 
             </p>
           </div>
         )}
