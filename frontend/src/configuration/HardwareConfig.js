@@ -1,16 +1,19 @@
-// HardwareConfig.js
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, XCircle, Check, Loader } from "lucide-react";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { API_URL, clearTokens } from "../auth/keycloak";
+import {
+  getCacheKey,
+  refreshAllStepAvailabilities,
+} from "./configAvailability";
 
 function HardwareConfig({
   Icon,
   title,
   subtitle,
-  endpoint, // fallback endpoint
-  endpointResolver, // (ctx) => endpoint string
+  endpoint,
+  endpointResolver,
   nextPath,
   prevPath,
   itemIdKey,
@@ -46,13 +49,13 @@ function HardwareConfig({
       ? requiredSelections.map((t) => `selectedComponent_${normalizeTitleToKey(t)}`)
       : [];
 
-  const areAllRequiredSelected = () => {
+  const areAllRequiredSelected = useCallback(() => {
     if (!requiredSessionKeys.length) return false;
     return requiredSessionKeys.every((k) => {
       const v = sessionStorage.getItem(k);
       return v && v !== "null" && v !== "undefined" && v !== "";
     });
-  };
+  }, [requiredSessionKeys]);
 
   const readSelected = useCallback((componentTitle) => {
     const key = `selectedComponent_${normalizeTitleToKey(componentTitle)}`;
@@ -79,29 +82,79 @@ function HardwareConfig({
     return ep || endpoint;
   }, [endpointResolver, endpoint, ctx]);
 
-  const loadSelectionFromSessionStorage = () => {
+  const loadSelectionFromSessionStorage = useCallback(() => {
     const storedItem = sessionStorage.getItem(sessionStorageKey);
     if (storedItem) {
       try {
         setSelectedItem(JSON.parse(storedItem));
       } catch {
         sessionStorage.removeItem(sessionStorageKey);
+        setSelectedItem(null);
       }
     } else {
       setSelectedItem(null);
     }
-  };
+  }, [sessionStorageKey]);
 
-  const logoutAndRedirect = () => {
+  const logoutAndRedirect = useCallback(() => {
     clearTokens();
     sessionStorage.clear();
     navigate("/login", { replace: true });
-  };
+  }, [navigate]);
+
+  const validateStoredSelectionAgainstData = useCallback(
+    (data) => {
+      const stored = sessionStorage.getItem(sessionStorageKey);
+      if (!stored) return false;
+
+      try {
+        const parsed = JSON.parse(stored);
+        const stillExists = data.some((x) => x?.[itemIdKey] === parsed?.[itemIdKey]);
+
+        if (!stillExists) {
+          sessionStorage.removeItem(sessionStorageKey);
+          setSelectedItem(null);
+          return true;
+        }
+      } catch {
+        sessionStorage.removeItem(sessionStorageKey);
+        setSelectedItem(null);
+        return true;
+      }
+
+      return false;
+    },
+    [itemIdKey, sessionStorageKey]
+  );
 
   const fetchData = useCallback(
-    async (ep) => {
-      setIsLoading(true);
+    async (ep, options = {}) => {
+      const { force = false, background = false } = options;
       setError(null);
+
+      const cacheKey = getCacheKey(ep);
+
+      if (!force) {
+        const cached = sessionStorage.getItem(cacheKey);
+        if (cached) {
+          try {
+            const parsed = JSON.parse(cached);
+            if (Array.isArray(parsed)) {
+              setItems(parsed);
+              validateStoredSelectionAgainstData(parsed);
+              setIsLoading(false);
+
+              if (!background) {
+                return;
+              }
+            }
+          } catch {}
+        }
+      }
+
+      if (!background || !sessionStorage.getItem(cacheKey)) {
+        setIsLoading(true);
+      }
 
       const token = localStorage.getItem("keycloakToken");
       if (!token || token === "null" || token === "undefined") {
@@ -135,29 +188,20 @@ function HardwareConfig({
           }
 
           const data = await res.json();
-          if (!Array.isArray(data)) throw new Error("Ungültige Daten: Erwartet Array");
-
-          setItems(data);
-
-          // Wenn aktuell ausgewähltes Item nicht mehr in der kompatiblen Liste ist -> entfernen
-          const stored = sessionStorage.getItem(sessionStorageKey);
-          if (stored) {
-            try {
-              const parsed = JSON.parse(stored);
-              const stillExists = data.some((x) => x?.[itemIdKey] === parsed?.[itemIdKey]);
-              if (!stillExists) {
-                sessionStorage.removeItem(sessionStorageKey);
-                setSelectedItem(null);
-                window.dispatchEvent(new Event("selection-changed"));
-              }
-            } catch {
-              sessionStorage.removeItem(sessionStorageKey);
-              setSelectedItem(null);
-              window.dispatchEvent(new Event("selection-changed"));
-            }
+          if (!Array.isArray(data)) {
+            throw new Error("Ungültige Daten: Erwartet Array");
           }
 
+          setItems(data);
+          sessionStorage.setItem(cacheKey, JSON.stringify(data));
+
+          const removed = validateStoredSelectionAgainstData(data);
           setIsLoading(false);
+
+          if (removed) {
+            window.dispatchEvent(new Event("selection-changed"));
+          }
+
           return;
         } catch (err) {
           if (attempt === 2) {
@@ -165,36 +209,54 @@ function HardwareConfig({
             setIsLoading(false);
             return;
           }
-          await new Promise((resolve) => setTimeout(resolve, 1000 * Math.pow(2, attempt)));
+
+          await new Promise((resolve) =>
+            setTimeout(resolve, 1000 * Math.pow(2, attempt))
+          );
         }
       }
     },
-    [itemIdKey, navigate, sessionStorageKey]
+    [logoutAndRedirect, resolvedEndpoint, sessionStorageKey, itemIdKey, validateStoredSelectionAgainstData]
   );
 
   useEffect(() => {
     loadSelectionFromSessionStorage();
-    fetchData(resolvedEndpoint);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedEndpoint]);
+    fetchData(resolvedEndpoint, { force: false, background: false });
+  }, [resolvedEndpoint, loadSelectionFromSessionStorage, fetchData]);
 
-  // Re-fetch & Selection reload wenn eine andere Komponente gewählt/entfernt wird
   useEffect(() => {
-    const onSelectionChanged = () => {
+    const syncAll = async () => {
       loadSelectionFromSessionStorage();
-      if (areAllRequiredSelected()) setShowSummaryPopup(true);
-      fetchData(resolvedEndpoint);
+
+      if (areAllRequiredSelected()) {
+        setShowSummaryPopup(true);
+      }
+
+      await fetchData(resolvedEndpoint, { force: true, background: true });
+      await refreshAllStepAvailabilities();
     };
 
-    window.addEventListener("selection-changed", onSelectionChanged);
-    return () => window.removeEventListener("selection-changed", onSelectionChanged);
-  }, [resolvedEndpoint, requiredSessionKeys.join("|"), fetchData]);
+    window.addEventListener("selection-changed", syncAll);
+    return () => window.removeEventListener("selection-changed", syncAll);
+  }, [
+    resolvedEndpoint,
+    loadSelectionFromSessionStorage,
+    areAllRequiredSelected,
+    fetchData,
+  ]);
+
+  useEffect(() => {
+    refreshAllStepAvailabilities();
+  }, []);
 
   const handleItemSelect = (item) => {
     setSelectedItem(item);
     sessionStorage.setItem(sessionStorageKey, JSON.stringify(item));
     window.dispatchEvent(new Event("selection-changed"));
-    if (nextPath === "/summary") setShowSummaryPopup(true);
+
+    if (nextPath === "/summary") {
+      setShowSummaryPopup(true);
+    }
   };
 
   const handleRemoveSelection = () => {
@@ -222,7 +284,9 @@ function HardwareConfig({
             <XCircle size={32} className="mb-2" />
             <p className="text-lg font-medium">Fehler beim Laden: {error}</p>
             <button
-              onClick={() => fetchData(resolvedEndpoint)}
+              onClick={() =>
+                fetchData(resolvedEndpoint, { force: true, background: false })
+              }
               className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
             >
               Erneut versuchen
@@ -325,7 +389,7 @@ function HardwareConfig({
         {!isLoading && !error && items.length === 0 && (
           <div className="w-full bg-yellow-100 p-8 rounded-xl text-yellow-800">
             <p className="text-lg font-medium">
-              Keine passenden Komponenten gefunden. 
+              Keine passenden Komponenten gefunden.
             </p>
           </div>
         )}

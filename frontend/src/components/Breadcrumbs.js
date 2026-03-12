@@ -1,23 +1,17 @@
-// Breadcrumbs.js
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { CONFIG_STEPS } from "./steps";
-
-const STEP_TO_SSKEY = {
-  "/case-config": "selectedComponent_Case",
-  "/cpu-config": "selectedComponent_CPU",
-  "/motherboard-config": "selectedComponent_Mainboard",
-  "/gpu-config": "selectedComponent_GPU",
-  "/ram-config": "selectedComponent_RAM",
-  "/cooling-config": "selectedComponent_Cooler",
-  "/psu-config": "selectedComponent_PSU",
-  "/storage-config": "selectedComponent_Storage",
-};
+import {
+  STEP_TO_SSKEY,
+  getAvailabilityForStep,
+  refreshAllStepAvailabilities,
+} from "../configuration/configAvailability";
 
 function hasSelection(key) {
   if (!key) return true;
   const raw = sessionStorage.getItem(key);
   if (!raw) return false;
+
   try {
     return !!JSON.parse(raw);
   } catch {
@@ -28,8 +22,10 @@ function hasSelection(key) {
 function getSelectedForStep(step) {
   const key = STEP_TO_SSKEY[step.path];
   if (!key) return null;
+
   const raw = sessionStorage.getItem(key);
   if (!raw) return null;
+
   try {
     return JSON.parse(raw);
   } catch {
@@ -37,28 +33,43 @@ function getSelectedForStep(step) {
   }
 }
 
-// NEW: Alle vorherigen Steps müssen ausgewählt sein (nicht nur der direkt davor)
 function canAccessStepByPrereqs(stepPath) {
   const idx = CONFIG_STEPS.findIndex((s) => s.path === stepPath);
-  if (idx <= 0) return true; // erster Step immer ok
+  if (idx <= 0) return true;
 
   for (let i = 0; i < idx; i++) {
     const prevPath = CONFIG_STEPS[i]?.path;
     const key = STEP_TO_SSKEY[prevPath];
     if (!key || !hasSelection(key)) return false;
   }
+
   return true;
 }
 
 export default function Breadcrumbs() {
   const location = useLocation();
+  const [, setTick] = useState(0);
 
-  // Re-render wenn sessionStorage selections geändert wurden
-  const [tick, setTick] = useState(0);
   useEffect(() => {
-    const onSelectionChanged = () => setTick((t) => t + 1);
+    const rerender = () => setTick((t) => t + 1);
+
+    const onSelectionChanged = async () => {
+      rerender();
+      await refreshAllStepAvailabilities();
+      rerender();
+    };
+
+    const onAvailabilityChanged = () => {
+      rerender();
+    };
+
     window.addEventListener("selection-changed", onSelectionChanged);
-    return () => window.removeEventListener("selection-changed", onSelectionChanged);
+    window.addEventListener("availability-changed", onAvailabilityChanged);
+
+    return () => {
+      window.removeEventListener("selection-changed", onSelectionChanged);
+      window.removeEventListener("availability-changed", onAvailabilityChanged);
+    };
   }, []);
 
   const currentIndex = CONFIG_STEPS.findIndex(
@@ -66,19 +77,18 @@ export default function Breadcrumbs() {
   );
 
   return (
-    <div className="w-full mb-20" key={tick}>
+    <div className="w-full mb-20">
       <div className="flex justify-between gap-3">
         {CONFIG_STEPS.map((step, index) => {
           const isActive = index === currentIndex;
           const isCurrentPath = step.path === location.pathname;
-
           const prereqsOk = canAccessStepByPrereqs(step.path);
-
-          // Nur klickbar wenn Prereqs erfüllt ODER es ist die aktuelle Seite
           const canClick = prereqsOk || isCurrentPath;
-
           const selected = getSelectedForStep(step);
           const isSelected = !!selected;
+          const availability = getAvailabilityForStep(step.path);
+          const isUnavailable =
+            availability && prereqsOk && availability.available === false;
 
           const linkClasses = `
             w-full h-10 rounded-lg flex items-center justify-center
@@ -88,16 +98,23 @@ export default function Breadcrumbs() {
                 ? "bg-blue-600 text-white"
                 : !prereqsOk
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : isUnavailable
+                ? "bg-red-100 text-red-700 border-red-300"
                 : isSelected
                 ? "bg-blue-100 text-blue-800"
                 : "bg-white text-gray-600 hover:bg-gray-50"
             }
           `;
 
-          // Optional: Ganze Card leicht ausgrauen, wenn gesperrt
           const cardClasses = `
             flex-1 min-w-0 flex flex-col items-center gap-2 rounded-xl border-2 px-2 py-2
-            ${!prereqsOk && !isCurrentPath ? "opacity-60" : ""}
+            ${
+              !prereqsOk && !isCurrentPath
+                ? "opacity-60"
+                : isUnavailable
+                ? "border-red-300 bg-red-50/40"
+                : ""
+            }
           `;
 
           return (
@@ -150,11 +167,23 @@ export default function Breadcrumbs() {
                         </div>
                       )}
                     </>
+                  ) : isUnavailable ? (
+                    <div className="w-full h-full rounded-lg border border-red-300 bg-red-100 flex items-center justify-center text-[10px] text-red-700 font-semibold text-center px-1">
+                      Keine
+                      <br />
+                      Komponenten
+                    </div>
                   ) : (
                     <div className="w-full h-full rounded-lg border border-dashed border-black bg-white" />
                   )}
                 </div>
               </div>
+
+              {isUnavailable && (
+                <div className="text-[11px] font-semibold text-red-700 text-center leading-tight">
+                  Keine Komponenten gefunden
+                </div>
+              )}
             </div>
           );
         })}

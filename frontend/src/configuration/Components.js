@@ -1,4 +1,3 @@
-// Components.js
 import HardwareConfig from "./HardwareConfig";
 import {
   LayoutList,
@@ -59,9 +58,7 @@ export function MotherboardConfig() {
       endpointResolver={({ selectedCase, selectedCpu, selectedRam }) => {
         const cpuSocket = selectedCpu?.socket;
         const caseType = selectedCase?.type;
-
-        // Insufficient data to verify: RAM-Type Feldname in RAMDto
-        const ramType = selectedRam?.socket; // ggf. selectedRam?.type / selectedRam?.ram_type
+        const ramType = selectedRam?.socket;
 
         if (ramType && cpuSocket && caseType) {
           return `/motherboards/by-RAM-Type-CPU-Socket-Case-Type/${enc(ramType)}/${enc(
@@ -122,8 +119,7 @@ export function RAMConfig() {
       title="RAM"
       endpoint="/rams"
       endpointResolver={({ selectedMb }) => {
-        // Insufficient data to verify: Feldname für RAM-Type am MotherboardDto
-        const mbRamType = selectedMb?.ram_type; // ggf. selectedMb?.ram / selectedMb?.memory_type
+        const mbRamType = selectedMb?.ram_type;
         return mbRamType ? `/rams/by-Motherboard-Type/${enc(mbRamType)}` : "/rams";
       }}
       nextPath="/cooling-config"
