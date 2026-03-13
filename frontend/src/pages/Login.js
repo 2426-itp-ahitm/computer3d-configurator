@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logoImage from "../images/Logo_Fertig.png";
 import { loginWithPassword } from "../auth/keycloak";
 
 export default function Login() {
@@ -45,11 +44,6 @@ export default function Login() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-white text-gray-900 flex items-center justify-center p-4 sm:p-8">
       <div className="w-full max-w-md bg-white/80 backdrop-blur rounded-2xl border border-gray-200 shadow-xl p-6 sm:p-8">
         <div className="mb-6 text-center">
-          <img
-            src={logoImage}
-            alt="Computer3DConfigurator Logo"
-            className="w-24 mx-auto mix-blend-multiply"
-          />
           <h1 className="mt-4 text-3xl font-extrabold">
             <span className="text-logoBlue">Login</span>
           </h1>

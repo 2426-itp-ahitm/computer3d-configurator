@@ -17,13 +17,7 @@ function PrintOnlyComponents({ items }) {
     <div className="print-only hidden print:block">
       <div className="print-root w-full mx-auto">
         <header className="print-header flex justify-center">
-          <img
-            src={logoImage}
-            alt="Computer3DConfigurator"
-            className="h-16 w-auto object-contain"
-            loading="eager"
-            decoding="sync"
-          />
+          <h1>Computer Configurator</h1>
         </header>
 
         <div className="print-grid grid grid-cols-1 gap-4">
